@@ -2,16 +2,16 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	i;
+	char	*input;
 
-	if (argc < 2)
-		return (0);
-	i = 0;
-	while(argv[++i])
+	while(1)
 	{
-		ft_itoa(15);
-		printf("%s\n", argv[i]);
+		input = readline("Enter text: ");
+		add_history(input);
+		printf("%s\n", input);
 	}
+	argc = (int)argc;
+	argv = (char **)argv;
 	envp = (char **)envp;
 	return (0);
 }
