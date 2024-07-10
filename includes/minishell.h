@@ -38,5 +38,4 @@ char		**copy_str_ptr(char **ptr);
 
 t_command	**create_commands_struct(int argc, char **argv, char **envp);
 
-
 #endif
