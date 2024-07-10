@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_size.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 00:50:03 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/11 00:50:03 by marvin           ###   ########.fr       */
+/*   Created: 2024/07/11 01:28:16 by Théo              #+#    #+#             */
+/*   Updated: 2024/07/11 01:28:16 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ size_t	str_ptr_len(char **ptr)
 		return (0);
 	size = 0;
 	while (ptr[size])
-		size++;//
+		size++;
 	return (size);
 }
 

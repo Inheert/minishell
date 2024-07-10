@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 00:50:11 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/11 00:50:11 by marvin           ###   ########.fr       */
+/*   Created: 2024/07/11 01:28:35 by Théo              #+#    #+#             */
+/*   Updated: 2024/07/11 01:28:35 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ size_t		t_command_len(t_command **commands);
 
 void		free_str_ptr(char **ptr);
 void		free_t_command(t_command **commands);
+
+char		**copy_str_ptr(char **ptr);
 
 t_command	**create_commands_struct(int argc, char **argv, char **envp);
 

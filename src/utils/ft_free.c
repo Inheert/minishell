@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 00:50:00 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/11 00:50:00 by marvin           ###   ########.fr       */
+/*   Created: 2024/07/11 01:28:23 by Théo              #+#    #+#             */
+/*   Updated: 2024/07/11 01:28:23 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_str_ptr(char **ptr)
 	size_t	i;
 	size_t	size;
 
-	if (!ptr)
+	if (!ptr || !*ptr)
 		return ;
 	i = 0;
 	size = str_ptr_len(ptr);
