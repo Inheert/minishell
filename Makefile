@@ -13,7 +13,6 @@ SRCS_ROOT       = ./src/
 COMPILE_ROOT    = ./bin/
 
 SRCS_FILE       = main.c \
-				  test.c \
 				  utils/ft_size.c \
 				  utils/ft_free.c \
 
@@ -73,7 +72,7 @@ all: $(NAME)
 
 clean:
 	@echo $(CLEAN_MSG)
-	@/bin/rm -f $(SRCS_COMPILE_PATH)
+	@/bin/rm -rf $(COMPILE_ROOT)
 	@find . -name '*.o' -delete
 	@$(MAKE_LIBFT) -s clean
 
