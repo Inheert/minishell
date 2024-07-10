@@ -34,6 +34,7 @@ $(COMPILE_ROOT)%.o	: $(SRCS_ROOT)%.c
 	@cc $(FLAGS) -c $< -o $@ $(INCLUDES)
 
 $(NAME)				: $(SRCS_COMPILE_PATH)
+	@mkdir -p $(COMPILE_ROOT)
 	@$(MAKE_LIBFT)
 	@find $(SRCS_ROOT) -type f -name '*.o' -exec mv {} $(COMPILE_ROOT) \;
 	@cc $(FLAGS) -o $(NAME) $(SRCS_COMPILE_PATH) $(INCLUDES) $(LIBFT)
