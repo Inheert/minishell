@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include <unistd.h>
+# include <stdlib.h>
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -9,12 +10,13 @@
 
 typedef struct s_command
 {
-	char	**envp;
 	char	*command;
-	char	*options;
-	int		fd[2];
+	char	**options;
+	char	**envp;
+	int		(*fd)[2];
 }	t_command;
 
-void	test(void);
+ssize_t	str_ptr_len(char **ptr);
+void	free_str_ptr(char **ptr);
 
 #endif
