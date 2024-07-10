@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/11 00:50:00 by marvin            #+#    #+#             */
+/*   Updated: 2024/07/11 00:50:00 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	free_str_ptr(char **ptr)
@@ -28,6 +40,7 @@ void	free_t_command(t_command **commands)
 		if (commands[i]->options[0] != commands[i]->command)
 			free(commands[i]->command);
 		free_str_ptr(commands[i]->options);
+		free(commands[i]->fd);
 		free(commands[i]);
 		i++;
 	}

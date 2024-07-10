@@ -17,6 +17,7 @@ BIN_DIR			= ./bin/
 SRCS_FILE       = main.c \
 				  utils/ft_size.c \
 				  utils/ft_free.c \
+				  command/command_init.c \
 
 # Convert .c files to .o files
 SRCS_COMPILE    = $(SRCS_FILE:.c=.o)
