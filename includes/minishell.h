@@ -16,7 +16,10 @@ typedef struct s_command
 	int		(*fd)[2];
 }	t_command;
 
-ssize_t	str_ptr_len(char **ptr);
+size_t	str_ptr_len(char **ptr);
+size_t	t_command_len(t_command **commands);
+
 void	free_str_ptr(char **ptr);
+void	free_t_command(t_command **commands);
 
 #endif

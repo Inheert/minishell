@@ -2,3 +2,4 @@
 bin/
 minishell
 *.a
+*.o

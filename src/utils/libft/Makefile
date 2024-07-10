@@ -1,6 +1,10 @@
 NAME = libft.a
+
 CC = gcc
+
 CFLAGS = -Wall -Wextra -Werror
+
+COMPILE_ROOT = ./bin/
 
 SOURCES = ft_atoi.c \
 		ft_bzero.c \
@@ -51,12 +55,16 @@ SOURCES = ft_atoi.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 
+# Convert source paths to object paths, replacing src with bin
+SRCS_COMPILE_PATH = $(addprefix $(COMPILE_ROOT), $(patsubst %, %, $(OBJECTS)))
+
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	@$(AR) rcs $@ $^
 	
 %.o: %.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo -n ""
 	
