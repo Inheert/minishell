@@ -1,0 +1,8 @@
+Redirection:
+	< infile wc
+		-> bash: "lines words letters"
+			modify standard entry, use wc on the infile fd, write it on standard output
+	'<' infile wc
+		-> bash: "<: command not found"
+			'<' is interpreted as a command, end of the processus. Same result using "<", ">", '>'
+	
