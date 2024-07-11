@@ -44,14 +44,6 @@ SOURCES = ft_atoi.c \
           ft_toupper.c \
           ft_uitoa.c \
           get_next_line.c \
-          printf/ft_printf.c \
-          printf/args/arg_c.c \
-          printf/args/arg_d.c \
-          printf/args/arg_p.c \
-          printf/args/arg_percent.c \
-          printf/args/arg_s.c \
-          printf/args/arg_x.c \
-          printf/args/arg_u.c \
 
 OBJECTS = $(addprefix $(BIN_DIR)/,$(SOURCES:.c=.o))
 
