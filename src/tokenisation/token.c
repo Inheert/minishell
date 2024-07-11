@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/07/11 18:01:27 by cluby            ###   ########.fr       */
+/*   Updated: 2024/07/11 18:58:07 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,17 @@
 t_token tokenization(t_token *token, char **argv)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	while (argv[i])
 	{
-		if (argv[i] == '|')
-			token->token = PIPE;
-		else if (argv[i] == ';')
-			token->token = SEMICOLON;
-		else if (argv[i] == '>')
-			token->token = REDIR_OUT;
-		else if (argv[i] == '<')
-			token->token = REDIR_IN;
-		else if (argv[i] == '>>')
-			token->token = REDIR_APPEND;
-		
+		while (argv[i] == ' ' || argv[i] == '\t')
+			i++;
+		if (argv[i] == '\'')
+		{
+			
+		}
 		i++;
 	}
 }

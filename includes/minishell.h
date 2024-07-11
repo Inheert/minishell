@@ -21,10 +21,15 @@
 # include "../src/utils/libft/libft.h"
 
 # define PIPE 0
-# define SEMICOLON 1
-# define REDIR_APPEND 2
-# define REDIR_IN 3
-# define REDIR_OUT 4
+# define STRING 1
+# define STRING_VAR 2
+# define REDIR_APPEND_OUT 3
+# define REDIR_APPEND_IN 4
+# define REDIR_IN 5
+# define REDIR_OUT 6
+# define COMMAND 7
+# define ENV 8
+# define EXIT_STATUS 9
 
 typedef struct s_command
 {
