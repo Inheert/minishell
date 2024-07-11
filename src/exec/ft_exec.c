@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 16:32:43 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/11 18:52:17 by Théo             ###   ########.fr       */
+/*   Created: 2024/07/11 21:34:06 by Théo              #+#    #+#             */
+/*   Updated: 2024/07/11 21:37:10 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+int	execute_commands(t_token *token)
 {
-	t_list	*item;
-
-	if (!lst || !new)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	item = (t_list *)*lst;
-	while (item->next)
-		item = item->next;
-	item->next = new;
+	token = ((t_token *)token);
+	printf("Execute command\n");
+	return (0);
 }

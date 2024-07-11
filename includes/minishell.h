@@ -30,13 +30,6 @@
 # define ENV 8 //$HOME
 # define EXIT_STATUS 9 //$?
 
-typedef struct s_command
-{
-	char	*command;
-	char	**options;
-	char	**envp;
-	int		(*fd)[2];
-}	t_command;
 
 typedef struct s_token
 {
@@ -52,21 +45,22 @@ t_token			*tokenization(char *argv);
 // Utils - ptr size functions
 unsigned int	token_ptr_size(t_token *token);
 unsigned int	str_ptr_len(char **ptr);
-unsigned int	t_command_len(t_command **commands);
 unsigned int	fd_ptr_len(int (*fd)[2]);
 unsigned int	count_infile(char *s);
 
 // Utils - malloc free functions
-void		free_t_token(t_token **token);
-void		free_str_ptr(char **ptr);
-void		free_t_command(t_command **commands);
+void			free_t_token(t_token **token);
+void			free_str_ptr(char **ptr);
 
-void	ft_token_add_front(t_token **token, t_token *new);
-void	ft_token_add_back(t_token **token, t_token *new);
-t_token	*ft_token_new(char *str, int token);
+// Utils - token structure manipulation
+void			ft_token_add_front(t_token **token, t_token *new);
+void			ft_token_add_back(t_token **token, t_token *new);
+t_token			*ft_token_new(char *str, int token);
 
-char		**copy_str_ptr(char **ptr);
+// Utils - other
+char			**copy_str_ptr(char **ptr);
 
-t_command	**create_commands_struct(int argc, char **argv, char **envp);
+// Exec
+int				execute_commands(t_token *token);
 
 #endif

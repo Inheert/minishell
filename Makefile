@@ -19,7 +19,7 @@ SRCS_FILE       = main.c \
 				  utils/ft_free.c \
 				  utils/ft_copy.c \
 				  utils/ft_token_add.c \
-				  command/command_init.c \
+				  exec/ft_exec.c
 				  tokenisation/token.c
 
 # Convert .c files to .o files
