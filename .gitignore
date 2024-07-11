@@ -1,6 +1,6 @@
 .vscode/
 bin/
+src/main.c
 minishell
 *.a
 *.o
-main.c
