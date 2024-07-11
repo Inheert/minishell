@@ -27,7 +27,7 @@ typedef struct s_command
 	char	**envp;
 	int		(*fd)[2];
 }	t_command;
-
+//test comment
 unsigned int	str_ptr_len(char **ptr);
 unsigned int	t_command_len(t_command **commands);
 unsigned int	fd_ptr_len(int (*fd)[2]);
