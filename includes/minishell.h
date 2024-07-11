@@ -27,8 +27,13 @@ typedef struct s_command
 	char	**envp;
 	int		(*fd)[2];
 }	t_command;
-//test comment
-// ZE0PIEZJ9EZGE
+
+typedef	struct s_char
+{
+	char			*c;
+	int				token;
+	struct t_char	*next;
+}	t_char;
 
 unsigned int	str_ptr_len(char **ptr);
 unsigned int	t_command_len(t_command **commands);

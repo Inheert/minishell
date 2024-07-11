@@ -6,11 +6,11 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 01:28:28 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/11 01:28:29 by Théo             ###   ########.fr       */
+/*   Updated: 2024/07/11 16:32:44 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 char	**copy_str_ptr(char **ptr)
 {
