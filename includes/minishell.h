@@ -28,6 +28,8 @@ typedef struct s_command
 	int		(*fd)[2];
 }	t_command;
 //test comment
+// ZE0PIEZJ9EZGE
+
 unsigned int	str_ptr_len(char **ptr);
 unsigned int	t_command_len(t_command **commands);
 unsigned int	fd_ptr_len(int (*fd)[2]);
