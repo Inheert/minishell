@@ -3,3 +3,4 @@ bin/
 minishell
 *.a
 *.o
+main.c
