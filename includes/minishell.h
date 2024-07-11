@@ -20,7 +20,6 @@
 # include <readline/history.h>
 # include "../src/utils/libft/libft.h"
 
-//test
 typedef struct s_command
 {
 	char	*command;
@@ -28,8 +27,6 @@ typedef struct s_command
 	char	**envp;
 	int		(*fd)[2];
 }	t_command;
-//test comment
-// ZE0PIEZJ9EZGE
 
 typedef	struct s_char
 {
