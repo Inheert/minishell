@@ -20,6 +20,12 @@
 # include <readline/history.h>
 # include "../src/utils/libft/libft.h"
 
+# define PIPE 0
+# define SEMICOLON 1
+# define REDIR_APPEND 2
+# define REDIR_IN 3
+# define REDIR_OUT 4
+
 typedef struct s_command
 {
 	char	*command;
@@ -28,12 +34,13 @@ typedef struct s_command
 	int		(*fd)[2];
 }	t_command;
 
-typedef	struct s_char
+typedef struct s_token
 {
-	char			*c;
-	int				token;
-	struct t_char	*next;
-}	t_char;
+	char		*str;
+	int			token;
+	struct s_token	*next;
+	struct s_token	*prev;
+}	t_token;
 
 unsigned int	str_ptr_len(char **ptr);
 unsigned int	t_command_len(t_command **commands);

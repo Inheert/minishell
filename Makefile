@@ -1,5 +1,5 @@
+MAKEFLAGS += --silent
 NAME            = minishell
-
 COMPILER        = cc
 
 FLAGS           = -g3 -Wall -Wextra -Werror
