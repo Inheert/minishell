@@ -48,18 +48,6 @@ unsigned int	fd_ptr_len(int (*fd)[2])
 	return (size);
 }
 
-unsigned int	t_command_len(t_command **commands)
-{
-	unsigned int	size;
-
-	if (!commands || !*commands)
-		return (0);
-	size = 0;
-	while (commands[size])
-		size++;
-	return (size);
-}
-
 unsigned int	count_infile(char *s)
 {
 	unsigned int	i;
