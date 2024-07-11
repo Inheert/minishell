@@ -38,7 +38,6 @@ void		free_t_command(t_command **commands);
 
 char		**copy_str_ptr(char **ptr);
 
-t_command	**split_commands(int argc, char *argv, char **envp);
 t_command	**create_commands_struct(int argc, char **argv, char **envp);
 
 #endif
