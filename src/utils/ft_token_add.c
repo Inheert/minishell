@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:32:52 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/11 18:52:37 by Théo             ###   ########.fr       */
+/*   Updated: 2024/07/11 19:02:56 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_token	*ft_token_new(char *str, int token)
 {
 	t_token	*new;
 
-	new = malloc(sizeof(t_token *));
+	new = malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
 	new->str = str;

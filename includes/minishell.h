@@ -48,19 +48,21 @@ typedef struct s_token
 }	t_token;
 
 
-// Utils functions
+// Utils - ptr size functions
 unsigned int	token_ptr_size(t_token *token);
 unsigned int	str_ptr_len(char **ptr);
 unsigned int	t_command_len(t_command **commands);
 unsigned int	fd_ptr_len(int (*fd)[2]);
 unsigned int	count_infile(char *s);
 
+// Utils - malloc free functions
+void		free_t_token(t_token **token);
+void		free_str_ptr(char **ptr);
+void		free_t_command(t_command **commands);
+
 void	ft_token_add_front(t_token **token, t_token *new);
 void	ft_token_add_back(t_token **token, t_token *new);
 t_token	*ft_token_new(char *str, int token);
-
-void		free_str_ptr(char **ptr);
-void		free_t_command(t_command **commands);
 
 char		**copy_str_ptr(char **ptr);
 
