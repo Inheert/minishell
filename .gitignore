@@ -4,3 +4,4 @@ src/main.c
 minishell
 *.a
 *.o
+src/main.c
