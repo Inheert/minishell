@@ -19,6 +19,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc < 2)
 		return (1);
+		//caca
 	ft_envp = copy_str_ptr(envp);
 	commands = split_commands(argc, argv[1], envp);
 	free_t_command(commands);
