@@ -18,6 +18,7 @@ SRCS_FILE       = main.c \
 				  utils/ft_size.c \
 				  utils/ft_free.c \
 				  utils/ft_copy.c \
+				  utils/ft_split_commands.c \
 				  command/command_init.c \
 
 # Convert .c files to .o files
@@ -31,15 +32,13 @@ MAKE_LIBFT      = $(MAKE) -C ./src/utils/libft -s
 LIBFT           = ./src/utils/libft/libft.a
 
 # Colors
-GREEN = \033[0;32m
-BLUE = \033[0;36m
-YELLOW = \033[0;33m
-PURPLE = \033[38;5;212;48;5m
 NC = \033[0m
 
-PURPLE_UNDERLINE = \033[4;38;5;212;48;5m
-GREEN_UNDERLINE = \033[4;32m
-YELLOW_UNDERLINE = \033[4;33m
+YELLOW = \033[38;5;208m
+PURPLE = \033[38;5;212m
+
+YELLOW_UNDERLINE = \033[4;38;5;208m
+PURPLE_UNDERLINE = \033[4;38;5;212m
 
 # Show how many files are compilated for the libft and minishell, also show how many headers are included
 COMPILE_MSG = "\

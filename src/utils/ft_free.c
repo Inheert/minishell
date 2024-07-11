@@ -12,6 +12,14 @@
 
 #include "../../includes/minishell.h"
 
+void	ft_free(void *ptr, size_t size)
+{
+	if (!ptr)
+		return ;
+	ft_bzero(ptr, size);
+	free(ptr);
+}
+
 void	free_str_ptr(char **ptr)
 {
 	size_t	i;
@@ -19,11 +27,11 @@ void	free_str_ptr(char **ptr)
 
 	if (!ptr || !*ptr)
 		return ;
-	i = 0;
+	i = -1;
 	size = str_ptr_len(ptr);
-	while (i < size && ptr[i])
-		free(ptr[i++]);
-	free(ptr);
+	while (++i < size && ptr[i])
+		ft_free(ptr[i], ft_strlen(ptr[i]));
+	ft_free(ptr, str_ptr_len(ptr));
 }
 
 void	free_t_command(t_command **commands)
@@ -37,12 +45,15 @@ void	free_t_command(t_command **commands)
 	size = t_command_len(commands);
 	while (i < size && commands[i])
 	{
-		if (commands[i]->options[0] != commands[i]->command)
-			free(commands[i]->command);
-		free_str_ptr(commands[i]->options);
-		free(commands[i]->fd);
-		free(commands[i]);
+		printf("here4\n");
+		if (commands[i]->options && commands[i]->options[0] != commands[i]->command)
+			ft_free((commands[i]->command), ft_strlen(commands[i]->command));
+		printf("here4\n");
+		if (commands[i]->options)
+			free_str_ptr(commands[i]->options);
+		ft_free(commands[i]->fd, fd_ptr_len(commands[i]->fd));
+		ft_free(commands[i], 1);
 		i++;
 	}
-	free(commands);
+	ft_free(commands, size);
 }

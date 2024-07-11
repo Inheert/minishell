@@ -12,9 +12,9 @@
 
 #include "../../includes/minishell.h"
 
-size_t	str_ptr_len(char **ptr)
+unsigned int	str_ptr_len(char **ptr)
 {
-	size_t	size;
+	unsigned int	size;
 
 	if (!ptr || !*ptr)
 		return (0);
@@ -24,9 +24,21 @@ size_t	str_ptr_len(char **ptr)
 	return (size);
 }
 
-size_t	t_command_len(t_command **commands)
+unsigned int	fd_ptr_len(int (*fd)[2])
 {
-	size_t	size;
+	unsigned int	size;
+
+	if (!fd || !*fd)
+		return (0);
+	size = 0;
+	while (fd[size])
+		size++;
+	return (size);
+}
+
+unsigned int	t_command_len(t_command **commands)
+{
+	unsigned int	size;
 
 	if (!commands || !*commands)
 		return (0);
@@ -34,4 +46,19 @@ size_t	t_command_len(t_command **commands)
 	while (commands[size])
 		size++;
 	return (size);
+}
+
+unsigned int	count_infile(char *s)
+{
+	unsigned int	i;
+	unsigned int	n;
+
+	if (!s)
+		return (0);
+	i = 0;
+	n = 0;
+	while (s[i])
+		if (s[i++] == '<')
+			n++;
+	return (n);
 }

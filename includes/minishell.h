@@ -28,14 +28,17 @@ typedef struct s_command
 	int		(*fd)[2];
 }	t_command;
 
-size_t		str_ptr_len(char **ptr);
-size_t		t_command_len(t_command **commands);
+unsigned int	str_ptr_len(char **ptr);
+unsigned int	t_command_len(t_command **commands);
+unsigned int	fd_ptr_len(int (*fd)[2]);
+unsigned int	count_infile(char *s);
 
 void		free_str_ptr(char **ptr);
 void		free_t_command(t_command **commands);
 
 char		**copy_str_ptr(char **ptr);
 
+t_command	**split_commands(int argc, char *argv, char **envp);
 t_command	**create_commands_struct(int argc, char **argv, char **envp);
 
 #endif
