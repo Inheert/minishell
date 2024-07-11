@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	main(int argc, char **argv, char **envp)
 {
 	char		**ft_envp;
-	t_command	**commands;
 
 	if (argc < 2)
 		return (1);
 	ft_envp = copy_str_ptr(envp);
-	commands = split_commands(argc, argv[1], envp);
-	free_t_command(commands);
+	//commands = split_commands(argc, argv[1], envp);
+	//free_t_command(commands);
 	free_str_ptr(ft_envp);
+	argv = (char **)argv;
 	return (0);
 }
