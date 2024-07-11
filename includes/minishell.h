@@ -48,13 +48,18 @@ unsigned int	fd_ptr_len(int (*fd)[2]);
 unsigned int	count_infile(char *s);
 
 // Utils - malloc free functions
-void		free_t_token(t_token **token);
-void		free_str_ptr(char **ptr);
+void			free_t_token(t_token **token);
+void			free_str_ptr(char **ptr);
 
-void	ft_token_add_front(t_token **token, t_token *new);
-void	ft_token_add_back(t_token **token, t_token *new);
-t_token	*ft_token_new(char *str, int token);
+// Utils - token structure manipulation
+void			ft_token_add_front(t_token **token, t_token *new);
+void			ft_token_add_back(t_token **token, t_token *new);
+t_token			*ft_token_new(char *str, int token);
 
-char		**copy_str_ptr(char **ptr);
+// Utils - other
+char			**copy_str_ptr(char **ptr);
+
+// Exec
+int				execute_commands(t_token *token);
 
 #endif
