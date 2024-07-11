@@ -18,6 +18,7 @@ SRCS_FILE       = main.c \
 				  utils/ft_size.c \
 				  utils/ft_free.c \
 				  utils/ft_copy.c \
+				  utils/ft_token_add.c \
 				  command/command_init.c \
 
 # Convert .c files to .o files

@@ -34,6 +34,23 @@ void	free_str_ptr(char **ptr)
 	ft_free(ptr, str_ptr_len(ptr));
 }
 
+void	free_t_token(t_token **token)
+{
+	t_token	*tmp;
+	t_token *free_tmp;
+
+	tmp = *token;
+	while (tmp)
+	{
+		free(tmp->str);
+		tmp->str = NULL;
+		free_tmp = tmp;
+		tmp = tmp->next;
+		free(free_tmp);
+	}
+	*token = NULL;
+}
+
 void	free_t_command(t_command **commands)
 {
 	size_t	i;

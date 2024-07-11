@@ -12,6 +12,18 @@
 
 #include "minishell.h"
 
+unsigned int	token_ptr_size(t_token *token)
+{
+	unsigned int size;
+
+	if (!token)
+		return (0);
+	size = 0;
+	while (token && size++)
+		token = token->next;
+	return (size);
+}
+
 unsigned int	str_ptr_len(char **ptr)
 {
 	unsigned int	size;
