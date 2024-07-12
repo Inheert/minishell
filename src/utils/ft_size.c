@@ -12,15 +12,43 @@
 
 #include "minishell.h"
 
+unsigned int	count_specific_token(t_token *token, int code)
+{
+	unsigned int	size;
+
+	if (!token)
+		return (0);
+	size = 0;
+	while (token)
+	{
+		if (token->token == code)
+			size++;
+		token = token->next;
+	}
+	return (size);
+}
+
 unsigned int	token_ptr_size(t_token *token)
 {
-	unsigned int size;
+	unsigned int	size;
 
 	if (!token)
 		return (0);
 	size = 0;
 	while (token && size++)
 		token = token->next;
+	return (size);
+}
+
+unsigned int	pipe_ptr_size(t_pipe *pipe)
+{
+	unsigned int	size;
+
+	if (!pipe)
+		return (0);
+	size = 0;
+	while (pipe && size++)
+		pipe = pipe->next;
 	return (size);
 }
 

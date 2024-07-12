@@ -1,3 +1,10 @@
+  _____        _____   _____ _____ _   _  _____ 
+ |  __ \ /\   |  __ \ / ____|_   _| \ | |/ ____|
+ | |__) /  \  | |__) | (___   | | |  \| | |  __ 
+ |  ___/ /\ \ |  _  / \___ \  | | | . ` | | |_ |
+ | |  / ____ \| | \ \ ____) |_| |_| |\  | |__| |
+ |_| /_/    \_\_|  \_\_____/|_____|_| \_|\_____|
+                                                
 Redirection:
 	< infile wc
 		-> bash: "lines words letters"
@@ -5,4 +12,17 @@ Redirection:
 	'<' infile wc
 		-> bash: "<: command not found"
 			'<' is interpreted as a command, end of the processus. Same result using "<", ">", '>'
-	
+
+
+
+  ________   ________ _____ 
+ |  ____\ \ / /  ____/ ____|
+ | |__   \ V /| |__ | |     
+ |  __|   > < |  __|| |     
+ | |____ / . \| |___| |____ 
+ |______/_/ \_\______\_____|
+                            
+inhhert@DESKTOP-6G8DL84:~/minishell$ < test wc > testout
+-bash: test: No such file or directory
+inhhert@DESKTOP-6G8DL84:~/minishell$ > testout wc < test
+-bash: test: No such file or directory

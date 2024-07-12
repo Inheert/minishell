@@ -1,58 +1,59 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_token_add.c                                     :+:      :+:    :+:   */
+/*   ft_pipe_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 18:32:52 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/12 01:10:03 by Théo             ###   ########.fr       */
+/*   Created: 2024/07/12 01:09:55 by Théo              #+#    #+#             */
+/*   Updated: 2024/07/12 02:08:30 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_token_add_front(t_token **token, t_token *new)
+void	ft_pipe_add_front(t_pipe **pipe, t_pipe *new)
 {
-	if (!token || !new)
+	if (!pipe || !new)
 		return ;
-	if (!*token)
+	if (!*pipe)
 	{
-		*token = new;
+		*pipe = new;
 		return ;
 	}
-	new->next = *token;
-	(*token)->prev = new;
-	*token = new;
+	new->next = *pipe;
+	(*pipe)->prev = new;
+	*pipe = new;
 }
 
-void	ft_token_add_back(t_token **token, t_token *new)
+void	ft_pipe_add_back(t_pipe **pipe, t_pipe *new)
 {
-	t_token	*tmp;
+	t_pipe	*tmp;
 
-	if (!token || !new)
+	if (!pipe || !new)
 		return ;
-	if (!*token)
+	if (!*pipe)
 	{
-		*token = new;
+		*pipe = new;
 		return ;
 	}
-	tmp = *token;
+	tmp = *pipe;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
 	new->prev = tmp;
 }
 
-t_token	*ft_token_new(char *str, int token)
+t_pipe	*ft_pipe_new(t_token **token)
 {
-	t_token	*new;
+	t_pipe	*new;
 
-	new = malloc(sizeof(t_token));
+	new = malloc(sizeof(t_pipe));
 	if (!new)
 		return (NULL);
-	new->str = str;
-	new->token = token;
+	new->tokens = token;
+	new->fds[0] = 0;
+	new->fds[1] = 1;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
