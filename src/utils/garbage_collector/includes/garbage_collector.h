@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_copy.c                                          :+:      :+:    :+:   */
+/*   garbage_collector.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 01:28:28 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/12 17:02:05 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/07/12 16:05:01 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/07/12 17:40:48 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef GARBAGE_COLLECTOR_H
+# define GARBAGE_COLLECTOR_H
 
-char	**copy_str_ptr(char **ptr)
-{
-	char	**copy;
-	size_t	size;
-	size_t	i;
+# include <stdio.h>
 
-	if (!ptr || !*ptr)
-		return (NULL);
-	i = 0;
-	size = str_ptr_len(ptr);
-	copy = malloc(sizeof(char *) * size + 1);
-	if (!copy)
-		return (NULL);
-	while (i < size - 1 && ptr[i])
-	{
-		copy[i] = ft_strdup(ptr[i]);
-		if (!copy[i])
-			return (free_str_ptr(copy), NULL);
-		i++;
-	}
-	copy[i] = NULL;
-	return (copy);
-}
+# define ADD 0
+# define DELETE 1
+# define CLEAR 2
+
+void	test(void);
+
+#endif
