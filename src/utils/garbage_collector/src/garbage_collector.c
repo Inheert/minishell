@@ -1,37 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_copy.c                                          :+:      :+:    :+:   */
+/*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 01:28:28 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/12 17:02:05 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/07/12 16:01:31 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/07/12 17:39:27 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "garbage_collector.h"
 
-char	**copy_str_ptr(char **ptr)
+void	garbage_collector()
 {
-	char	**copy;
-	size_t	size;
-	size_t	i;
+	void	*storage[10][10];
 
-	if (!ptr || !*ptr)
+	
+}
+
+void	*ft_malloc(size_t size)
+{
+	void	*ptr;
+
+	if (size <= 0)
 		return (NULL);
-	i = 0;
-	size = str_ptr_len(ptr);
-	copy = malloc(sizeof(char *) * size + 1);
-	if (!copy)
-		return (NULL);
-	while (i < size - 1 && ptr[i])
-	{
-		copy[i] = ft_strdup(ptr[i]);
-		if (!copy[i])
-			return (free_str_ptr(copy), NULL);
-		i++;
-	}
-	copy[i] = NULL;
-	return (copy);
+	ptr = malloc(size);
+	return (ptr);
+}
+
+void	test(void)
+{
+	printf("Hello garbage\n");
 }

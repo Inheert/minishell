@@ -21,17 +21,17 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../src/utils/libft/libft.h"
+# include "../src/utils/garbage_collector/includes/garbage_collector.h"
 
 # define PIPE 0
 # define STRING 1 //'$HOME' == string $HOME
-# define REDIR_APPEND_OUT 3
-# define HERE_DOC 4
-# define REDIR_IN 5
-# define REDIR_OUT 6
-# define COMMAND 7
-# define ENV 8 //$HOME
-# define EXIT_STATUS 9 //$?
-
+# define REDIR_APPEND_OUT 2
+# define HERE_DOC 3
+# define REDIR_IN 4
+# define REDIR_OUT 5
+# define COMMAND 6
+# define ENV 7 //$HOME
+# define EXIT_STATUS 8 //$?
 
 typedef struct s_token
 {

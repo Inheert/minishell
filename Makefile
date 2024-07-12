@@ -1,44 +1,49 @@
 MAKEFLAGS += --silent
-NAME            = minishell
-COMPILER        = cc
+NAME			= minishell
 
-FLAGS           = -g3 -Wall -Wextra -Werror
+COMPILER		= cc
+
+FLAGS			= -g3 -Wall -Wextra -Werror
 
 # To use readline and history
-LIBS            = -lreadline -lhistory
+LIBS			= -lreadline -lhistory
 
-INCLUDES        = -I ./includes/
+INCLUDES		= -I ./includes/
 
 SRC_DIR			= ./src/
 
 # Where all .o are stored, the folder structure in bin is the same as src
 BIN_DIR			= ./bin/
 
-SRCS_FILE       = main.c \
-				  utils/ft_size.c \
-				  utils/ft_free.c \
-				  utils/ft_copy.c \
-				  utils/ft_token_add.c \
-				  utils/ft_pipe_utils.c \
-				  utils/ft_error.c \
-				  exec/ft_exec.c \
-				  tokenisation/token.c
+SRCS_FILE		= main.c \
+					utils/ft_size.c \
+					utils/ft_free.c \
+					utils/ft_copy.c \
+					utils/ft_token_add.c \
+					utils/ft_pipe_utils.c \
+					utils/ft_error.c \
+					exec/ft_exec.c \
+					tokenisation/token.c
 
 # Convert .c files to .o files
-SRCS_COMPILE    = $(SRCS_FILE:.c=.o)
+SRCS_COMPILE	= $(SRCS_FILE:.c=.o)
 
 # Convert source paths to object paths, replacing src with bin
 SRCS_COMPILE_PATH = $(addprefix $(BIN_DIR), $(patsubst %, %, $(SRCS_COMPILE)))
 
-MAKE_LIBFT      = $(MAKE) -C ./src/utils/libft -s
+MAKE_LIBFT		= $(MAKE) -C ./src/utils/libft -s
 
-LIBFT           = ./src/utils/libft/libft.a
+LIBFT			= ./src/utils/libft/libft.a
+
+MAKE_GARBAGE	= $(MAKE) -C ./src/utils/garbage_collector -s
+
+GARBAGE			= ./src/utils/garbage_collector/garbage_collector.a
 
 # Colors
-NC = \033[0m
+NC				= \033[0m
 
-YELLOW = \033[38;5;208m
-PURPLE = \033[38;5;212m
+YELLOW			= \033[38;5;208m
+PURPLE			= \033[38;5;212m
 
 YELLOW_UNDERLINE = \033[4;38;5;208m
 PURPLE_UNDERLINE = \033[4;38;5;212m
@@ -74,7 +79,8 @@ $(BIN_DIR)%.o: $(SRC_DIR)%.c
 # Create program executable
 $(NAME): $(SRCS_COMPILE_PATH)
 	@$(MAKE_LIBFT)
-	@$(COMPILER) $(FLAGS) -o $(NAME) $(SRCS_COMPILE_PATH) $(INCLUDES) $(LIBS) $(LIBFT)
+	@$(MAKE_GARBAGE)
+	@$(COMPILER) $(FLAGS) -o $(NAME) $(SRCS_COMPILE_PATH) $(INCLUDES) $(LIBS) $(LIBFT) $(GARBAGE)
 	@echo $(COMPILE_MSG)
 
 # Default rule: make
@@ -86,6 +92,7 @@ clean:
 	@/bin/rm -rf $(BIN_DIR)
 	@find . -name '*.o' -delete
 	@$(MAKE_LIBFT) -s clean
+	@$(MAKE_GARBAGE) -s clean
 
 # Make a clean before removing minishell and .a files, call echo, make fclean on libft
 fclean:
@@ -93,6 +100,7 @@ fclean:
 	@echo $(FCLEAN_MSG)
 	@/bin/rm -f $(NAME)
 	@$(MAKE_LIBFT) -s fclean
+	@$(MAKE_GARBAGE) -s fclean
 
 re:
 	@$(MAKE) -s fclean
