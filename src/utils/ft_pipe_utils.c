@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:09:55 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/12 02:08:30 by Théo             ###   ########.fr       */
+/*   Updated: 2024/07/12 03:03:41 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	ft_pipe_add_back(t_pipe **pipe, t_pipe *new)
 	new->prev = tmp;
 }
 
-t_pipe	*ft_pipe_new(t_token **token)
+
+t_pipe	*ft_pipe_new(t_token *token)
 {
 	t_pipe	*new;
 
