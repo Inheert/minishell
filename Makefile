@@ -21,7 +21,7 @@ SRCS_FILE       = main.c \
 				  utils/ft_token_add.c \
 				  utils/ft_pipe_utils.c \
 				  utils/ft_error.c \
-				  exec/ft_exec.c
+				  exec/ft_exec.c \
 				  tokenisation/token.c
 
 # Convert .c files to .o files
