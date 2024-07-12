@@ -34,40 +34,34 @@ void	free_str_ptr(char **ptr)
 	ft_free(ptr, str_ptr_len(ptr));
 }
 
-void	free_t_token(t_token **token)
+void	free_t_token(t_token *token)
 {
 	t_token	*tmp;
 
 	if (!token)
 		return ;
-	if (!*token)
-		return (free(*token));
-	while (*token)
+	while (token)
 	{
-		if ((*token)->str)
-			free((*token)->str);
-		(*token)->str = NULL;
-		tmp = *token;
-		*token = (*token)->next;
+		if (token->str)
+			free(token->str);
+		token->str = NULL;
+		tmp = token;
+		token = token->next;
 		free(tmp);
 	}
-	*token = NULL;
 }
 
-void	free_t_pipe(t_pipe **pipe)
+void	free_t_pipe(t_pipe *pipe)
 {
 	t_pipe	*tmp;
 
 	if (!pipe)
 		return ;
-	if (!*pipe)
-		return (free(*pipe));
-	while (*pipe)
+	while (pipe)
 	{
-		free_t_token((*pipe)->tokens);
-		tmp = *pipe;
-		*pipe = (*pipe)->next;
+		free_t_token(pipe->tokens);
+		tmp = pipe;
+		pipe = pipe->next;
 		free(tmp);
 	}
-	*pipe = NULL;
 }
