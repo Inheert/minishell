@@ -41,7 +41,6 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-<<<<<<< HEAD
 typedef struct s_pipe
 {
 	struct s_token **tokens;
@@ -49,10 +48,6 @@ typedef struct s_pipe
 	struct s_pipe	*next;
 	struct s_pipe	*prev;
 }	t_pipe;
-=======
-// Tokenisation
-t_token			*tokenization(char *argv);
->>>>>>> be72684df7d2e21568362118c06e1cf517e46d54
 
 // Utils - Error management
 void			raise_perror(char *error, int critical);
