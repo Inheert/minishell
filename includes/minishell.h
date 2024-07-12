@@ -49,6 +49,8 @@ typedef struct s_pipe
 	struct s_pipe	*prev;
 }	t_pipe;
 
+t_token *tokenization(char *prompt);
+
 // Utils - Error management
 void			raise_perror(char *error, int critical);
 void			raise_error(char *error, char *details, int exit_code);
