@@ -21,15 +21,14 @@
 # include "../src/utils/libft/libft.h"
 
 # define PIPE 0
-# define STRING 1
-# define STRING_VAR 2
+# define STRING 1 //'$HOME' == string $HOME
 # define REDIR_APPEND_OUT 3
-# define REDIR_APPEND_IN 4
+# define HERE_DOC 4
 # define REDIR_IN 5
 # define REDIR_OUT 6
 # define COMMAND 7
-# define ENV 8
-# define EXIT_STATUS 9
+# define ENV 8 //$HOME
+# define EXIT_STATUS 9 //$?
 
 
 typedef struct s_token
@@ -40,6 +39,8 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+// Tokenisation
+t_token			*tokenization(char *argv);
 
 // Utils - ptr size functions
 unsigned int	token_ptr_size(t_token *token);

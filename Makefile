@@ -20,6 +20,7 @@ SRCS_FILE       = main.c \
 				  utils/ft_copy.c \
 				  utils/ft_token_add.c \
 				  exec/ft_exec.c
+				  tokenisation/token.c
 
 # Convert .c files to .o files
 SRCS_COMPILE    = $(SRCS_FILE:.c=.o)
