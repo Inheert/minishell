@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:05:01 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/16 17:56:29 by Théo             ###   ########.fr       */
+/*   Updated: 2024/07/16 18:01:14 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include "../../libft/libft.h"
 
-# define CONTAINER_SIZE 10
+# define CONTAINER_SIZE 1024
 
 typedef enum	s_garbage_action
 {
