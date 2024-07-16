@@ -6,58 +6,11 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:01:31 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/16 17:49:33 by Théo             ###   ########.fr       */
+/*   Updated: 2024/07/16 17:54:34 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "garbage_collector.h"
-
-
-t_ptr_stockage	*ptr_stockage_new(void *ptr)
-{
-	t_ptr_stockage	*new;
-
-	new = malloc(sizeof(t_ptr_stockage));
-	if (!new)
-		return (NULL);
-	new->ptr = ptr;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
-}
-
-void	ptr_stockage_add_back(t_ptr_stockage **storage, t_ptr_stockage *new)
-{
-	t_ptr_stockage	*tmp;
-
-	if (!storage || !new)
-		return ;
-	if (!*storage)
-	{
-		*storage = new;
-		return ;
-	}
-	tmp = *storage;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-	new->prev = tmp;	
-}
-
-void	ptr_stockage_clear(t_ptr_stockage **storage)
-{
-	t_ptr_stockage	*tmp;
-
-	if (!storage ||!*storage)
-		return ;
-	while (*storage)
-	{
-		tmp = *storage;
-		*storage = (*storage)->next;
-		free(tmp->ptr);
-		free(tmp);
-	}
-}
 
 unsigned int	hashf(void *ptr, int size)
 {
@@ -126,7 +79,6 @@ void	clear_garbage(t_ptr_stockage *container[CONTAINER_SIZE])
 	i = 0;
 	while (i < CONTAINER_SIZE)
 		ptr_stockage_clear(&container[i++]);
-	printf("opzenefz\n");
 }
 
 void	*garbage_collector(t_garbage_action action, void *ptr)
@@ -140,27 +92,4 @@ void	*garbage_collector(t_garbage_action action, void *ptr)
 	else if (action == CLEAR)
 		clear_garbage(container);
 	return (NULL);
-}
-
-void	*ft_malloc(size_t size)
-{
-	void	*ptr;
-
-	if (size <= 0)
-		return (NULL);
-	ptr = malloc(size);
-	if(!ptr)
-		return (NULL);
-	garbage_collector(ADD, ptr);
-	return (ptr);
-}
-
-void	ft_free(void *ptr)
-{
-	garbage_collector(DELETE, ptr);
-}
-
-void	ft_free_all()
-{
-	garbage_collector(CLEAR, NULL);
 }
