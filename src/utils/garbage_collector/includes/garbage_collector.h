@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:05:01 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/16 17:54:24 by Théo             ###   ########.fr       */
+/*   Updated: 2024/07/16 17:56:29 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,7 @@ void			*garbage_collector(t_garbage_action action, void *ptr);
 void			*ft_malloc(size_t size);
 void			ft_free(void *ptr);
 void			ft_free_all();
+
+void			malloc_error();
 
 #endif

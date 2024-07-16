@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:50:44 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/16 17:50:57 by Théo             ###   ########.fr       */
+/*   Updated: 2024/07/16 17:57:29 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_ptr_stockage	*ptr_stockage_new(void *ptr)
 {
 	t_ptr_stockage	*new;
 
-	new = malloc(sizeof(t_ptr_stockage));
+	new = NULL;//malloc(sizeof(t_ptr_stockage));
 	if (!new)
-		return (NULL);
+		return (free(ptr), malloc_error(), NULL);
 	new->ptr = ptr;
 	new->next = NULL;
 	new->prev = NULL;
