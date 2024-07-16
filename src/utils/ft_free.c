@@ -12,14 +12,6 @@
 
 #include "minishell.h"
 
-void	ft_free(void *ptr, size_t size)
-{
-	if (!ptr)
-		return ;
-	ft_bzero(ptr, size);
-	free(ptr);
-}
-
 void	free_str_ptr(char **ptr)
 {
 	size_t	i;
@@ -30,8 +22,8 @@ void	free_str_ptr(char **ptr)
 	i = -1;
 	size = str_ptr_len(ptr);
 	while (++i < size && ptr[i])
-		ft_free(ptr[i], ft_strlen(ptr[i]));
-	ft_free(ptr, str_ptr_len(ptr));
+		free(ptr[i]);
+	free(ptr);
 }
 
 void	free_t_token(t_token *token)

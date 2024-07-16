@@ -2,7 +2,7 @@ NAME = garbage_collector.a
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g3 -Wall -Wextra -Werror
 
 INCLUDES = -I ./includes/
 
@@ -10,6 +10,8 @@ SRC_DIR = .
 BIN_DIR = ../../../bin/utils/garbage_collector
 
 SOURCES = src/garbage_collector.c \
+			src/ft_malloc.c \
+			src/t_ptr_stockage_utils.c \
 
 OBJECTS = $(addprefix $(BIN_DIR)/,$(SOURCES:.c=.o))
 
