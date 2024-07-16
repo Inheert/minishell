@@ -2,7 +2,7 @@ NAME = garbage_collector.a
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g3 -Wall -Wextra -Werror
 
 INCLUDES = -I ./includes/
 

@@ -3,20 +3,143 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:01:31 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/12 17:39:27 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:49:33 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "garbage_collector.h"
 
-void	garbage_collector()
-{
-	void	*storage[10][10];
 
-	
+t_ptr_stockage	*ptr_stockage_new(void *ptr)
+{
+	t_ptr_stockage	*new;
+
+	new = malloc(sizeof(t_ptr_stockage));
+	if (!new)
+		return (NULL);
+	new->ptr = ptr;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
+}
+
+void	ptr_stockage_add_back(t_ptr_stockage **storage, t_ptr_stockage *new)
+{
+	t_ptr_stockage	*tmp;
+
+	if (!storage || !new)
+		return ;
+	if (!*storage)
+	{
+		*storage = new;
+		return ;
+	}
+	tmp = *storage;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	new->prev = tmp;	
+}
+
+void	ptr_stockage_clear(t_ptr_stockage **storage)
+{
+	t_ptr_stockage	*tmp;
+
+	if (!storage ||!*storage)
+		return ;
+	while (*storage)
+	{
+		tmp = *storage;
+		*storage = (*storage)->next;
+		free(tmp->ptr);
+		free(tmp);
+	}
+}
+
+unsigned int	hashf(void *ptr, int size)
+{
+	unsigned long long	ptr_value;
+	unsigned int		hash;
+	size_t				i;
+	size_t				s;
+
+	ptr_value = (unsigned long long)ptr;
+	i = 0;
+	hash = 0;
+	s = sizeof(ptr_value);
+	while (i < s)
+	{
+		hash += ((ptr_value >> (i * 8)) & 0xFF);
+		hash += (hash << 10);
+		hash ^= (hash >> 6);
+		i++;
+	}
+	hash += (hash << 3);
+	hash ^= (hash >> 11);
+	hash += (hash << 15);
+	return (hash % size);
+}
+
+void	add_to_garbage(t_ptr_stockage *container[CONTAINER_SIZE], void *ptr)
+{
+	t_ptr_stockage	*new;
+	unsigned int	index;
+
+	if (!ptr)
+		return ;
+	new = ptr_stockage_new(ptr);
+	index = hashf(ptr, CONTAINER_SIZE);
+	if (container[index])
+		ptr_stockage_add_back(&container[index], new);
+	else
+		container[index] = new;
+}
+
+void	delete_from_garbage(t_ptr_stockage *container[CONTAINER_SIZE], void *ptr)
+{
+	t_ptr_stockage	*tmp;
+	unsigned int	index;
+
+	if (!ptr)
+		return ;
+	index = hashf(ptr, CONTAINER_SIZE);	
+	if (!container[index])
+		return ;
+	tmp = container[index];
+	while (tmp && tmp->ptr != ptr)
+		tmp = tmp->next;
+	if (!tmp)
+		return ;
+	free(tmp->ptr);
+	free(tmp);
+}
+
+void	clear_garbage(t_ptr_stockage *container[CONTAINER_SIZE])
+{
+	unsigned int	i;
+
+	if (!container)
+		return ;
+	i = 0;
+	while (i < CONTAINER_SIZE)
+		ptr_stockage_clear(&container[i++]);
+	printf("opzenefz\n");
+}
+
+void	*garbage_collector(t_garbage_action action, void *ptr)
+{
+	static t_ptr_stockage	*container[CONTAINER_SIZE];
+
+	if (action == ADD)
+		add_to_garbage(container, ptr);
+	else if (action == DELETE)
+		delete_from_garbage(container, ptr);
+	else if (action == CLEAR)
+		clear_garbage(container);
+	return (NULL);
 }
 
 void	*ft_malloc(size_t size)
@@ -26,10 +149,18 @@ void	*ft_malloc(size_t size)
 	if (size <= 0)
 		return (NULL);
 	ptr = malloc(size);
+	if(!ptr)
+		return (NULL);
+	garbage_collector(ADD, ptr);
 	return (ptr);
 }
 
-void	test(void)
+void	ft_free(void *ptr)
 {
-	printf("Hello garbage\n");
+	garbage_collector(DELETE, ptr);
+}
+
+void	ft_free_all()
+{
+	garbage_collector(CLEAR, NULL);
 }

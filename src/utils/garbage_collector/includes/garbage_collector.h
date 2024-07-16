@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:05:01 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/12 17:40:48 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:44:59 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,26 @@
 # define GARBAGE_COLLECTOR_H
 
 # include <stdio.h>
+# include "../../libft/libft.h"
 
-# define ADD 0
-# define DELETE 1
-# define CLEAR 2
+# define CONTAINER_SIZE 10
 
-void	test(void);
+typedef enum	s_garbage_action
+{
+	ADD,
+	CLEAR,
+	DELETE
+}	t_garbage_action;
+
+typedef struct	s_ptr_stockage
+{
+	void	*ptr;
+	struct s_ptr_stockage *next;
+	struct s_ptr_stockage *prev;
+}	t_ptr_stockage;
+
+void	*ft_malloc(size_t size);
+void	ft_free(void *ptr);
+void	ft_free_all();
 
 #endif
