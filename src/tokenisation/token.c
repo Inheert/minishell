@@ -6,13 +6,13 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/07/12 03:32:24 by cluby            ###   ########.fr       */
+/*   Updated: 2024/07/12 17:14:41 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token *tokenization(char *argv)
+t_token *tokenization(char *prompt)
 {
 	int	i;
 	int	j;
@@ -21,46 +21,45 @@ t_token *tokenization(char *argv)
 	token = NULL;
 	i = 0;
 	j = 0;
-	while (argv[i])
+	while (prompt[i] != '\0')
 	{
-		while (argv[i] == ' ' || argv[i] == '\t')
+		while (prompt[i] == ' ' || prompt[i] == '\t')
 			i++;
-		if (argv[i] == '\'')
+		if (prompt[i] == '\'')
 		{
 			i++;
 			j = i;
-			while(ft_isascii(argv[i]) && argv[i] != '\0' && argv[i] != '\'')
+			while(ft_isascii(prompt[i]) && prompt[i] != '\0' && prompt[i] != '\'')
 				i++;
-			if (argv[i] == '\0')
+			if (prompt[i] == '\0')
 				return (NULL); //error
-			printf("test1\n");
 			if (token)
-				ft_token_add_back(&token, ft_token_new(ft_substr(argv, j, i - j), STRING));
+				ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), STRING));
 			else
-				token = ft_token_new(ft_substr(argv, j, i - j), STRING);
+				token = ft_token_new(ft_substr(prompt, j, i - j), STRING);
 		}
-		if (argv[i] == '"')
+		if (prompt[i] == '"')
 		{
 			i++;
 			j = i;
-			while(ft_isascii(argv[i]) && argv[i] != '\0' && argv[i] != '"' && argv[i] != '$')
+			while(ft_isascii(prompt[i]) && prompt[i] != '\0' && prompt[i] != '"' && prompt[i] != '$')
 				i++;
-			if (argv[i] == '\0')
-				return (NULL); // error
+			if (prompt[i] == '\0')
+				return (NULL);
 			if (token)
-				ft_token_add_back(&token, ft_token_new(ft_substr(argv, j, i - j), STRING));
+				ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), STRING));
 			else
-				token = ft_token_new(ft_substr(argv, j, i - j), STRING);
-			if (argv[i] == '$')
+				token = ft_token_new(ft_substr(prompt, j, i - j), STRING);
+			if (prompt[i] == '$')
 			{
 				i++;
 				j = i;
-				while(ft_isascii(argv[i]) && argv[i] != '\0' && argv[i] != ' ' && argv[i] != '\t' && argv[i] != '"' && argv[i] != '\'' && argv[i] != '$')
+				while(ft_isascii(prompt[i]) && prompt[i] != '\0' && prompt[i] != ' ' && prompt[i] != '\t' && prompt[i] != '"' && prompt[i] != '\'' && prompt[i] != '$')
 					i++;
 				if (token)
-					ft_token_add_back(&token, ft_token_new(ft_substr(argv, j, i - j), ENV));
+					ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), ENV));
 				else
-					token = ft_token_new(ft_substr(argv, j, i - j), ENV);
+					token = ft_token_new(ft_substr(prompt, j, i - j), ENV);
 			}
 			//new token STRING_VAR
 			//add token if needed		
