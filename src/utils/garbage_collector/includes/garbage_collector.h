@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:05:01 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/16 18:01:14 by Théo             ###   ########.fr       */
+/*   Updated: 2024/07/21 23:01:11 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include "../../libft/libft.h"
 
-# define CONTAINER_SIZE 1024
+# define CONTAINER_SIZE 1
 
 typedef enum	s_garbage_action
 {
