@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:32:52 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/21 23:26:14 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:49:49 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ t_token	*ft_token_copy(t_token *token)
 		return (NULL);
 	copy = ft_malloc(sizeof(t_token));
 	copy->str = ft_strdup(token->str);
-	if (!copy->str)
-		return (free(copy), NULL);
 	copy->token = token->token;
 	copy->next = NULL;
 	copy->prev = NULL;
@@ -74,8 +72,6 @@ t_token	*ft_token_n_copy(t_token *token, unsigned int n)
 	while (n-- && token)
 	{
 		tmp = ft_token_copy(token);
-		if (!tmp)
-			return (free_t_token(copy), NULL);
 		token = token->next;
 	}
 	return (copy);

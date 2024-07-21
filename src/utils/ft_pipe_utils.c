@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:09:55 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/21 23:25:18 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:45:59 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	ft_pipe_add_back(t_pipe **pipe, t_pipe *new)
 	tmp->next = new;
 	new->prev = tmp;
 }
-
 
 t_pipe	*ft_pipe_new(t_token *token)
 {

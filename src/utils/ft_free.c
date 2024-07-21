@@ -22,8 +22,8 @@ void	free_str_ptr(char **ptr)
 	i = -1;
 	size = str_ptr_len(ptr);
 	while (++i < size && ptr[i])
-		free(ptr[i]);
-	free(ptr);
+		ft_free(ptr[i]);
+	ft_free(ptr);
 }
 
 void	free_t_token(t_token *token)
@@ -35,11 +35,11 @@ void	free_t_token(t_token *token)
 	while (token)
 	{
 		if (token->str)
-			free(token->str);
+			ft_free(token->str);
 		token->str = NULL;
 		tmp = token;
 		token = token->next;
-		free(tmp);
+		ft_free(tmp);
 	}
 }
 
@@ -54,6 +54,6 @@ void	free_t_pipe(t_pipe *pipe)
 		free_t_token(pipe->tokens);
 		tmp = pipe;
 		pipe = pipe->next;
-		free(tmp);
+		ft_free(tmp);
 	}
 }
