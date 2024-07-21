@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 01:09:55 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/12 03:03:41 by Théo             ###   ########.fr       */
+/*   Updated: 2024/07/21 23:25:18 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ t_pipe	*ft_pipe_new(t_token *token)
 {
 	t_pipe	*new;
 
-	new = malloc(sizeof(t_pipe));
-	if (!new)
-		return (NULL);
+	new = ft_malloc(sizeof(t_pipe));
 	new->tokens = token;
 	new->fds[0] = 0;
 	new->fds[1] = 1;

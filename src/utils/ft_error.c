@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 00:19:12 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/12 00:21:18 by Théo             ###   ########.fr       */
+/*   Updated: 2024/07/21 23:14:37 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ void	raise_perror(char *error, int critical)
 {
 	perror(error);
 	if (critical == 1)
+	{
+		ft_free_all();
 		exit(errno);
+	}
 }
 
 void	raise_error(char *error, char *details, int exit_code)
@@ -26,4 +29,4 @@ void	raise_error(char *error, char *details, int exit_code)
 	write(2, details, ft_strlen(details));
 	write(2, "\n", 1);
 	exit(exit_code);
-}	
+}

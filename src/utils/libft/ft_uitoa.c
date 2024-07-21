@@ -37,8 +37,6 @@ char	*ft_uitoa(unsigned int n)
 	i = 0;
 	size = countsize((long)n);
 	ptr = ft_calloc(size, sizeof(char));
-	if (!ptr)
-		return (NULL);
 	recursive(ptr, n, &i);
 	return (ptr);
 }

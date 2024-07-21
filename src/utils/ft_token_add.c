@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_add.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:32:52 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/12 03:05:01 by Théo             ###   ########.fr       */
+/*   Updated: 2024/07/21 23:26:14 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ t_token	*ft_token_copy(t_token *token)
 
 	if (!token)
 		return (NULL);
-	copy = malloc(sizeof(t_token));
-	if (!copy)
-		return (NULL);
+	copy = ft_malloc(sizeof(t_token));
 	copy->str = ft_strdup(token->str);
 	if (!copy->str)
 		return (free(copy), NULL);
@@ -87,9 +85,7 @@ t_token	*ft_token_new(char *str, int token)
 {
 	t_token	*new;
 
-	new = malloc(sizeof(t_token));
-	if (!new)
-		return (NULL);
+	new = ft_malloc(sizeof(t_token));
 	new->str = str;
 	new->token = token;
 	new->next = NULL;

@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:20:37 by tclaereb          #+#    #+#             */
-/*   Updated: 2023/11/08 14:29:44 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:35:40 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	if (size != 0)
 		if (nmemb > size_max / size)
 			return (NULL);
-	ptr = (char *)malloc(size * nmemb);
-	if (!ptr)
-		return (NULL);
+	ptr = (char *)ft_malloc(size * nmemb);
 	ft_bzero(ptr, nmemb * size);
 	return (ptr);
 }
