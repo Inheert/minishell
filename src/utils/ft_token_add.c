@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:37 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/21 23:55:39 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/22 00:33:20 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,39 +44,6 @@ void	ft_token_add_back(t_token **token, t_token *new)
 	new->prev = tmp;
 }
 
-t_token	*ft_token_copy(t_token *token)
-{
-	t_token	*copy;
-
-	if (!token)
-		return (NULL);
-	copy = ft_malloc(sizeof(t_token));
-	copy->str = ft_strdup(token->str);
-	copy->token = token->token;
-	copy->next = NULL;
-	copy->prev = NULL;
-	return (copy);
-}
-
-t_token	*ft_token_n_copy(t_token *token, unsigned int n)
-{
-	t_token	*copy;
-	t_token	*tmp;
-
-	if (!token)
-		return (NULL);
-	copy = ft_token_copy(token);
-	if (!copy)
-		return (NULL);
-	copy = copy->next;
-	while (n-- && token)
-	{
-		tmp = ft_token_copy(token);
-		token = token->next;
-	}
-	return (copy);
-}
-
 t_token	*ft_token_new(char *str, int token)
 {
 	t_token	*new;
@@ -87,4 +54,11 @@ t_token	*ft_token_new(char *str, int token)
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
+}
+
+t_token	*ft_token_copy(t_token *token)
+{
+	if (!token)
+		return (NULL);
+	return (ft_token_new(token->str, token->token));
 }

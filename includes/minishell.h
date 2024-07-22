@@ -49,7 +49,7 @@ typedef struct s_pipe
 	struct s_pipe	*prev;
 }	t_pipe;
 
-t_token *tokenization(char *prompt);
+t_token			*tokenization(char *prompt);
 
 // Utils - Error management
 void			raise_perror(char *error, int critical);
@@ -69,21 +69,20 @@ void			free_t_pipe(t_pipe *pipe);
 void			free_str_ptr(char **ptr);
 
 // Utils - Tokens structure manipulation
+t_token			*ft_token_new(char *str, int token);
 void			ft_token_add_front(t_token **token, t_token *new);
 void			ft_token_add_back(t_token **token, t_token *new);
 t_token			*ft_token_copy(t_token *token);
-t_token			*ft_token_n_copy(t_token *token, unsigned int n);
-t_token			*ft_token_new(char *str, int token);
 
 // Utils - Pipes structure manipulation
 void			ft_pipe_add_front(t_pipe **pipe, t_pipe *new);
 void			ft_pipe_add_back(t_pipe **pipe, t_pipe *new);
-t_pipe			*ft_pipe_new(t_token *token);
+t_pipe			*ft_pipe_new(void);
 
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
 
 // Exec
-int				execute_commands(t_token *token);
+void			ft_exec(t_token **tokens);
 
 #endif

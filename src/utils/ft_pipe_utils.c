@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/21 23:55:21 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/22 01:58:27 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ void	ft_pipe_add_back(t_pipe **pipe, t_pipe *new)
 	new->prev = tmp;
 }
 
-t_pipe	*ft_pipe_new(t_token *token)
+t_pipe	*ft_pipe_new(void)
 {
 	t_pipe	*new;
 
 	new = ft_malloc(sizeof(t_pipe));
-	new->tokens = token;
+	new->tokens = NULL;
 	new->fds[0] = 0;
 	new->fds[1] = 1;
 	new->next = NULL;
