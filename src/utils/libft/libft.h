@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:41:51 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/03/22 13:51:57 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:31:04 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdarg.h>
 # include <stdint.h>
 # include <limits.h>
+# include "../garbage_collector/includes/garbage_collector.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
