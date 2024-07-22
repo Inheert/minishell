@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 01:09:55 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/12 03:03:41 by Théo             ###   ########.fr       */
+/*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/07/22 02:27:49 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_pipe_display(t_pipe *pipes)
+{
+	while (pipes)
+	{
+		while (pipes->tokens)
+		{
+			printf("%s ", pipes->tokens->str);
+			pipes->tokens = pipes->tokens->next;
+		}
+		printf("\n");
+		pipes = pipes->next;
+	}
+}
 
 void	ft_pipe_add_front(t_pipe **pipe, t_pipe *new)
 {
@@ -44,15 +58,12 @@ void	ft_pipe_add_back(t_pipe **pipe, t_pipe *new)
 	new->prev = tmp;
 }
 
-
-t_pipe	*ft_pipe_new(t_token *token)
+t_pipe	*ft_pipe_new(void)
 {
 	t_pipe	*new;
 
-	new = malloc(sizeof(t_pipe));
-	if (!new)
-		return (NULL);
-	new->tokens = token;
+	new = ft_malloc(sizeof(t_pipe));
+	new->tokens = NULL;
 	new->fds[0] = 0;
 	new->fds[1] = 1;
 	new->next = NULL;

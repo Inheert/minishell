@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 16:01:31 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/16 17:54:34 by Théo             ###   ########.fr       */
+/*   Created: 2024/07/21 23:56:27 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/07/21 23:56:29 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	delete_from_garbage(t_ptr_stockage *container[CONTAINER_SIZE], void *ptr)
 
 	if (!ptr)
 		return ;
-	index = hashf(ptr, CONTAINER_SIZE);	
+	index = hashf(ptr, CONTAINER_SIZE);
 	if (!container[index])
 		return ;
 	tmp = container[index];
@@ -66,6 +66,12 @@ void	delete_from_garbage(t_ptr_stockage *container[CONTAINER_SIZE], void *ptr)
 		tmp = tmp->next;
 	if (!tmp)
 		return ;
+	if (tmp->prev)
+		tmp->prev->next = tmp->next;
+	if (tmp->next)
+		tmp->next->prev = tmp->prev;
+	if (tmp == container[index])
+		container[index] = container[index]->next;
 	free(tmp->ptr);
 	free(tmp);
 }

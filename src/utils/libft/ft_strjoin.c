@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 16:56:45 by tclaereb          #+#    #+#             */
-/*   Updated: 2023/11/04 16:15:22 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:38:49 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	ls1 = ft_strlen(s1);
 	ls2 = ft_strlen(s2);
-	s = (char *)ft_calloc(ls1 + ls2 + 1, sizeof(char));
-	if (!s)
-		return (NULL);
+	s = ft_calloc(ls1 + ls2 + 1, sizeof(char));
 	ft_strlcat(s, s1, ls1 + 1);
 	ft_strlcat(s + ls1, s2, ls2 + 1);
 	return (s);

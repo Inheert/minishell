@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_ptr_stockage_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/16 17:50:44 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/16 18:00:36 by Théo             ###   ########.fr       */
+/*   Created: 2024/07/21 23:56:38 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/07/21 23:56:42 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ptr_stockage_add_back(t_ptr_stockage **storage, t_ptr_stockage *new)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
-	new->prev = tmp;	
+	new->prev = tmp;
 }
 
 void	ptr_stockage_clear(t_ptr_stockage **storage)
