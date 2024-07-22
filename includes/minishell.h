@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 01:28:35 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/11 01:28:35 by Théo             ###   ########.fr       */
+/*   Created: 2024/07/21 23:56:47 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/07/21 23:56:47 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_pipe
 	struct s_pipe	*prev;
 }	t_pipe;
 
-t_token *tokenization(char *prompt);
+t_token			*tokenization(char *prompt);
 
 // Utils - Error management
 void			raise_perror(char *error, int critical);
@@ -71,21 +71,21 @@ void			free_one_t_token(t_token *token);
 t_token			*last_token(t_token *lst);
 
 // Utils - Tokens structure manipulation
+t_token			*ft_token_new(char *str, int token);
 void			ft_token_add_front(t_token **token, t_token *new);
 void			ft_token_add_back(t_token **token, t_token *new);
 t_token			*ft_token_copy(t_token *token);
-t_token			*ft_token_n_copy(t_token *token, unsigned int n);
-t_token			*ft_token_new(char *str, int token);
 
 // Utils - Pipes structure manipulation
+void			ft_pipe_display(t_pipe *pipes);
 void			ft_pipe_add_front(t_pipe **pipe, t_pipe *new);
 void			ft_pipe_add_back(t_pipe **pipe, t_pipe *new);
-t_pipe			*ft_pipe_new(t_token *token);
+t_pipe			*ft_pipe_new(void);
 
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
 
 // Exec
-int				execute_commands(t_token *token);
+void			ft_exec(t_token **tokens);
 
 #endif

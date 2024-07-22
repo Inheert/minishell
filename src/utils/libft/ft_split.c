@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 17:10:19 by tclaereb          #+#    #+#             */
-/*   Updated: 2023/11/06 12:04:51 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:37:53 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,13 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	count = count_strings(s, c);
-	result = (char **)malloc((count + 1) * sizeof(char *));
-	if (!result)
-		return (NULL);
+	result = ft_malloc((count + 1) * sizeof(char *));
 	if (!fill_result(result, s, c))
 	{
 		i = 0;
 		while (result[i])
-			free(result[i++]);
-		free(result);
+			ft_free(result[i++]);
+		ft_free(result);
 		return (NULL);
 	}
 	result[count] = NULL;

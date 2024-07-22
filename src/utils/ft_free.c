@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 01:28:23 by Théo              #+#    #+#             */
-/*   Updated: 2024/07/11 01:28:23 by Théo             ###   ########.fr       */
+/*   Created: 2024/07/21 23:55:15 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/07/21 23:55:15 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_free(void *ptr, size_t size)
-{
-	if (!ptr)
-		return ;
-	ft_bzero(ptr, size);
-	free(ptr);
-}
 
 void	free_str_ptr(char **ptr)
 {
@@ -30,8 +22,8 @@ void	free_str_ptr(char **ptr)
 	i = -1;
 	size = str_ptr_len(ptr);
 	while (++i < size && ptr[i])
-		ft_free(ptr[i], ft_strlen(ptr[i]));
-	ft_free(ptr, str_ptr_len(ptr));
+		ft_free(ptr[i]);
+	ft_free(ptr);
 }
 
 void	free_t_token(t_token *token)
@@ -43,11 +35,11 @@ void	free_t_token(t_token *token)
 	while (token)
 	{
 		if (token->str)
-			free(token->str);
+			ft_free(token->str);
 		token->str = NULL;
 		tmp = token;
 		token = token->next;
-		free(tmp);
+		ft_free(tmp);
 	}
 }
 
@@ -74,6 +66,6 @@ void	free_t_pipe(t_pipe *pipe)
 		free_t_token(pipe->tokens);
 		tmp = pipe;
 		pipe = pipe->next;
-		free(tmp);
+		ft_free(tmp);
 	}
 }

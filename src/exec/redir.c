@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/24 15:20:37 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/21 23:35:40 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/07/22 02:47:02 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/07/22 04:10:42 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+int	set_ftdin(t_pipe *pipes)
 {
-	char	*ptr;
-	size_t	size_max;
+	t_token	*tokens;
+	int		fd;
 
-	size_max = (size_t)-1;
-	if (nmemb == 0 || size == 0)
-		return ((char *)malloc(0));
-	if (size != 0)
-		if (nmemb > size_max / size)
-			return (NULL);
-	ptr = (char *)ft_malloc(size * nmemb);
-	ft_bzero(ptr, nmemb * size);
-	return (ptr);
+	tokens = pipes->tokens;
+	fd = 0;
+	while (tokens)
+	{
+		tokens = tokens->next;
+	}
 }

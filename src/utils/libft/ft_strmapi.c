@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:38:17 by tclaereb          #+#    #+#             */
-/*   Updated: 2023/10/30 12:04:09 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:39:04 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	len = ft_strlen(s);
 	i = 0;
 	new_s = ft_calloc(len + 1, sizeof(char));
-	if (!new_s)
-		return (NULL);
 	while (s[i])
 	{
 		new_s[i] = f(i, s[i]);
