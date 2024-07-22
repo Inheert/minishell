@@ -6,11 +6,25 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/22 01:58:27 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/22 02:27:49 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_pipe_display(t_pipe *pipes)
+{
+	while (pipes)
+	{
+		while (pipes->tokens)
+		{
+			printf("%s ", pipes->tokens->str);
+			pipes->tokens = pipes->tokens->next;
+		}
+		printf("\n");
+		pipes = pipes->next;
+	}
+}
 
 void	ft_pipe_add_front(t_pipe **pipe, t_pipe *new)
 {

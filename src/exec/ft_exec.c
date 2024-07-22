@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/22 02:11:36 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/22 05:36:38 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,19 @@ t_pipe	*prepare_pipes(t_token **tokens)
 	return (pipes);
 }
 
+// void	exec_main_processus(t_pipe *pipes)
+// {
+
+// }
+
 void	ft_exec(t_token **tokens)
 {
 	t_pipe	*pipes;
 
 	pipes = prepare_pipes(tokens);
-	while (pipes)
-	{
-		while (pipes->tokens)
-		{
-			printf("%s ", pipes->tokens->str);
-			pipes->tokens = pipes->tokens->next;
-		}
-		printf("\n");
-		pipes = pipes->next;
-	}
+	if (!pipes)
+		return ;
+	ft_pipe_display(pipes);
+	if (pipe_ptr_size(pipes) == 1)
+		exec_main_processus(pipes);
 }

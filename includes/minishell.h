@@ -75,6 +75,7 @@ void			ft_token_add_back(t_token **token, t_token *new);
 t_token			*ft_token_copy(t_token *token);
 
 // Utils - Pipes structure manipulation
+void			ft_pipe_display(t_pipe *pipes);
 void			ft_pipe_add_front(t_pipe **pipe, t_pipe *new);
 void			ft_pipe_add_back(t_pipe **pipe, t_pipe *new);
 t_pipe			*ft_pipe_new(void);
