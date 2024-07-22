@@ -23,15 +23,15 @@
 # include "../src/utils/libft/libft.h"
 # include "../src/utils/garbage_collector/includes/garbage_collector.h"
 
-# define PIPE 0
-# define STRING 1 //'$HOME' == string $HOME
-# define REDIR_APPEND_OUT 2
-# define HERE_DOC 3
-# define REDIR_IN 4
-# define REDIR_OUT 5
-# define COMMAND 6
-# define ENV 7 //$HOME
-# define EXIT_STATUS 8 //$?
+# define PIPE 1
+# define STRING 2 //'$HOME' == string $HOME
+# define REDIR_APPEND_OUT 3
+# define HERE_DOC 4
+# define REDIR_IN 5
+# define REDIR_OUT 6
+# define COMMAND 7
+# define ENV 8 //HOME
+# define EXIT_STATUS 9 //$?
 
 typedef struct s_token
 {
@@ -67,6 +67,8 @@ unsigned int	count_specific_token(t_token *token, int code);
 void			free_t_token(t_token *token);
 void			free_t_pipe(t_pipe *pipe);
 void			free_str_ptr(char **ptr);
+void			free_one_t_token(t_token *token);
+t_token			*last_token(t_token *lst);
 
 // Utils - Tokens structure manipulation
 void			ft_token_add_front(t_token **token, t_token *new);

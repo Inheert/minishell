@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garbage_collector.c                                :+:      :+:    :+:   */
+/*   ft_token_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 16:01:31 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/15 08:49:28 by cluby            ###   ########.fr       */
+/*   Created: 2023/11/05 19:09:05 by cluby             #+#    #+#             */
+/*   Updated: 2024/07/16 16:24:41 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "garbage_collector.h"
+#include "minishell.h"
 
-/* void	garbage_collector()
+t_token	*last_token(t_token *lst)
 {
-	void	*storage[10][10];
+	t_token	*temp;
+	int		last;
+	int		i;
 
-	
+	temp = lst;
+	last = token_ptr_size(temp) - 1;
+	i = 0;
+	while (i++ < last)
+		temp = temp->next;
+	return (temp);
 }
-
-void	*ft_malloc(size_t size)
-{
-	void	*ptr;
-
-	if (size <= 0)
-		return (NULL);
-	ptr = malloc(size);
-	return (ptr);
-}
-
-void	test(void)
-{
-	printf("Hello garbage\n");
-} */

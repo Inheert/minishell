@@ -51,6 +51,18 @@ void	free_t_token(t_token *token)
 	}
 }
 
+void	free_one_t_token(t_token *token)
+{
+	t_token	*tmp;
+
+	tmp = token;
+	if (!token)
+		return ;
+	if (tmp->str)
+		free(tmp->str);
+	free(tmp);
+}
+
 void	free_t_pipe(t_pipe *pipe)
 {
 	t_pipe	*tmp;

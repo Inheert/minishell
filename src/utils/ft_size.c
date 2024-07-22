@@ -30,14 +30,17 @@ unsigned int	count_specific_token(t_token *token, int code)
 
 unsigned int	token_ptr_size(t_token *token)
 {
-	unsigned int	size;
+	t_token			*temp;
+	unsigned int	count;
 
-	if (!token)
-		return (0);
-	size = 0;
-	while (token && size++)
-		token = token->next;
-	return (size);
+	count = 0;
+	temp = token;
+	while (temp)
+	{
+		temp = temp->next;
+		count++;
+	}
+	return (count);
 }
 
 unsigned int	pipe_ptr_size(t_pipe *pipe)
