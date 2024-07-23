@@ -23,6 +23,9 @@
 # include "../src/utils/libft/libft.h"
 # include "../src/utils/garbage_collector/includes/garbage_collector.h"
 
+# define malloc ft_malloc
+# define free ft_free
+
 # define PIPE 1
 # define STRING 2 //'$HOME' == string $HOME
 # define REDIR_APPEND_OUT 3
