@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/23 06:21:51 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:26:46 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,10 @@ t_pipe	*ft_pipe_new(void)
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
+}
+
+void	ft_pipe_close_fds(t_pipe *pipe)
+{
+	close(pipe->fds[0]);
+	close(pipe->fds[1]);
 }

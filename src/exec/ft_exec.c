@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/23 06:53:28 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:36:50 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,45 @@ t_pipe	*prepare_pipes(t_token **tokens)
 	return (pipes);
 }
 
-// void	exec_main_processus(t_pipe *pipes)
-// {
+void	token_management(t_pipe *pipe, t_token *token)
+{
+	int	fd;
 
-// }
+	if (token->token == REDIR_IN)
+	{
+		fd = open(token->str, O_RDONLY);
+		if (fd == -1)
+			return (ft_pipe_close_fds(pipe),
+				raise_perror("File open failed", 1));
+		if (dup2(fd, pipe->fds[0]) == -1)
+			return (ft_pipe_close_fds(pipe),
+				raise_perror("dup2 failed", 1));
+		pipe->fds[0] = fd;
+	}
+	else if (token->token == REDIR_OUT)
+	{
+		fd = open(token->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd == -1)
+			return (ft_pipe_close_fds(pipe),
+					raise_perror("File open failed", 1));
+		if (dup2(fd, pipe->fds[1]) == -1)
+			return (ft_pipe_close_fds(pipe),
+					raise_perror("dup2 failed", 1));
+		pipe->fds[1] = fd;
+	}
+}
+
+void	exec_main_processus(t_pipe *pipes)
+{
+	t_token	*tmp;
+
+	tmp = pipes->tokens;
+	while (tmp)
+	{
+		token_management(pipes, tmp);
+		tmp = tmp->next;
+	}
+}
 
 void	ft_exec(t_token **tokens)
 {
