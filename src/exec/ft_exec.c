@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/22 05:36:38 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/23 06:22:08 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void	ft_exec(t_token **tokens)
 	if (!pipes)
 		return ;
 	ft_pipe_display(pipes);
-	if (pipe_ptr_size(pipes) == 1)
-		exec_main_processus(pipes);
+	// if (pipe_ptr_size(pipes) == 1)
+	// 	exec_main_processus(pipes);
 }
