@@ -23,6 +23,9 @@
 # include "../src/utils/libft/libft.h"
 # include "../src/utils/garbage_collector/includes/garbage_collector.h"
 
+# define malloc ft_malloc
+# define free ft_free
+
 # define PIPE 1
 # define STRING 2 //'$HOME' == string $HOME
 # define REDIR_APPEND_OUT 3
@@ -68,19 +71,20 @@ void			free_t_token(t_token *token);
 void			free_t_pipe(t_pipe *pipe);
 void			free_str_ptr(char **ptr);
 void			free_one_t_token(t_token *token);
-t_token			*last_token(t_token *lst);
 
 // Utils - Tokens structure manipulation
 t_token			*ft_token_new(char *str, int token);
+t_token			*ft_token_copy(t_token *token);
+t_token			*last_token(t_token *lst);
 void			ft_token_add_front(t_token **token, t_token *new);
 void			ft_token_add_back(t_token **token, t_token *new);
-t_token			*ft_token_copy(t_token *token);
 
 // Utils - Pipes structure manipulation
+t_pipe			*ft_pipe_new(void);
 void			ft_pipe_display(t_pipe *pipes);
 void			ft_pipe_add_front(t_pipe **pipe, t_pipe *new);
 void			ft_pipe_add_back(t_pipe **pipe, t_pipe *new);
-t_pipe			*ft_pipe_new(void);
+void			ft_pipe_close_fds(t_pipe *pipe);
 
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
