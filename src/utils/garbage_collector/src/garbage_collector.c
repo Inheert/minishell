@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:01:31 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/22 11:14:34 by cluby            ###   ########.fr       */
+/*   Updated: 2024/07/23 06:10:56 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,13 @@ void	clear_garbage(t_ptr_stockage *container[CONTAINER_SIZE])
 
 void	*garbage_collector(t_garbage_action action, void *ptr)
 {
-	printf("Hello garbage\n");
+	static t_ptr_stockage	*container[CONTAINER_SIZE];
+
+	if (action == ADD)
+		add_to_garbage(container, ptr);
+	else if (action == DELETE)
+		delete_from_garbage(container, ptr);
+	else if (action == CLEAR)
+		clear_garbage(container);
+	return (NULL);
 }
