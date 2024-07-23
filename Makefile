@@ -19,7 +19,8 @@ SRCS_FILE		= main.c \
 					utils/ft_size.c \
 					utils/ft_free.c \
 					utils/ft_copy.c \
-					utils/ft_token_add.c \
+					utils/token/ft_token_add.c \
+					utils/token/ft_token_utils.c \
 					utils/ft_pipe_utils.c \
 					utils/ft_error.c \
 					exec/ft_exec.c \

@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_token_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 11:51:59 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/15 12:21:29 by cluby            ###   ########.fr       */
+/*   Created: 2023/11/05 19:09:05 by cluby             #+#    #+#             */
+/*   Updated: 2024/07/16 16:24:41 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+t_token	*last_token(t_token *lst)
 {
-	size_t	src_size;
+	t_token	*temp;
+	int		last;
+	int		i;
 
-	src_size = ft_strlen((char *)src);
-	if (size == 0)
-		return (src_size);
-	while (*src && --size)
-		*dst++ = *src++;
-	*dst = '\0';
-	return (src_size);
+	temp = lst;
+	last = token_ptr_size(temp) - 1;
+	i = 0;
+	while (i++ < last)
+		temp = temp->next;
+	return (temp);
 }

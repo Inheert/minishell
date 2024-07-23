@@ -35,8 +35,11 @@ unsigned int	token_ptr_size(t_token *token)
 	if (!token)
 		return (0);
 	size = 0;
-	while (token && size++)
+	while (token)
+	{
 		token = token->next;
+		size++;
+	}
 	return (size);
 }
 
@@ -47,8 +50,11 @@ unsigned int	pipe_ptr_size(t_pipe *pipe)
 	if (!pipe)
 		return (0);
 	size = 0;
-	while (pipe && size++)
+	while (pipe)
+	{
 		pipe = pipe->next;
+		size++;
+	}
 	return (size);
 }
 
