@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/23 10:36:50 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/24 10:35:01 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,55 +41,168 @@ t_pipe	*prepare_pipes(t_token **tokens)
 	return (pipes);
 }
 
-void	token_management(t_pipe *pipe, t_token *token)
+void	token_management(t_pipe *pipes, t_token *token)
 {
-	int	fd;
+	int		fd;
 
-	if (token->token == REDIR_IN)
+	while (token)
 	{
-		fd = open(token->str, O_RDONLY);
-		if (fd == -1)
-			return (ft_pipe_close_fds(pipe),
-				raise_perror("File open failed", 1));
-		if (dup2(fd, pipe->fds[0]) == -1)
-			return (ft_pipe_close_fds(pipe),
-				raise_perror("dup2 failed", 1));
-		pipe->fds[0] = fd;
-	}
-	else if (token->token == REDIR_OUT)
-	{
-		fd = open(token->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd == -1)
-			return (ft_pipe_close_fds(pipe),
+		if (token->token == REDIR_IN)
+		{
+			fd = open(token->str, O_RDONLY);
+			if (fd == -1)
+				return (ft_pipe_close_fds(pipes),
 					raise_perror("File open failed", 1));
-		if (dup2(fd, pipe->fds[1]) == -1)
-			return (ft_pipe_close_fds(pipe),
+			if (dup2(fd, pipes->fds[0]) == -1)
+				return (ft_pipe_close_fds(pipes),
 					raise_perror("dup2 failed", 1));
-		pipe->fds[1] = fd;
+			pipes->fds[0] = fd;
+		}
+		else if (token->token == REDIR_OUT)
+		{
+			fd = open(token->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+				return (ft_pipe_close_fds(pipes),
+						raise_perror("File open failed", 1));
+			if (dup2(fd, pipes->fds[1]) == -1)
+				return (ft_pipe_close_fds(pipes),
+						raise_perror("dup2 failed", 1));
+			pipes->fds[1] = fd;
+		}
+		token = token->next;
 	}
 }
 
-void	exec_main_processus(t_pipe *pipes)
+void	exec_main_processus(t_pipe *pipe)
 {
 	t_token	*tmp;
 
-	tmp = pipes->tokens;
+	tmp = pipe->tokens;
 	while (tmp)
 	{
-		token_management(pipes, tmp);
+		token_management(pipe, tmp);
 		tmp = tmp->next;
 	}
 }
 
-void	ft_exec(t_token **tokens)
+void	exec_first_processus(t_pipe *pipes, char **envp)
 {
-	t_pipe	*pipes;
+	t_token	*token;
+	char	**cmd;
+	char	*cmd_path;
+
+	fprintf(stderr, "test\n");
+	if (dup2(pipes->fds[0], 0) == -1)
+		raise_perror("dup2 failed", 1);
+	if (dup2(pipes->fds[1], 1) == -1)
+		raise_perror("dup2 failed", 1);
+	token_management(pipes, pipes->tokens);
+	ft_pipe_close_fds(pipes);
+	token = ft_find_token(pipes, COMMAND);
+	if (!token)
+		return (raise_error("COMMAND token not found", "func: exec_first_processus", 1));
+	cmd = ft_split(token->str, ' ');
+	if (!cmd)
+		return (raise_error("Cmd split returned NULL", "func: exec_first_processus", 1));
+	cmd_path = find_path(cmd, envp);
+	if (!cmd_path)
+		return (raise_error("Command not found", "func: exec_first_processus", 1));
+	if (execve(cmd_path, cmd, envp) == -1)
+		raise_perror("execve error", 1);
+}
+
+void	exec_middle_processus(t_pipe *pipes, char **envp)
+{
+	t_token	*token;
+	char	**cmd;
+	char	*cmd_path;
+
+	if (dup2(pipes->prev->fds[0], 0) == -1)
+		raise_perror("dup2 failed", 1);
+	if (dup2(pipes->fds[1], 1) == -1)
+		raise_perror("dup2 failed", 1);
+	token_management(pipes, pipes->tokens);
+	ft_pipe_close_fds(pipes);
+	token = ft_find_token(pipes, COMMAND);
+	if (!token)
+		return (raise_error("COMMAND token not found", "func: exec_middle_processus", 1));
+	cmd = ft_split(token->str, ' ');
+	if (!cmd)
+		return (raise_error("Cmd split returned NULL", "func: exec_middle_processus", 1));
+	cmd_path = find_path(cmd, envp);
+	if (!cmd_path)
+		return (raise_error("Command not found", "func. exec_middle_processus", 1));
+	if (execve(cmd_path, cmd, envp) == -1)
+		raise_perror("execve error", 1);
+}
+
+void	exec_last_processus(t_pipe *pipes, char **envp)
+{
+	t_token	*token;
+	char	**cmd;
+	char	*cmd_path;
+
+	if (pipes->prev && dup2(pipes->prev->fds[0], 0) == -1)
+		raise_perror("dup2 failed", 1);
+	token_management(pipes, pipes->tokens);
+	ft_pipe_close_fds(pipes);
+	token = ft_find_token(pipes, COMMAND);
+	if (!token)
+		return (raise_error("COMMAND token not found", "func: exec_last_processus", 1));
+	cmd = ft_split(token->str, ' ');
+	if (!cmd)
+		return (raise_error("Cmd split returned NULL", "func: exec_last_processus", 1));
+	cmd_path = find_path(cmd, envp);
+	if (!cmd_path)
+		return (raise_error("Command not found", "func. exec_last_processus", 1));
+	if (execve(cmd_path, cmd, envp) == -1)
+		raise_perror("execve error", 1);
+}
+
+// First sub process write output in the standard output even if an outfile is given
+// Last processus dont write output at all
+void	exec_sub_processus(t_pipe *pipes, unsigned int size, unsigned int i, char **envp)
+{
+	if (i == size)
+		exec_last_processus(pipes, envp);
+	else if (i == 1)
+		exec_first_processus(pipes, envp);
+	else
+		exec_middle_processus(pipes, envp);
+	while (pipes)
+	{
+		if (waitpid(pipes->pid, NULL, 0) == -1)
+			raise_perror("waitpid failed", 1);
+		pipes = pipes->next;
+	}
+}
+
+void	ft_exec(t_token **tokens, char **envp)
+{
+	t_pipe			*pipes;
+	unsigned int	size;
+	unsigned int	i;
 
 	pipes = prepare_pipes(tokens);
 	if (!pipes)
 		return ;
-	ft_pipe_display(pipes);
-	free_t_pipe(pipes);
+	size = pipe_ptr_size(pipes);
+	i = 1;
+	while (pipes)
+	{
+		if (size != 1)
+		{
+			if (pipe(pipes->fds) == -1)
+				raise_perror("Pipe creation failed", 1);
+		}
+		pipes->pid = fork();
+		if (pipes->pid == -1)
+			raise_perror("Fork creation failed", 1);
+		if (pipes->pid == 0)
+			exec_sub_processus(pipes, size, i, envp);
+		i++;
+		pipes = pipes->next;
+	}
 	// if (pipe_ptr_size(pipes) == 1)
 	// 	exec_main_processus(pipes);
 }
