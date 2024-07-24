@@ -18,6 +18,7 @@
 # include <errno.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../src/utils/libft/libft.h"
@@ -48,6 +49,7 @@ typedef struct s_pipe
 {
 	struct s_token *tokens;
 	int				fds[2];
+	int				pid;
 	struct s_pipe	*next;
 	struct s_pipe	*prev;
 }	t_pipe;
@@ -81,15 +83,17 @@ void			ft_token_add_back(t_token **token, t_token *new);
 
 // Utils - Pipes structure manipulation
 t_pipe			*ft_pipe_new(void);
+t_token			*ft_find_token(t_pipe *pipes, int token);
 void			ft_pipe_display(t_pipe *pipes);
-void			ft_pipe_add_front(t_pipe **pipe, t_pipe *new);
-void			ft_pipe_add_back(t_pipe **pipe, t_pipe *new);
-void			ft_pipe_close_fds(t_pipe *pipe);
+void			ft_pipe_add_front(t_pipe **pipes, t_pipe *new);
+void			ft_pipe_add_back(t_pipe **pipes, t_pipe *new);
+void			ft_pipe_close_fds(t_pipe *pipes);
 
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
+char			*find_path(char **cmd, char **envp);
 
 // Exec
-void			ft_exec(t_token **tokens);
+void			ft_exec(t_token **tokens, char **envp);
 
 #endif

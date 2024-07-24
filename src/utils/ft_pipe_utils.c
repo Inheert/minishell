@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/23 10:26:46 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/24 09:44:54 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,36 +26,41 @@ void	ft_pipe_display(t_pipe *pipes)
 	}
 }
 
-void	ft_pipe_add_front(t_pipe **pipe, t_pipe *new)
+void	ft_pipe_add_front(t_pipe **pipes, t_pipe *new)
 {
-	if (!pipe || !new)
+	if (!pipes || !new)
 		return ;
-	if (!*pipe)
+	if (!*pipes)
 	{
-		*pipe = new;
+		*pipes = new;
 		return ;
 	}
-	new->next = *pipe;
-	(*pipe)->prev = new;
-	*pipe = new;
+	new->next = *pipes;
+	(*pipes)->prev = new;
+	*pipes = new;
 }
 
-void	ft_pipe_add_back(t_pipe **pipe, t_pipe *new)
+void	ft_pipe_add_back(t_pipe **pipes, t_pipe *new)
 {
 	t_pipe	*tmp;
 
-	if (!pipe || !new)
+	if (!pipes || !new)
 		return ;
-	if (!*pipe)
+	if (!*pipes)
 	{
-		*pipe = new;
+		*pipes = new;
+		if (pipe(new->fds) == -1)
+			raise_perror("Pipe creation failed", 1);
 		return ;
 	}
-	tmp = *pipe;
+	tmp = *pipes;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
 	new->prev = tmp;
+	if (new->prev != *pipes)
+		if (pipe(new->fds) == -1)
+			raise_perror("Pipe creation failed", 1);
 }
 
 t_pipe	*ft_pipe_new(void)
@@ -71,8 +76,22 @@ t_pipe	*ft_pipe_new(void)
 	return (new);
 }
 
-void	ft_pipe_close_fds(t_pipe *pipe)
+t_token	*ft_find_token(t_pipe *pipes, int token)
 {
-	close(pipe->fds[0]);
-	close(pipe->fds[1]);
+	t_token	*tmp;
+
+	if (!pipes)
+		return (NULL);
+	tmp = pipes->tokens;
+	while (tmp && tmp->token != token)
+		tmp = tmp->next;
+	if (tmp->token != token)
+		return (NULL);
+	return (tmp);
+}
+
+void	ft_pipe_close_fds(t_pipe *pipes)
+{
+	close(pipes->fds[0]);
+	close(pipes->fds[1]);
 }
