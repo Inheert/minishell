@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/24 09:44:54 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:57:58 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	ft_pipe_add_back(t_pipe **pipes, t_pipe *new)
 	if (!*pipes)
 	{
 		*pipes = new;
-		if (pipe(new->fds) == -1)
-			raise_perror("Pipe creation failed", 1);
 		return ;
 	}
 	tmp = *pipes;
@@ -58,8 +56,8 @@ void	ft_pipe_add_back(t_pipe **pipes, t_pipe *new)
 		tmp = tmp->next;
 	tmp->next = new;
 	new->prev = tmp;
-	if (new->prev != *pipes)
-		if (pipe(new->fds) == -1)
+	if (new->prev)
+		if (pipe(new->prev->fds) == -1)
 			raise_perror("Pipe creation failed", 1);
 }
 
@@ -71,6 +69,10 @@ t_pipe	*ft_pipe_new(void)
 	new->tokens = NULL;
 	new->fds[0] = 0;
 	new->fds[1] = 1;
+	new->redir_in = -1;
+	new->redir_out = -1;
+	new->standard_input = 1;
+	new->standard_output = 1;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -90,8 +92,32 @@ t_token	*ft_find_token(t_pipe *pipes, int token)
 	return (tmp);
 }
 
+int		get_actual_input(t_pipe *pipes, int set)
+{
+	if (pipes->standard_input)
+	{
+		if (set)
+			pipes->standard_input = 0;
+		return (0);
+	}
+	return (pipes->fds[0]);
+}
+
+int		get_actual_output(t_pipe *pipes, int set)
+{
+	if (pipes->standard_output)
+	{
+		if (set)
+			pipes->standard_output = 0;
+		return (1);
+	}
+	return (pipes->fds[1]);
+}
+
 void	ft_pipe_close_fds(t_pipe *pipes)
 {
+	if (!pipes)
+		return ;
 	close(pipes->fds[0]);
 	close(pipes->fds[1]);
 }
