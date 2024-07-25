@@ -5,3 +5,7 @@ minishell
 *.a
 *.o
 src/main.c
+infile
+infile2
+outfile
+outfile2

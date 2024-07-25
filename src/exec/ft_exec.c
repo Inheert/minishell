@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/24 10:35:01 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:58:48 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,46 +43,38 @@ t_pipe	*prepare_pipes(t_token **tokens)
 
 void	token_management(t_pipe *pipes, t_token *token)
 {
-	int		fd;
+	int		fdin;
+	int		fdout;
 
+
+	fdin = -1;
+	fdout = -1;
 	while (token)
 	{
 		if (token->token == REDIR_IN)
 		{
-			fd = open(token->str, O_RDONLY);
-			if (fd == -1)
+			fdin = open(token->str, O_RDONLY);
+			if (fdin == -1)
 				return (ft_pipe_close_fds(pipes),
-					raise_perror("File open failed", 1));
-			if (dup2(fd, pipes->fds[0]) == -1)
-				return (ft_pipe_close_fds(pipes),
-					raise_perror("dup2 failed", 1));
-			pipes->fds[0] = fd;
+					raise_perror(token->str, 1));
 		}
 		else if (token->token == REDIR_OUT)
 		{
-			fd = open(token->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd == -1)
+			fdout = open(token->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fdout == -1)
 				return (ft_pipe_close_fds(pipes),
-						raise_perror("File open failed", 1));
-			if (dup2(fd, pipes->fds[1]) == -1)
-				return (ft_pipe_close_fds(pipes),
-						raise_perror("dup2 failed", 1));
-			pipes->fds[1] = fd;
+						raise_perror(token->str, 1));
 		}
 		token = token->next;
 	}
-}
-
-void	exec_main_processus(t_pipe *pipe)
-{
-	t_token	*tmp;
-
-	tmp = pipe->tokens;
-	while (tmp)
-	{
-		token_management(pipe, tmp);
-		tmp = tmp->next;
-	}
+	if (fdin != -1)
+		if (dup2(fdin, 0) == -1)
+			return (ft_pipe_close_fds(pipes),
+					raise_perror("dup2 failed", 1));
+	if (fdout != -1)
+		if (dup2(fdout, 1) == -1)
+			return (ft_pipe_close_fds(pipes),
+					raise_perror("dup2 failed", 1));
 }
 
 void	exec_first_processus(t_pipe *pipes, char **envp)
@@ -91,9 +83,6 @@ void	exec_first_processus(t_pipe *pipes, char **envp)
 	char	**cmd;
 	char	*cmd_path;
 
-	fprintf(stderr, "test\n");
-	if (dup2(pipes->fds[0], 0) == -1)
-		raise_perror("dup2 failed", 1);
 	if (dup2(pipes->fds[1], 1) == -1)
 		raise_perror("dup2 failed", 1);
 	token_management(pipes, pipes->tokens);
@@ -123,6 +112,7 @@ void	exec_middle_processus(t_pipe *pipes, char **envp)
 		raise_perror("dup2 failed", 1);
 	token_management(pipes, pipes->tokens);
 	ft_pipe_close_fds(pipes);
+	ft_pipe_close_fds(pipes->prev);
 	token = ft_find_token(pipes, COMMAND);
 	if (!token)
 		return (raise_error("COMMAND token not found", "func: exec_middle_processus", 1));
@@ -145,7 +135,7 @@ void	exec_last_processus(t_pipe *pipes, char **envp)
 	if (pipes->prev && dup2(pipes->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
 	token_management(pipes, pipes->tokens);
-	ft_pipe_close_fds(pipes);
+	ft_pipe_close_fds(pipes->prev);
 	token = ft_find_token(pipes, COMMAND);
 	if (!token)
 		return (raise_error("COMMAND token not found", "func: exec_last_processus", 1));
@@ -190,19 +180,14 @@ void	ft_exec(t_token **tokens, char **envp)
 	i = 1;
 	while (pipes)
 	{
-		if (size != 1)
-		{
-			if (pipe(pipes->fds) == -1)
-				raise_perror("Pipe creation failed", 1);
-		}
 		pipes->pid = fork();
 		if (pipes->pid == -1)
 			raise_perror("Fork creation failed", 1);
 		if (pipes->pid == 0)
 			exec_sub_processus(pipes, size, i, envp);
 		i++;
+		if (pipes->prev)
+			ft_pipe_close_fds(pipes->prev);
 		pipes = pipes->next;
 	}
-	// if (pipe_ptr_size(pipes) == 1)
-	// 	exec_main_processus(pipes);
 }

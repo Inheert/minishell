@@ -49,6 +49,10 @@ typedef struct s_pipe
 {
 	struct s_token *tokens;
 	int				fds[2];
+	int				redir_in;
+	int				redir_out;
+	int				standard_input;
+	int				standard_output;
 	int				pid;
 	struct s_pipe	*next;
 	struct s_pipe	*prev;
@@ -88,6 +92,8 @@ void			ft_pipe_display(t_pipe *pipes);
 void			ft_pipe_add_front(t_pipe **pipes, t_pipe *new);
 void			ft_pipe_add_back(t_pipe **pipes, t_pipe *new);
 void			ft_pipe_close_fds(t_pipe *pipes);
+int				get_actual_input(t_pipe *pipes, int set);
+int				get_actual_output(t_pipe *pipes, int set);
 
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
