@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/07/24 12:38:25 by cluby            ###   ########.fr       */
+/*   Updated: 2024/08/02 00:48:22 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,9 @@ t_token *tokenization(char *prompt)
 			else
 			{
 				if (token)
-					ft_token_add_back(&token, ft_token_new(">", REDIR_IN));
+					ft_token_add_back(&token, ft_token_new(">", REDIR_OUT));
 				else
-					token = ft_token_new(">", REDIR_IN);
+					token = ft_token_new(">", REDIR_OUT);
 			}
 			i++;
 		}
