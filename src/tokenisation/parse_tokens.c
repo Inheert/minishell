@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:59:31 by cluby             #+#    #+#             */
-/*   Updated: 2024/08/02 01:05:11 by cluby            ###   ########.fr       */
+/*   Updated: 2024/08/02 01:54:11 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,18 @@ static void	redir(t_token *token)
 	}
 }
 
+
 void	parse_tokens(t_token *token)
 {
 	while (token)
 	{
 		if (token->token == ENV)
 		{
-			token->token = EXIT_STATUS;
+			if (token->str[0] == '?' && token->str[1] == '\0')
+				token->token = EXIT_STATUS;
 		}
 		redir(token);
+		//pas complet
 		if (token->str[0] == '\0')
 		{
 			if (token->prev)
