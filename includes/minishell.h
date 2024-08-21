@@ -67,6 +67,9 @@ typedef struct s_pipe
 }	t_pipe;
 
 t_token			*tokenization(char *prompt);
+void			parse_tokens(t_token *token);
+char			*first_word_next_token(t_token *token);
+char			*delete_first_word(char *str);
 
 // Utils - Error management
 void			raise_perror(char *error, int critical);
@@ -110,6 +113,7 @@ void			ft_echo(char **cmd);
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
 char			*find_path(char **cmd, char **envp);
+char			*ft_first_word(char *str);
 
 // Exec
 void			exec_builtins(char **cmd);
