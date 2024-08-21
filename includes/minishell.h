@@ -95,6 +95,7 @@ t_token			*ft_token_copy(t_token *token);
 t_token			*last_token(t_token *lst);
 void			ft_token_add_front(t_token **token, t_token *new);
 void			ft_token_add_back(t_token **token, t_token *new);
+void			ft_token_del(t_token **tokens, t_token *del);
 
 // Utils - Pipes structure manipulation
 t_pipe			*ft_pipe_new(void);

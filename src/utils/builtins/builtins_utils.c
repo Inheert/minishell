@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 22:16:50 by Théo              #+#    #+#             */
-/*   Updated: 2024/08/21 23:18:56 by Théo             ###   ########.fr       */
+/*   Updated: 2024/08/22 01:46:44 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,20 @@
 
 int	is_command_builtin(char *cmd)
 {
-	if (ft_strncmp(cmd, ECHO, 4))
+	printf("%s %d\n", cmd, ft_strncmp(cmd, "echd", 4) == 0);
+	if (ft_strncmp(cmd, ECHO, 4) == 0)
 		return (1);
-	else if (ft_strncmp(cmd, CD, 2))
+	else if (ft_strncmp(cmd, CD, 2) == 0)
 		return (1);
-	else if (ft_strncmp(cmd, PWD, 3))
+	else if (ft_strncmp(cmd, PWD, 3) == 0)
 		return (1);
-	else if (ft_strncmp(cmd, EXPORT, 6))
+	else if (ft_strncmp(cmd, EXPORT, 6) == 0)
 		return (1);
-	else if (ft_strncmp(cmd, UNSET, 5))
+	else if (ft_strncmp(cmd, UNSET, 5) == 0)
 		return (1);
-	else if (ft_strncmp(cmd, _ENV, 3))
+	else if (ft_strncmp(cmd, _ENV, 3) == 0)
 		return (1);
-	else if (ft_strncmp(cmd, EXIT, 4))
+	else if (ft_strncmp(cmd, EXIT, 4) == 0)
 		return (1);
 	return (0);
 }
