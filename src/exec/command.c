@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 07:34:17 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/24 08:16:34 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/21 22:53:12 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	*find_path(char **cmd, char **envp)
 	if (ft_strlen(cmd[0]) == 0)
 		return (free_str_ptr(cmd), raise_error("Command not valid",
 				"command len is equal to 0", 1), NULL);
+	if (is_command_builtin(cmd[0]))
+		return (cmd[0]);
 	if (!envp || !*envp)
 		return (free_str_ptr(cmd),
 			raise_error("envp error", "envp is missing or NULL", 1), NULL);

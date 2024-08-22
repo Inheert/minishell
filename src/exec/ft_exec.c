@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/25 09:58:48 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/22 01:44:40 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	exec_first_processus(t_pipe *pipes, char **envp)
 	cmd_path = find_path(cmd, envp);
 	if (!cmd_path)
 		return (raise_error("Command not found", "func: exec_first_processus", 1));
+	if (is_command_builtin(cmd_path))
+		exec_builtins(cmd);
 	if (execve(cmd_path, cmd, envp) == -1)
 		raise_perror("execve error", 1);
 }
@@ -122,6 +124,8 @@ void	exec_middle_processus(t_pipe *pipes, char **envp)
 	cmd_path = find_path(cmd, envp);
 	if (!cmd_path)
 		return (raise_error("Command not found", "func. exec_middle_processus", 1));
+	if (is_command_builtin(cmd_path))
+		exec_builtins(cmd);
 	if (execve(cmd_path, cmd, envp) == -1)
 		raise_perror("execve error", 1);
 }
@@ -145,6 +149,8 @@ void	exec_last_processus(t_pipe *pipes, char **envp)
 	cmd_path = find_path(cmd, envp);
 	if (!cmd_path)
 		return (raise_error("Command not found", "func. exec_last_processus", 1));
+	if (is_command_builtin(cmd_path))
+		exec_builtins(cmd);
 	if (execve(cmd_path, cmd, envp) == -1)
 		raise_perror("execve error", 1);
 }

@@ -37,6 +37,14 @@
 # define ENV 8 //HOME
 # define EXIT_STATUS 9 //$?
 
+# define ECHO "echo"
+# define CD "cd"
+# define PWD "pwd"
+# define EXPORT "export"
+# define UNSET "unset"
+# define _ENV "env"
+# define EXIT "exit"
+
 typedef struct s_token
 {
 	char		*str;
@@ -87,6 +95,7 @@ t_token			*ft_token_copy(t_token *token);
 t_token			*last_token(t_token *lst);
 void			ft_token_add_front(t_token **token, t_token *new);
 void			ft_token_add_back(t_token **token, t_token *new);
+void			ft_token_del(t_token **tokens, t_token *del);
 
 // Utils - Pipes structure manipulation
 t_pipe			*ft_pipe_new(void);
@@ -98,12 +107,17 @@ void			ft_pipe_close_fds(t_pipe *pipes);
 int				get_actual_input(t_pipe *pipes, int set);
 int				get_actual_output(t_pipe *pipes, int set);
 
+// Utils - Builtins
+int				is_command_builtin(char *cmd);
+void			ft_echo(char **cmd);
+
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
 char			*find_path(char **cmd, char **envp);
 char			*ft_first_word(char *str);
 
 // Exec
+void			exec_builtins(char **cmd);
 void			ft_exec(t_token **tokens, char **envp);
 
 #endif
