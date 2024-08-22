@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/08/02 00:48:22 by cluby            ###   ########.fr       */
+/*   Updated: 2024/08/21 23:01:04 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,17 @@ t_token *tokenization(char *prompt)
 	j = 0;
 	while (prompt[i] != '\0')
 	{
-		while (prompt[i] == ' ' || prompt[i] == '\t')
+		if (prompt[i] == ' ' || prompt[i] == '\t')
+		{
+			j = i;
 			i++;
+			while (prompt[i] == ' ' || prompt[i] == '\t')
+				i++;
+			if (token)
+				ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), BLANK));
+			else
+				token = ft_token_new(ft_substr(prompt, j, i - j), BLANK);
+		}
 		if (prompt[i] == '\'')
 		{
 			i++;
@@ -56,9 +65,9 @@ t_token *tokenization(char *prompt)
 			if (prompt[i] == '\0')
 				return (NULL); //error
 			if (token)
-				ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), STRING));
+				ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), QUOTE));
 			else
-				token = ft_token_new(ft_substr(prompt, j, i - j), STRING);
+				token = ft_token_new(ft_substr(prompt, j, i - j), QUOTE);
 			i++;
 		}
 		if (prompt[i] == '"')
@@ -70,9 +79,9 @@ t_token *tokenization(char *prompt)
 				while (prompt[i] != '$' && prompt[i] != '\0' && prompt[i] != '\"')
 					i++;
 				if (token)
-					ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), STRING));
+					ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), QUOTE));
 				else
-					token = ft_token_new(ft_substr(prompt, j, i - j), STRING);
+					token = ft_token_new(ft_substr(prompt, j, i - j), QUOTE);
 				if (prompt[i] == '$')
 				{
 					i++;
@@ -100,7 +109,7 @@ t_token *tokenization(char *prompt)
 		}
 		if (prompt[i] == '<')
 		{
-			if (prompt[i + 1] == '<')
+			if (prompt[i + 1] && prompt[i + 1] == '<')
 			{
 				if (token)
 					ft_token_add_back(&token, ft_token_new("<<", HERE_DOC));
@@ -119,7 +128,7 @@ t_token *tokenization(char *prompt)
 		}
 		if (prompt[i] == '>')
 		{
-			if (prompt[i + 1] == '>')
+			if (prompt[i + 1] && prompt[i + 1] == '>')
 			{
 				if (token)
 					ft_token_add_back(&token, ft_token_new(">>", REDIR_APPEND_OUT));
@@ -149,13 +158,13 @@ t_token *tokenization(char *prompt)
 			split_env(last_token(token));
 		}
 		j = i;
-		while (ft_isascii(prompt[i]) && prompt[i] != '\0' && prompt[i] != '<' && prompt[i] != '>' && prompt[i] != '|' && prompt[i] != '\'' && prompt[i] != '"' && prompt[i] != '$')
+		while (ft_isascii(prompt[i]) && prompt[i] != '\0' && prompt[i] != '<' && prompt[i] != '>' && prompt[i] != '|' && prompt[i] != '\'' && prompt[i] != '"' && prompt[i] != '$' && prompt[i] != ' ' && prompt[i] != '\t')
 		{
 			i++;
 		}
-		if (token)
+		if (token && i != j)
 			ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), STRING));
-		else
+		else if (i != j)
 			token = ft_token_new(ft_substr(prompt, j, i - j), STRING);
 	}
 	return (token);
