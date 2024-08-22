@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/25 09:58:48 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:11:05 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,23 +159,19 @@ void	exec_sub_processus(t_pipe *pipes, unsigned int size, unsigned int i, char *
 		exec_first_processus(pipes, envp);
 	else
 		exec_middle_processus(pipes, envp);
-	while (pipes)
-	{
-		if (waitpid(pipes->pid, NULL, 0) == -1)
-			raise_perror("waitpid failed", 1);
-		pipes = pipes->next;
-	}
 }
 
 void	ft_exec(t_token **tokens, char **envp)
 {
 	t_pipe			*pipes;
+	t_pipe			*tmp;
 	unsigned int	size;
 	unsigned int	i;
 
 	pipes = prepare_pipes(tokens);
 	if (!pipes)
 		return ;
+	tmp = pipes;
 	size = pipe_ptr_size(pipes);
 	i = 1;
 	while (pipes)
@@ -189,5 +185,11 @@ void	ft_exec(t_token **tokens, char **envp)
 		if (pipes->prev)
 			ft_pipe_close_fds(pipes->prev);
 		pipes = pipes->next;
+	}
+	while (tmp)
+	{
+		if (waitpid(tmp->pid, NULL, 0) == -1)
+			raise_perror("waitpid failed", 1);
+		tmp = tmp->next;
 	}
 }
