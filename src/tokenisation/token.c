@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/08/21 23:01:04 by cluby            ###   ########.fr       */
+/*   Updated: 2024/08/22 20:21:54 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_token *tokenization(char *prompt)
 		if (prompt[i] == '|')
 		{
 			if (token)
-				ft_token_add_back(&token, ft_token_new("|", PIPE));
+				ft_token_add_back(&token, ft_token_new(NULL, PIPE));
 			else
 				token = ft_token_new("|", PIPE);
 			i++;
