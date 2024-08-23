@@ -62,10 +62,7 @@ typedef struct s_pipe
 {
 	struct s_token *tokens;
 	int				fds[2];
-	int				redir_in;
-	int				redir_out;
-	int				standard_input;
-	int				standard_output;
+	int				here_doc[2];
 	int				pid;
 	struct s_pipe	*next;
 	struct s_pipe	*prev;
@@ -93,12 +90,14 @@ void			free_str_ptr(char **ptr);
 void			free_one_t_token(t_token *token);
 
 // Utils - Tokens structure manipulation
+char			**token_struct_to_str_ptr(t_token *lst);
 t_token			*ft_token_new(char *str, int token);
 t_token			*ft_token_copy(t_token *token);
 t_token			*last_token(t_token *lst);
 void			ft_token_add_front(t_token **token, t_token *new);
 void			ft_token_add_back(t_token **token, t_token *new);
 void			ft_token_del(t_token **tokens, t_token *del);
+void			display_tokens(t_token *lst);
 
 // Utils - Pipes structure manipulation
 t_pipe			*ft_pipe_new(void);
@@ -107,8 +106,6 @@ void			ft_pipe_display(t_pipe *pipes);
 void			ft_pipe_add_front(t_pipe **pipes, t_pipe *new);
 void			ft_pipe_add_back(t_pipe **pipes, t_pipe *new);
 void			ft_pipe_close_fds(t_pipe *pipes);
-int				get_actual_input(t_pipe *pipes, int set);
-int				get_actual_output(t_pipe *pipes, int set);
 
 // Utils - Builtins
 int				is_command_builtin(char *cmd);

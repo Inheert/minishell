@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/22 20:25:43 by cluby            ###   ########.fr       */
+/*   Updated: 2024/08/23 17:18:43 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ t_pipe	*ft_pipe_new(void)
 	new->tokens = NULL;
 	new->fds[0] = 0;
 	new->fds[1] = 1;
-	new->redir_in = -1;
-	new->redir_out = -1;
-	new->standard_input = 1;
-	new->standard_output = 1;
+	new->here_doc[0] = -1;
+	new->here_doc[1] = -1;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -90,28 +88,6 @@ t_token	*ft_find_token(t_pipe *pipes, e_token token)
 	if (tmp->token != token)
 		return (NULL);
 	return (tmp);
-}
-
-int		get_actual_input(t_pipe *pipes, int set)
-{
-	if (pipes->standard_input)
-	{
-		if (set)
-			pipes->standard_input = 0;
-		return (0);
-	}
-	return (pipes->fds[0]);
-}
-
-int		get_actual_output(t_pipe *pipes, int set)
-{
-	if (pipes->standard_output)
-	{
-		if (set)
-			pipes->standard_output = 0;
-		return (1);
-	}
-	return (pipes->fds[1]);
 }
 
 void	ft_pipe_close_fds(t_pipe *pipes)
