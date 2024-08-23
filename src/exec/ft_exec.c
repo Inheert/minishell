@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/23 15:44:41 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/23 17:13:42 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_pipe	*prepare_pipes(t_token **tokens)
 void	token_management(t_pipe *pipes, t_token *token)
 {
 	t_token	*tmp;
+	char	*buff;
 	int		fdin;
 	int		fdout;
 
@@ -54,8 +55,26 @@ void	token_management(t_pipe *pipes, t_token *token)
 		tmp = NULL;
 		if (token->token == HERE_DOC)
 		{
-			write(1, "> ", 2);
-			printf("ha: %s\n", get_next_line(0));
+			fprintf(stderr, "equal %d\n", pipes->here_doc[0] == -1 && pipes->here_doc[1] == -1);
+			if (pipes->here_doc[0] == -1 && pipes->here_doc[1] == -1)
+			{
+				if (pipe(pipes->here_doc) == -1)
+					raise_perror("Here_doc buffer creation failed (pipe)", 1);
+			}
+			while (1)
+			{
+				write(1, "> ", 2);
+				buff = ft_strtrim(get_next_line(0), " \n");
+				if (ft_strncmp(buff, token->str, ft_strlen(token->str)) == 0)
+					break ;
+				else
+				{
+					write(pipes->here_doc[1], buff, ft_strlen(buff));
+					write(pipes->here_doc[1], "\n", 1);
+				}
+			}
+			if (dup2(pipes->here_doc[0], 0) == -1)
+				return (ft_pipe_close_fds(pipes), raise_perror("dup2 failed", 1));
 			tmp = token;
 		}
 		else if (token->token == REDIR_IN)
@@ -149,7 +168,11 @@ void	exec_last_processus(t_pipe *pipes, char **envp)
 	if (pipes->prev && dup2(pipes->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
 	token_management(pipes, pipes->tokens);
+	if (pipes->here_doc[0] != -1 && dup2(pipes->here_doc[0], 0) == -1)
+		raise_perror("dup2 failed", 1);
 	ft_pipe_close_fds(pipes->prev);
+	close(pipes->here_doc[0]);
+	close(pipes->here_doc[1]);
 	token = ft_find_token(pipes, COMMAND);
 	if (!token)
 		return (raise_error("COMMAND token not found", "func: exec_last_processus", 1));
