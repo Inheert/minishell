@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/23 17:06:54 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/23 17:18:43 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,4 @@ void	ft_pipe_close_fds(t_pipe *pipes)
 		return ;
 	close(pipes->fds[0]);
 	close(pipes->fds[1]);
-	close(pipes->here_doc[0]);
-	close(pipes->here_doc[1]);
 }
