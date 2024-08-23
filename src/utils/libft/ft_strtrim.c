@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 16:33:42 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/21 23:38:45 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/23 17:17:46 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	is_in_set(char c, const char *set)
 	return (0);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char *s1, char const *set)
 {
 	char	*result;
 	size_t	start;
@@ -41,5 +41,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	new_len = end - start;
 	result = ft_calloc(new_len + 1, sizeof(char));
 	ft_strlcpy(result, s1 + start, new_len + 1);
+	ft_free(s1);
 	return (result);
 }
