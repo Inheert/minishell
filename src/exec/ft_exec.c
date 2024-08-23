@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/22 15:44:23 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:44:41 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_pipe	*prepare_pipes(t_token **tokens)
 
 void	token_management(t_pipe *pipes, t_token *token)
 {
+	t_token	*tmp;
 	int		fdin;
 	int		fdout;
 
@@ -50,10 +51,12 @@ void	token_management(t_pipe *pipes, t_token *token)
 	fdout = -1;
 	while (token)
 	{
+		tmp = NULL;
 		if (token->token == HERE_DOC)
 		{
 			write(1, "> ", 2);
 			printf("ha: %s\n", get_next_line(0));
+			tmp = token;
 		}
 		else if (token->token == REDIR_IN)
 		{
@@ -61,15 +64,18 @@ void	token_management(t_pipe *pipes, t_token *token)
 			if (fdin == -1)
 				return (ft_pipe_close_fds(pipes),
 					raise_perror(token->str, 1));
+			tmp = token;
 		}
 		else if (token->token == REDIR_OUT)
 		{
 			fdout = open(token->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fdout == -1)
 				return (ft_pipe_close_fds(pipes),
-						raise_perror(token->str, 1));
+					raise_perror(token->str, 1));
+			tmp = token;
 		}
 		token = token->next;
+		ft_token_del(&pipes->tokens, tmp);
 	}
 	if (fdin != -1)
 		if (dup2(fdin, 0) == -1)
@@ -94,12 +100,12 @@ void	exec_first_processus(t_pipe *pipes, char **envp)
 	token = ft_find_token(pipes, COMMAND);
 	if (!token)
 		return (raise_error("COMMAND token not found", "func: exec_first_processus", 1));
-	cmd = ft_split(token->str, ' ');
+	cmd = token_struct_to_str_ptr(token);
 	if (!cmd)
 		return (raise_error("Cmd split returned NULL", "func: exec_first_processus", 1));
 	cmd_path = find_path(cmd, envp);
 	if (!cmd_path)
-		return (raise_error("Command not found", "func: exec_first_processus", 1));
+		return (raise_error(cmd[0], "command not found", 1));
 	if (is_command_builtin(cmd_path))
 		exec_builtins(cmd);
 	if (execve(cmd_path, cmd, envp) == -1)
@@ -122,12 +128,12 @@ void	exec_middle_processus(t_pipe *pipes, char **envp)
 	token = ft_find_token(pipes, COMMAND);
 	if (!token)
 		return (raise_error("COMMAND token not found", "func: exec_middle_processus", 1));
-	cmd = ft_split(token->str, ' ');
+	cmd = token_struct_to_str_ptr(token);
 	if (!cmd)
 		return (raise_error("Cmd split returned NULL", "func: exec_middle_processus", 1));
 	cmd_path = find_path(cmd, envp);
 	if (!cmd_path)
-		return (raise_error("Command not found", "func. exec_middle_processus", 1));
+		return (raise_error(cmd[0], "command not found", 1));
 	if (is_command_builtin(cmd_path))
 		exec_builtins(cmd);
 	if (execve(cmd_path, cmd, envp) == -1)
@@ -147,12 +153,12 @@ void	exec_last_processus(t_pipe *pipes, char **envp)
 	token = ft_find_token(pipes, COMMAND);
 	if (!token)
 		return (raise_error("COMMAND token not found", "func: exec_last_processus", 1));
-	cmd = ft_split(token->str, ' ');
+	cmd = token_struct_to_str_ptr(token);
 	if (!cmd)
 		return (raise_error("Cmd split returned NULL", "func: exec_last_processus", 1));
 	cmd_path = find_path(cmd, envp);
 	if (!cmd_path)
-		return (raise_error("Command not found", "func. exec_last_processus", 1));
+		return (raise_error(cmd[0], "command not found", 1));
 	if (is_command_builtin(cmd_path))
 		exec_builtins(cmd);
 	if (execve(cmd_path, cmd, envp) == -1)

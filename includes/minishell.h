@@ -93,12 +93,14 @@ void			free_str_ptr(char **ptr);
 void			free_one_t_token(t_token *token);
 
 // Utils - Tokens structure manipulation
+char			**token_struct_to_str_ptr(t_token *lst);
 t_token			*ft_token_new(char *str, int token);
 t_token			*ft_token_copy(t_token *token);
 t_token			*last_token(t_token *lst);
 void			ft_token_add_front(t_token **token, t_token *new);
 void			ft_token_add_back(t_token **token, t_token *new);
 void			ft_token_del(t_token **tokens, t_token *del);
+void			display_tokens(t_token *lst);
 
 // Utils - Pipes structure manipulation
 t_pipe			*ft_pipe_new(void);
