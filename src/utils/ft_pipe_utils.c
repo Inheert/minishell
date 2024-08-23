@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/25 09:57:58 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:25:43 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_pipe	*ft_pipe_new(void)
 	return (new);
 }
 
-t_token	*ft_find_token(t_pipe *pipes, int token)
+t_token	*ft_find_token(t_pipe *pipes, e_token token)
 {
 	t_token	*tmp;
 
