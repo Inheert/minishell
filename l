@@ -1,0 +1,13 @@
+|
+2
+a
+bin
+cluby
+dev
+includes
+l
+Makefile
+minishell
+outfile
+src
+valgrind_ignore.supp
