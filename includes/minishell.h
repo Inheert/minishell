@@ -27,16 +27,6 @@
 # define malloc ft_malloc
 # define free ft_free
 
-# define PIPE 1
-# define STRING 2 //'$HOME' == string $HOME
-# define REDIR_APPEND_OUT 3
-# define HERE_DOC 4
-# define REDIR_IN 5
-# define REDIR_OUT 6
-# define COMMAND 7
-# define ENV 8 //HOME
-# define EXIT_STATUS 9 //$?
-
 # define ECHO "echo"
 # define CD "cd"
 # define PWD "pwd"
@@ -45,10 +35,25 @@
 # define _ENV "env"
 # define EXIT "exit"
 
+typedef enum token
+{
+	PIPE,
+	STRING, //'$HOME' == string $HOME
+	REDIR_APPEND_OUT,
+	HERE_DOC,
+	REDIR_IN,
+	REDIR_OUT,
+	COMMAND,
+	ENV, //HOME
+	EXIT_STATUS, //$?
+	QUOTE,
+	BLANK
+} 	e_token ;
+
 typedef struct s_token
 {
-	char		*str;
-	int			token;
+	char			*str;
+	e_token			token;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -68,8 +73,6 @@ typedef struct s_pipe
 
 t_token			*tokenization(char *prompt);
 void			parse_tokens(t_token *token);
-char			*first_word_next_token(t_token *token);
-char			*delete_first_word(char *str);
 
 // Utils - Error management
 void			raise_perror(char *error, int critical);
@@ -81,7 +84,7 @@ unsigned int	pipe_ptr_size(t_pipe *pipe);
 unsigned int	str_ptr_len(char **ptr);
 unsigned int	fd_ptr_len(int (*fd)[2]);
 unsigned int	count_infile(char *s);
-unsigned int	count_specific_token(t_token *token, int code);
+unsigned int	count_specific_token(t_token *token, e_token code);
 
 // Utils - Malloc free functions
 void			free_t_token(t_token *token);
@@ -99,7 +102,7 @@ void			ft_token_del(t_token **tokens, t_token *del);
 
 // Utils - Pipes structure manipulation
 t_pipe			*ft_pipe_new(void);
-t_token			*ft_find_token(t_pipe *pipes, int token);
+t_token			*ft_find_token(t_pipe *pipes, e_token token);
 void			ft_pipe_display(t_pipe *pipes);
 void			ft_pipe_add_front(t_pipe **pipes, t_pipe *new);
 void			ft_pipe_add_back(t_pipe **pipes, t_pipe *new);
@@ -114,7 +117,6 @@ void			ft_echo(char **cmd);
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
 char			*find_path(char **cmd, char **envp);
-char			*ft_first_word(char *str);
 
 // Exec
 void			exec_builtins(char **cmd);

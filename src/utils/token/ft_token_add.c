@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_token_add.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:32:52 by Théo              #+#    #+#             */
-/*   Updated: 2024/08/22 01:41:20 by Théo             ###   ########.fr       */
+/*   Updated: 2024/08/22 19:59:41 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_token_del(t_token **tokens, t_token *del)
 		if (del->next)
 			del->next->prev = del->prev;
 	}
-	free_t_token(del);
+	free_one_t_token(del);
 }
 
 t_token	*ft_token_copy(t_token *token)

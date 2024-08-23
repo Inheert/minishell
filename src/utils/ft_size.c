@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-unsigned int	count_specific_token(t_token *token, int code)
+unsigned int	count_specific_token(t_token *token, e_token code)
 {
 	unsigned int	size;
 
