@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/23 19:08:43 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/23 19:15:43 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,14 @@ void	token_management(t_pipe *pipes, t_token *token)
 		if (dup2(fdin, 0) == -1)
 			return (ft_pipe_close_fds(pipes),
 					raise_perror("dup2 failed", 1));
+		pipes->fds[0] = fdin;
 	}
 	if (fdout != -1)
 	{
 		if (dup2(fdout, 1) == -1)
 			return (ft_pipe_close_fds(pipes),
 					raise_perror("dup2 failed", 1));
+		pipes->fds[1] = fdout;
 	}
 }
 
