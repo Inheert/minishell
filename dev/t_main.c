@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:11:56 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/23 19:19:22 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/24 13:50:03 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@ void	tester(char **envp)
 {
 	t_token	*tokens;
 
-	// printf("FIRST TEST:\n\n");
+	printf("FIRST TEST:\n\n");
 
-	// tokens = ft_token_new("infile", REDIR_IN);
-	// ft_token_add_back(&tokens, ft_token_new("aff", COMMAND));
-	// ft_token_add_back(&tokens, ft_token_new("abc", STRING));
-	// ft_token_add_back(&tokens, ft_token_new("infile2", REDIR_IN));
-	// ft_token_add_back(&tokens, ft_token_new(NULL, PIPE));
-	// ft_token_add_back(&tokens, ft_token_new("wc", COMMAND));
-	// //ft_token_add_back(&tokens, ft_token_new("outfile", REDIR_OUT));
-	// ft_token_add_back(&tokens, ft_token_new(NULL, PIPE));
-	// ft_token_add_back(&tokens, ft_token_new("cat", COMMAND));
-	// ft_exec(&tokens, envp);
-	// ft_free_all();
+	tokens = ft_token_new("infile", REDIR_IN);
+	ft_token_add_back(&tokens, ft_token_new("aff", COMMAND));
+	ft_token_add_back(&tokens, ft_token_new("abc", STRING));
+	ft_token_add_back(&tokens, ft_token_new("infile2", REDIR_IN));
+	ft_token_add_back(&tokens, ft_token_new(NULL, PIPE));
+	ft_token_add_back(&tokens, ft_token_new("wc", COMMAND));
+	//ft_token_add_back(&tokens, ft_token_new("outfile", REDIR_OUT));
+	ft_token_add_back(&tokens, ft_token_new(NULL, PIPE));
+	ft_token_add_back(&tokens, ft_token_new("cat", COMMAND));
+	ft_exec(&tokens, envp);
+	ft_free_all();
 
-	// usleep(10000);
+	usleep(10000);
 
 	// ft_putstr_fd("\n------------------------------\n", 0);
 
@@ -41,6 +41,8 @@ void	tester(char **envp)
 	// ft_token_add_back(&tokens, ft_token_new("cat", COMMAND));
 	// ft_exec(&tokens, envp);
 	// ft_free_all();
+
+	usleep(10000);
 
 	ft_putstr_fd("\n------------------------------\n", 0);
 
@@ -55,6 +57,8 @@ void	tester(char **envp)
 	ft_token_add_back(&tokens, ft_token_new("wc", COMMAND));
 	ft_exec(&tokens, envp);
 	ft_free_all();
+
+	usleep(10000);
 
 	ft_putstr_fd("\\nn------------------------------\n", 0);
 

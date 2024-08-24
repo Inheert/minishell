@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/23 19:15:43 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/24 16:08:40 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,10 @@ void	exec_first_processus(t_pipe *pipes, char **envp)
 	if (dup2(pipes->fds[1], 1) == -1)
 		raise_perror("dup2 failed", 1);
 	ft_pipe_close_fds(pipes);
-	close(pipes->here_doc[0]);
-	close(pipes->here_doc[1]);
+	if (pipes->here_doc[0] != -1)
+		close(pipes->here_doc[0]);
+	if (pipes->here_doc[1] != -1)
+		close(pipes->here_doc[1]);
 	token = ft_find_token(pipes, COMMAND);
 	if (!token)
 		return (raise_error("COMMAND token not found", "func: exec_first_processus", 1));
@@ -149,8 +151,10 @@ void	exec_middle_processus(t_pipe *pipes, char **envp)
 		raise_perror("dup2 failed", 1);
 	ft_pipe_close_fds(pipes);
 	ft_pipe_close_fds(pipes->prev);
-	close(pipes->here_doc[0]);
-	close(pipes->here_doc[1]);
+	if (pipes->here_doc[0] != -1)
+		close(pipes->here_doc[0]);
+	if (pipes->here_doc[1] != -1)
+		close(pipes->here_doc[1]);
 	token = ft_find_token(pipes, COMMAND);
 	if (!token)
 		return (raise_error("COMMAND token not found", "func: exec_middle_processus", 1));
@@ -176,8 +180,10 @@ void	exec_last_processus(t_pipe *pipes, char **envp)
 	if (pipes->prev && dup2(pipes->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
 	ft_pipe_close_fds(pipes->prev);
-	close(pipes->here_doc[0]);
-	close(pipes->here_doc[1]);
+	if (pipes->here_doc[0] != -1)
+		close(pipes->here_doc[0]);
+	if (pipes->here_doc[1] != -1)
+		close(pipes->here_doc[1]);
 	token = ft_find_token(pipes, COMMAND);
 	if (!token)
 		return (raise_error("COMMAND token not found", "func: exec_last_processus", 1));
@@ -205,6 +211,21 @@ void	exec_sub_processus(t_pipe *pipes, unsigned int size, unsigned int i, char *
 		exec_middle_processus(pipes, envp);
 }
 
+void	exec_main_processus(t_pipe *pipes, char **envp)
+{
+	t_token	*token;
+	char	**cmd;
+
+	envp = (char **)envp;
+	token = ft_find_token(pipes, COMMAND);
+	if (!token)
+		return (raise_error("COMMAND token not found", "func: exec_last_processus", 1));
+	cmd = token_struct_to_str_ptr(token);
+	if (!cmd)
+		return (raise_error("Cmd split returned NULL", "func: exec_last_processus", 1));
+	exec_builtins(cmd);
+}
+
 void	ft_exec(t_token **tokens, char **envp)
 {
 	t_pipe			*pipes;
@@ -218,6 +239,8 @@ void	ft_exec(t_token **tokens, char **envp)
 	tmp = pipes;
 	size = pipe_ptr_size(pipes);
 	i = 1;
+	if (size == 1 && ft_find_token(pipes, COMMAND) && is_command_builtin(ft_find_token(pipes, COMMAND)->str))
+		return (exec_main_processus(pipes, envp));
 	while (pipes)
 	{
 		pipes->pid = fork();

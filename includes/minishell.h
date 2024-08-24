@@ -18,6 +18,7 @@
 # include <errno.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <dirent.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -110,6 +111,8 @@ void			ft_pipe_close_fds(t_pipe *pipes);
 // Utils - Builtins
 int				is_command_builtin(char *cmd);
 void			ft_echo(char **cmd);
+void			ft_pwd(void);
+void			ft_cd(char **cmd);
 
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
