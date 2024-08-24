@@ -4,6 +4,7 @@ src/main.c
 minishell
 *.a
 *.o
+*.txt
 src/main.c
 infile
 infile2

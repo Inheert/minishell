@@ -1,0 +1,2 @@
+Check why cat | cat | ls dont work as excepted (maybe because of a unclosed fd or the wait pids)
+
