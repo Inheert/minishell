@@ -32,6 +32,8 @@ SRCS_FILE		= main.c \
 					exec/ft_exec.c \
 					exec/processus_management.c \
 					exec/command.c \
+					exec/tokens/here_doc.c \
+					exec/tokens/redir.c \
 					tokenisation/token.c\
 					tokenisation/parse_tokens.c\
 

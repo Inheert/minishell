@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/24 16:41:11 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/24 17:09:13 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,53 +55,14 @@ void	token_management(t_pipe *pipes, t_token *token)
 		tmp = NULL;
 		buff = NULL;
 		if (token->token == HERE_DOC)
-		{
-			if (pipes->here_doc[0] == -1 && pipes->here_doc[1] == -1)
-				if (pipe(pipes->here_doc) == -1)
-					raise_perror("Here_doc buffer creation failed (pipe)", 1);
-			while (1)
-			{
-				buff = readline("> ");
-				if (buff && ft_strncmp(buff, token->str, ft_strlen(token->str)) == 0)
-					break ;
-				write(pipes->here_doc[1], buff, ft_strlen(buff));
-				write(pipes->here_doc[1], "\n", 1);
-			}
-			if (dup2(pipes->here_doc[0], 0) == -1)
-				return (ft_pipe_close_fds(pipes), raise_perror("dup2 failed", 1));
-			tmp = token;
-		}
+			tmp = ft_here_doc(pipes, token);
 		else if (token->token == REDIR_IN)
-		{
-			fdin = open(token->str, O_RDONLY);
-			if (fdin == -1)
-				return (ft_pipe_close_fds(pipes),
-					raise_perror(token->str, 1));
-			tmp = token;
-		}
+			tmp = ft_redir_in(pipes, token, &fdin);
 		else if (token->token == REDIR_OUT)
-		{
-			fdout = open(token->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fdout == -1)
-				return (ft_pipe_close_fds(pipes),
-					raise_perror(token->str, 1));
-			tmp = token;
-		}
+			tmp = ft_redir_out(pipes, token, &fdout);
 		token = token->next;
-		ft_token_del(&pipes->tokens, tmp);
+		if (tmp)
+			ft_token_del(&pipes->tokens, tmp);
 	}
-	if (fdin != -1)
-	{
-		if (dup2(fdin, 0) == -1)
-			return (ft_pipe_close_fds(pipes),
-					raise_perror("dup2 failed", 1));
-		pipes->fds[0] = fdin;
-	}
-	if (fdout != -1)
-	{
-		if (dup2(fdout, 1) == -1)
-			return (ft_pipe_close_fds(pipes),
-					raise_perror("dup2 failed", 1));
-		pipes->fds[1] = fdout;
-	}
+	ft_check_redir_in_out(pipes, fdin, fdout);
 }

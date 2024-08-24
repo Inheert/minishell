@@ -122,6 +122,10 @@ char			**copy_str_ptr(char **ptr);
 char			*find_path(char **cmd, char **envp);
 
 // Exec
+t_token			*ft_here_doc(t_pipe *pipes, t_token *token);
+t_token			*ft_redir_in(t_pipe *pipes, t_token *token, int *fdin);
+t_token			*ft_redir_out(t_pipe *pipes, t_token *token, int *fdout);
+void			ft_check_redir_in_out(t_pipe *pipes, int fdin, int fdout);
 void			exec_main_processus(t_pipe *pipes, char **envp);
 void			exec_sub_processus(t_pipe *pipes, unsigned int size,
 					unsigned int i, char **envp);
