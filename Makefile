@@ -22,6 +22,7 @@ SRCS_FILE		= main.c \
 					utils/token/ft_token_add.c \
 					utils/token/ft_token_utils.c \
 					utils/builtins/builtins_utils.c \
+					utils/exec/token_management.c \
 					utils/ft_pipe_utils.c \
 					utils/ft_error.c \
 					builtins/builtins_exec.c \
@@ -29,6 +30,7 @@ SRCS_FILE		= main.c \
 					builtins/pwd.c \
 					builtins/cd.c \
 					exec/ft_exec.c \
+					exec/processus_management.c \
 					exec/command.c \
 					tokenisation/token.c\
 					tokenisation/parse_tokens.c\
