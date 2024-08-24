@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/24 17:09:13 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/24 17:12:39 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	token_management(t_pipe *pipes, t_token *token)
 			tmp = ft_here_doc(pipes, token);
 		else if (token->token == REDIR_IN)
 			tmp = ft_redir_in(pipes, token, &fdin);
-		else if (token->token == REDIR_OUT)
+		else if (token->token == REDIR_OUT || token->token == REDIR_APPEND_OUT)
 			tmp = ft_redir_out(pipes, token, &fdout);
 		token = token->next;
 		if (tmp)

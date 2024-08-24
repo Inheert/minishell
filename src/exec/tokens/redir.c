@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:59:46 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/24 17:08:39 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/24 17:15:15 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ t_token	*ft_redir_in(t_pipe *pipes, t_token *token, int *fdin)
 
 t_token	*ft_redir_out(t_pipe *pipes, t_token *token, int *fdout)
 {
-	*fdout = open(token->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fprintf(stderr, "%d\n", token->token == REDIR_APPEND_OUT);
+	if (token->token == REDIR_OUT)
+		*fdout = open(token->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else
+		*fdout = open(token->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (*fdout == -1)
 		return (ft_pipe_close_fds(pipes),
 			raise_perror(token->str, 1), NULL);
