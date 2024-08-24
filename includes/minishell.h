@@ -18,14 +18,12 @@
 # include <errno.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <dirent.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../src/utils/libft/libft.h"
 # include "../src/utils/garbage_collector/includes/garbage_collector.h"
-
-# define malloc ft_malloc
-# define free ft_free
 
 # define ECHO "echo"
 # define CD "cd"
@@ -38,17 +36,17 @@
 typedef enum token
 {
 	PIPE,
-	STRING, //'$HOME' == string $HOME
+	STRING,
 	REDIR_APPEND_OUT,
 	HERE_DOC,
 	REDIR_IN,
 	REDIR_OUT,
 	COMMAND,
-	ENV, //HOME
-	EXIT_STATUS, //$?
+	ENV,
+	EXIT_STATUS,
 	QUOTE,
 	BLANK
-} 	e_token ;
+}	e_token;
 
 typedef struct s_token
 {
@@ -60,7 +58,7 @@ typedef struct s_token
 
 typedef struct s_pipe
 {
-	struct s_token *tokens;
+	struct s_token	*tokens;
 	int				fds[2];
 	int				here_doc[2];
 	int				pid;
@@ -73,7 +71,8 @@ void			parse_tokens(t_token *token);
 
 // Utils - Error management
 void			raise_perror(char *error, int critical);
-void			raise_error(char *error, char *details, int exit_code);
+void			raise_error(char *error, char *details, int critical,
+					int exit_code);
 
 // Utils - Ptr size functions
 unsigned int	token_ptr_size(t_token *token);
@@ -106,16 +105,30 @@ void			ft_pipe_display(t_pipe *pipes);
 void			ft_pipe_add_front(t_pipe **pipes, t_pipe *new);
 void			ft_pipe_add_back(t_pipe **pipes, t_pipe *new);
 void			ft_pipe_close_fds(t_pipe *pipes);
+void			ft_close_pipe(int fd[2]);
 
 // Utils - Builtins
 int				is_command_builtin(char *cmd);
 void			ft_echo(char **cmd);
+void			ft_pwd(void);
+void			ft_cd(char **cmd);
+
+// Utils - Exec
+t_pipe			*prepare_pipes(t_token **tokens);
+void			token_management(t_pipe *pipes, t_token *token);
 
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
 char			*find_path(char **cmd, char **envp);
 
 // Exec
+t_token			*ft_here_doc(t_pipe *pipes, t_token *token);
+t_token			*ft_redir_in(t_pipe *pipes, t_token *token, int *fdin);
+t_token			*ft_redir_out(t_pipe *pipes, t_token *token, int *fdout);
+void			ft_check_redir_in_out(t_pipe *pipes, int fdin, int fdout);
+void			exec_main_processus(t_pipe *pipes, char **envp);
+void			exec_sub_processus(t_pipe *pipes, unsigned int size,
+					unsigned int i, char **envp);
 void			exec_builtins(char **cmd);
 void			ft_exec(t_token **tokens, char **envp);
 
