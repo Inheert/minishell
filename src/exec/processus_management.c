@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:38:28 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/24 16:49:53 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/26 08:36:11 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	exec_first_processus(t_pipe *pipes, char **envp)
 	if (!cmd_path)
 		return (raise_error(cmd[0], "command not found", 1, 1));
 	if (is_command_builtin(cmd_path))
-		exec_builtins(cmd);
+		exec_builtins(pipes, cmd);
 	if (execve(cmd_path, cmd, envp) == -1)
 		raise_perror("execve error", 1);
 }
@@ -67,7 +67,7 @@ void	exec_middle_processus(t_pipe *pipes, char **envp)
 	if (!cmd_path)
 		return (raise_error(cmd[0], "command not found", 1, 1));
 	if (is_command_builtin(cmd_path))
-		exec_builtins(cmd);
+		exec_builtins(pipes, cmd);
 	if (execve(cmd_path, cmd, envp) == -1)
 		raise_perror("execve error", 1);
 }
@@ -95,7 +95,7 @@ void	exec_last_processus(t_pipe *pipes, char **envp)
 	if (!cmd_path)
 		return (raise_error(cmd[0], "command not found", 1, 1));
 	if (is_command_builtin(cmd_path))
-		exec_builtins(cmd);
+		exec_builtins(pipes, cmd);
 	if (execve(cmd_path, cmd, envp) == -1)
 		raise_perror("execve error", 1);
 }
@@ -120,9 +120,9 @@ void	exec_main_processus(t_pipe *pipes, char **envp)
 	envp = (char **)envp;
 	token = ft_find_token(pipes, COMMAND);
 	if (!token)
-		return (raise_error("COMMAND token not found", "func: exec_last_processus", 1, 1));
+		return (raise_error("COMMAND token not found", "func: exec_main_processus", 1, 1));
 	cmd = token_struct_to_str_ptr(token);
 	if (!cmd)
-		return (raise_error("Cmd split returned NULL", "func: exec_last_processus", 1, 1));
-	exec_builtins(cmd);
+		return (raise_error("Cmd split returned NULL", "func: exec_main_processus", 1, 1));
+	exec_builtins(pipes, cmd);
 }
