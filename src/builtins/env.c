@@ -3,11 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:12 by Théo              #+#    #+#             */
-/*   Updated: 2024/08/21 23:05:25 by Théo             ###   ########.fr       */
+/*   Updated: 2024/08/26 08:40:14 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_env(char **menvp)
+{
+	int	i;
+
+	if (!menvp || !*menvp)
+		return ;
+	i = -1;
+	while (menvp[++i])
+	{
+		ft_putstr_fd(menvp[i], 1);
+		write(1, "\n", 1);
+	}
+}

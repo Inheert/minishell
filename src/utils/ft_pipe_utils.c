@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/24 16:47:16 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:15:11 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,13 @@ void	ft_pipe_add_back(t_pipe **pipes, t_pipe *new)
 			raise_perror("Pipe creation failed", 1);
 }
 
-t_pipe	*ft_pipe_new(void)
+t_pipe	*ft_pipe_new(char ***menvp)
 {
 	t_pipe	*new;
 
 	new = ft_malloc(sizeof(t_pipe));
+	new->menvp = menvp;
+	new->pid = -1;
 	new->tokens = NULL;
 	new->fds[0] = 0;
 	new->fds[1] = 1;

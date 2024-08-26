@@ -58,10 +58,11 @@ typedef struct s_token
 
 typedef struct s_pipe
 {
-	struct s_token	*tokens;
 	int				fds[2];
 	int				here_doc[2];
 	int				pid;
+	char			***menvp;
+	struct s_token	*tokens;
 	struct s_pipe	*next;
 	struct s_pipe	*prev;
 }	t_pipe;
@@ -99,7 +100,7 @@ void			ft_token_del(t_token **tokens, t_token *del);
 void			display_tokens(t_token *lst);
 
 // Utils - Pipes structure manipulation
-t_pipe			*ft_pipe_new(void);
+t_pipe			*ft_pipe_new(char ***menvp);
 t_token			*ft_find_token(t_pipe *pipes, e_token token);
 void			ft_pipe_display(t_pipe *pipes);
 void			ft_pipe_add_front(t_pipe **pipes, t_pipe *new);
@@ -112,9 +113,12 @@ int				is_command_builtin(char *cmd);
 void			ft_echo(char **cmd);
 void			ft_pwd(void);
 void			ft_cd(char **cmd);
+void			ft_env(char **menvp);
+void			ft_unset(char ***menvp, char *to_unset);
+void			ft_export(char **cmd, char ***menvp);
 
 // Utils - Exec
-t_pipe			*prepare_pipes(t_token **tokens);
+t_pipe			*prepare_pipes(t_token **tokens, char ***menvp);
 void			token_management(t_pipe *pipes, t_token *token);
 
 // Utils - Other
@@ -129,7 +133,7 @@ void			ft_check_redir_in_out(t_pipe *pipes, int fdin, int fdout);
 void			exec_main_processus(t_pipe *pipes, char **envp);
 void			exec_sub_processus(t_pipe *pipes, unsigned int size,
 					unsigned int i, char **envp);
-void			exec_builtins(char **cmd);
+void			exec_builtins(t_pipe *pipes, char **cmd);
 void			ft_exec(t_token **tokens, char **envp);
 
 #endif
