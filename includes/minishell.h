@@ -115,6 +115,7 @@ void			ft_pwd(void);
 void			ft_cd(char **cmd);
 void			ft_env(char **menvp);
 void			ft_unset(char ***menvp, char *to_unset);
+void			ft_export(char **cmd, char ***menvp);
 
 // Utils - Exec
 t_pipe			*prepare_pipes(t_token **tokens, char ***menvp);
