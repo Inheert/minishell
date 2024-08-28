@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/28 16:22:52 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:53:39 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,10 @@ void	ft_exec(t_token **tokens, char **envp)
 		return ;
 	tmp = pipes;
 	start_execution(pipes, envp);
-	int	i = -1;
-	while (menvp[++i])
-	{
-		printf("%s\n", menvp[i]);
-	}
 	while (tmp)
 	{
 		if (tmp->pid != -1 && waitpid(tmp->pid, NULL, 0) == -1)
 			raise_perror("waitpid failed", 1);
 		tmp = tmp->next;
 	}
-
 }
