@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/26 10:15:11 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:46:09 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_token	*ft_find_token(t_pipe *pipes, e_token token)
 	tmp = pipes->tokens;
 	while (tmp && tmp->token != token)
 		tmp = tmp->next;
-	if (tmp->token != token)
+	if (!tmp || tmp->token != token)
 		return (NULL);
 	return (tmp);
 }

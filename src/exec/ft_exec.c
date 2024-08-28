@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/26 10:21:43 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:53:39 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,4 @@ void	ft_exec(t_token **tokens, char **envp)
 			raise_perror("waitpid failed", 1);
 		tmp = tmp->next;
 	}
-
 }
