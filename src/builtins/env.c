@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 20:04:14 by Theo              #+#    #+#             */
-/*   Updated: 2024/08/23 18:11:56 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/08/21 23:05:12 by Théo              #+#    #+#             */
+/*   Updated: 2024/08/28 15:50:55 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_env(char **menvp)
 {
 	int	i;
 
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	if (!menvp || !*menvp)
+		return ;
+	i = -1;
+	while (menvp[++i])
+	{
+		if (!ft_strchr(menvp[i], '='))
+			continue ;
+		ft_putstr_fd(menvp[i], 1);
+		write(1, "\n", 1);
+	}
 }

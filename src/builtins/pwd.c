@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 20:04:14 by Theo              #+#    #+#             */
-/*   Updated: 2024/08/23 18:11:56 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/08/21 23:05:38 by Théo              #+#    #+#             */
+/*   Updated: 2024/08/24 14:55:51 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_pwd(void)
 {
-	int	i;
+	char	*cwd;
+	size_t	size;
 
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	cwd = getcwd(NULL, 0);
+	size = ft_strlen(cwd);
+	write(1, cwd, size);
 }

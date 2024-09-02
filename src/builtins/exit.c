@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 20:04:14 by Theo              #+#    #+#             */
-/*   Updated: 2024/08/23 18:11:56 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/08/21 23:05:09 by Théo              #+#    #+#             */
+/*   Updated: 2024/08/24 14:59:53 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_exit()
 {
-	int	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	ft_free_all();
+	exit(errno);
 }

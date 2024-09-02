@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/25 09:57:58 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:46:09 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,24 @@ void	ft_pipe_add_back(t_pipe **pipes, t_pipe *new)
 			raise_perror("Pipe creation failed", 1);
 }
 
-t_pipe	*ft_pipe_new(void)
+t_pipe	*ft_pipe_new(char ***menvp)
 {
 	t_pipe	*new;
 
 	new = ft_malloc(sizeof(t_pipe));
+	new->menvp = menvp;
+	new->pid = -1;
 	new->tokens = NULL;
 	new->fds[0] = 0;
 	new->fds[1] = 1;
-	new->redir_in = -1;
-	new->redir_out = -1;
-	new->standard_input = 1;
-	new->standard_output = 1;
+	new->here_doc[0] = -1;
+	new->here_doc[1] = -1;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
 }
 
-t_token	*ft_find_token(t_pipe *pipes, int token)
+t_token	*ft_find_token(t_pipe *pipes, e_token token)
 {
 	t_token	*tmp;
 
@@ -87,31 +87,9 @@ t_token	*ft_find_token(t_pipe *pipes, int token)
 	tmp = pipes->tokens;
 	while (tmp && tmp->token != token)
 		tmp = tmp->next;
-	if (tmp->token != token)
+	if (!tmp || tmp->token != token)
 		return (NULL);
 	return (tmp);
-}
-
-int		get_actual_input(t_pipe *pipes, int set)
-{
-	if (pipes->standard_input)
-	{
-		if (set)
-			pipes->standard_input = 0;
-		return (0);
-	}
-	return (pipes->fds[0]);
-}
-
-int		get_actual_output(t_pipe *pipes, int set)
-{
-	if (pipes->standard_output)
-	{
-		if (set)
-			pipes->standard_output = 0;
-		return (1);
-	}
-	return (pipes->fds[1]);
 }
 
 void	ft_pipe_close_fds(t_pipe *pipes)
@@ -120,4 +98,12 @@ void	ft_pipe_close_fds(t_pipe *pipes)
 		return ;
 	close(pipes->fds[0]);
 	close(pipes->fds[1]);
+}
+
+void	ft_close_pipe(int fd[2])
+{
+	if (fd[0] != -1)
+		close(fd[0]);
+	if (fd[1] != -1)
+		close(fd[1]);
 }

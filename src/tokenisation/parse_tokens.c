@@ -6,48 +6,48 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:59:31 by cluby             #+#    #+#             */
-/*   Updated: 2024/08/02 01:54:11 by cluby            ###   ########.fr       */
+/*   Updated: 2024/08/22 20:10:14 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	first_word_token(t_token *token)
+static void	redir(t_token **token)
 {
-	token->str = first_word_next_token(token);
-	if (!token->str)
-		return ;	//ERROR
-}
+	t_token *tmp;
 
-static void	redir(t_token *token)
-{
-	if (token->str[0] == '<' || token->str[0] == '>')
+	if (!(*token))
+		return ;
+	tmp = *token;
+	if ((*token)->str[0] == '<' || (*token)->str[0] == '>')
 	{
-		first_word_token(token);
-		token->next->str = delete_first_word(token->next->str);
+		if (tmp->next->token == BLANK)
+			tmp = tmp->next->next;
+		else
+			tmp = tmp->next;
+		if (tmp->token == PIPE || tmp->token == REDIR_APPEND_OUT || tmp->token == HERE_DOC || tmp->token == REDIR_IN || tmp->token == REDIR_IN)
+			return  ; //bash: syntax error near unexpected token `token->str'
+		tmp->token = (*token)->token;
+		tmp = *token;
+		*token = (*token)->next;
+		ft_token_del(token, tmp);
 	}
 }
-
 
 void	parse_tokens(t_token *token)
 {
 	while (token)
 	{
+		printf("[%s] [%d]\n", token->str, token->token);
 		if (token->token == ENV)
 		{
 			if (token->str[0] == '?' && token->str[1] == '\0')
 				token->token = EXIT_STATUS;
 		}
-		redir(token);
-		//pas complet
+		redir(&token);
 		if (token->str[0] == '\0')
 		{
-			if (token->prev)
-				token->prev->next = token->next;
-			if (token->next)
-				token->next->prev = token->prev;
-			free(token->str);
-			free(token);
+			ft_token_del(&token, token);
 		}
 		token = token->next;
 	}

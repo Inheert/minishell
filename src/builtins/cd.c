@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 20:04:14 by Theo              #+#    #+#             */
-/*   Updated: 2024/08/23 18:11:56 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/08/21 23:05:47 by Théo              #+#    #+#             */
+/*   Updated: 2024/08/24 16:21:31 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_cd(char **cmd)
 {
-	int	i;
+	DIR				*dir;
+	unsigned int	i;
 
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	i = 1;
+	if (!cmd[i])
+		return ;
+	if (str_ptr_len(cmd) > 2)
+		raise_error("cd", "too many arguments", 0, 1);
+	dir = opendir(cmd[1]);
+	if (dir)
+	{
+		chdir(cmd[1]);
+		closedir(dir);
+	}
+	else
+		raise_perror(cmd[0], 0);
 }
