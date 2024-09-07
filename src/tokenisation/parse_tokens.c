@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:59:31 by cluby             #+#    #+#             */
-/*   Updated: 2024/08/22 20:10:14 by cluby            ###   ########.fr       */
+/*   Updated: 2024/08/29 13:37:34 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,32 @@ static void	redir(t_token **token)
 	}
 }
 
-void	parse_tokens(t_token *token)
+/* static void	commands(t_token **token)
+{
+	
+} */
+
+static void	env(t_token **token, char **envp)
+{
+	t_token	*tmp;
+	
+	(void)envp;
+	if (!(*token))
+		return ;
+	if ((*token)->token == ENV)
+	{
+		printf("%s\n", getenv((*token)->str));
+	}
+	tmp = *token;
+}
+
+void	parse_tokens(t_token *token, char **envp)
 {
 	while (token)
 	{
-		printf("[%s] [%d]\n", token->str, token->token);
-		if (token->token == ENV)
-		{
-			if (token->str[0] == '?' && token->str[1] == '\0')
-				token->token = EXIT_STATUS;
-		}
+		env(&token, envp);
 		redir(&token);
-		if (token->str[0] == '\0')
-		{
-			ft_token_del(&token, token);
-		}
+		//commands(&token);
 		token = token->next;
 	}
 }
