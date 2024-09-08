@@ -58,6 +58,21 @@ unsigned int	pipe_ptr_size(t_pipe *pipe)
 	return (size);
 }
 
+unsigned int	menvp_ptr_size(t_envp *menvp)
+{
+	unsigned int size;
+
+	if (menvp)
+		return (0);
+	size = 0;
+	while (menvp)
+	{
+		menvp =  menvp->next;
+		size++;
+	}
+	return (size);
+}
+
 unsigned int	str_ptr_len(char **ptr)
 {
 	unsigned int	size;

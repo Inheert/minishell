@@ -6,24 +6,22 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:12 by Théo              #+#    #+#             */
-/*   Updated: 2024/08/28 15:50:55 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/08 16:09:33 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(char **menvp)
+void	ft_env(t_envp *menvp)
 {
-	int	i;
-
-	if (!menvp || !*menvp)
+	if (!menvp)
 		return ;
-	i = -1;
-	while (menvp[++i])
+	while (menvp)
 	{
-		if (!ft_strchr(menvp[i], '='))
-			continue ;
-		ft_putstr_fd(menvp[i], 1);
+		ft_putstr_fd(menvp->name, 1);
+		ft_putstr_fd("=", 1);
+		ft_putstr_fd(menvp->value, 1);
 		write(1, "\n", 1);
+		menvp = menvp->next;
 	}
 }

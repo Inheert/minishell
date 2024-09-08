@@ -56,12 +56,20 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+typedef struct	s_envp
+{
+	char			*name;
+	char			*value;
+	struct	s_envp	*next;
+	struct	s_envp	*prev;
+}	t_envp;
+
 typedef struct s_pipe
 {
 	int				fds[2];
 	int				here_doc[2];
 	int				pid;
-	char			***menvp;
+	t_envp			*menvp;
 	struct s_token	*tokens;
 	struct s_pipe	*next;
 	struct s_pipe	*prev;
@@ -78,6 +86,7 @@ void			raise_error(char *error, char *details, int critical,
 // Utils - Ptr size functions
 unsigned int	token_ptr_size(t_token *token);
 unsigned int	pipe_ptr_size(t_pipe *pipe);
+unsigned int	menvp_ptr_size(t_envp *menvp);
 unsigned int	str_ptr_len(char **ptr);
 unsigned int	fd_ptr_len(int (*fd)[2]);
 unsigned int	count_infile(char *s);
@@ -100,7 +109,7 @@ void			ft_token_del(t_token **tokens, t_token *del);
 void			display_tokens(t_token *lst);
 
 // Utils - Pipes structure manipulation
-t_pipe			*ft_pipe_new(char ***menvp);
+t_pipe			*ft_pipe_new(t_envp *menvp);
 t_token			*ft_find_token(t_pipe *pipes, e_token token);
 void			ft_pipe_display(t_pipe *pipes);
 void			ft_pipe_add_front(t_pipe **pipes, t_pipe *new);
@@ -108,17 +117,25 @@ void			ft_pipe_add_back(t_pipe **pipes, t_pipe *new);
 void			ft_pipe_close_fds(t_pipe *pipes);
 void			ft_close_pipe(int fd[2]);
 
+// Utils - Envp structure manipulation
+t_envp			*init_envp(char **envp);
+t_envp			*t_envp_new(char *name, char *value);
+void			t_envp_add_back(t_envp **envp, t_envp *new);
+void			t_envp_add_front(t_envp **envp, t_envp *new);
+void			t_envp_display(t_envp *envp);
+char			**create_str_envp(t_envp *menvp);
+
 // Utils - Builtins
 int				is_command_builtin(char *cmd);
 void			ft_echo(char **cmd);
 void			ft_pwd(void);
 void			ft_cd(char **cmd);
-void			ft_env(char **menvp);
-void			ft_unset(char ***menvp, char *to_unset);
-void			ft_export(char **cmd, char ***menvp);
+void			ft_env(t_envp *menvp);
+void			ft_unset(t_envp *menvp, char *to_unset);
+void			ft_export(char **cmd, t_envp *menvp);
 
 // Utils - Exec
-t_pipe			*prepare_pipes(t_token **tokens, char ***menvp);
+t_pipe			*prepare_pipes(t_token **tokens, t_envp *menvp);
 void			token_management(t_pipe *pipes, t_token *token);
 
 // Utils - Other
@@ -130,9 +147,9 @@ t_token			*ft_here_doc(t_pipe *pipes, t_token *token);
 t_token			*ft_redir_in(t_pipe *pipes, t_token *token, int *fdin);
 t_token			*ft_redir_out(t_pipe *pipes, t_token *token, int *fdout);
 void			ft_check_redir_in_out(t_pipe *pipes, int fdin, int fdout);
-void			exec_main_processus(t_pipe *pipes, char **envp);
+void			exec_main_processus(t_pipe *pipes);
 void			exec_sub_processus(t_pipe *pipes, unsigned int size,
-					unsigned int i, char **envp);
+					unsigned int i);
 void			exec_builtins(t_pipe *pipes, char **cmd);
 void			ft_exec(t_token **tokens, char **envp);
 

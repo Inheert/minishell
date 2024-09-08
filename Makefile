@@ -24,6 +24,7 @@ SRCS_FILE		= main.c \
 					utils/builtins/builtins_utils.c \
 					utils/exec/token_management.c \
 					utils/ft_pipe_utils.c \
+					utils/t_envp_utils.c \
 					utils/ft_error.c \
 					builtins/builtins_exec.c \
 					builtins/echo.c \
