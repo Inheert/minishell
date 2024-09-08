@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/08/22 20:21:54 by cluby            ###   ########.fr       */
+/*   Updated: 2024/08/29 11:32:22 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,8 @@ t_token *tokenization(char *prompt)
 		{
 			i++;
 			j = i;
-			while(ft_isascii(prompt[i]) && prompt[i] != '\0' && prompt[i] != '\'')
+			while(/*ft_isascii(prompt[i]) && */ prompt[i] != '\0' && prompt[i] != '\'')
 				i++;
-			if (prompt[i] == '\0')
-				return (NULL); //error
 			if (token)
 				ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), QUOTE));
 			else
@@ -73,7 +71,7 @@ t_token *tokenization(char *prompt)
 		if (prompt[i] == '"')
 		{
 			i++;
-			while(ft_isascii(prompt[i]) && prompt[i] != '\0' && prompt[i] != '"' )
+			while(/*ft_isascii(prompt[i]) &&*/ prompt[i] != '\0' && prompt[i] != '"' )
 			{
 				j = i;
 				while (prompt[i] != '$' && prompt[i] != '\0' && prompt[i] != '\"')
@@ -86,7 +84,7 @@ t_token *tokenization(char *prompt)
 				{
 					i++;
 					j = i;
-					while(ft_isascii(prompt[i]) && prompt[i] != '\0' && prompt[i] != ' ' && prompt[i] != '\t' && prompt[i] != '\"' && prompt[i] != '\'')
+					while(/*ft_isascii(prompt[i]) &&*/ prompt[i] != '\0' && prompt[i] != ' ' && prompt[i] != '\t' && prompt[i] != '\"' && prompt[i] != '\'')
 						i++;
 					if (token)
 						ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), ENV));
@@ -95,14 +93,12 @@ t_token *tokenization(char *prompt)
 					split_env(last_token(token));
 				}	
 			}
-			if (prompt[i] == '\0')
-				return (NULL);
 			i++;
 		}
 		if (prompt[i] == '|')
 		{
 			if (token)
-				ft_token_add_back(&token, ft_token_new(NULL, PIPE));
+				ft_token_add_back(&token, ft_token_new("|", PIPE));
 			else
 				token = ft_token_new("|", PIPE);
 			i++;
@@ -149,7 +145,7 @@ t_token *tokenization(char *prompt)
 		{
 			i++;
 			j = i;
-			while(ft_isascii(prompt[i]) && prompt[i] != '\0' && prompt[i] != ' ' && prompt[i] != '\t' && prompt[i] != '\"' && prompt[i] != '\'')
+			while(/*ft_isascii(prompt[i]) &&*/ prompt[i] != '\0' && prompt[i] != ' ' && prompt[i] != '\t' && prompt[i] != '\"' && prompt[i] != '\'')
 				i++;
 			if (token)
 				ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), ENV));
@@ -158,7 +154,7 @@ t_token *tokenization(char *prompt)
 			split_env(last_token(token));
 		}
 		j = i;
-		while (ft_isascii(prompt[i]) && prompt[i] != '\0' && prompt[i] != '<' && prompt[i] != '>' && prompt[i] != '|' && prompt[i] != '\'' && prompt[i] != '"' && prompt[i] != '$' && prompt[i] != ' ' && prompt[i] != '\t')
+		while (/*ft_isascii(prompt[i]) &&*/ prompt[i] != '\0' && prompt[i] != '<' && prompt[i] != '>' && prompt[i] != '|' && prompt[i] != '\'' && prompt[i] != '"' && prompt[i] != '$' && prompt[i] != ' ' && prompt[i] != '\t')
 		{
 			i++;
 		}
