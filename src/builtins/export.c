@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/08/30 14:24:49 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/08 15:47:23 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,14 @@ void	create_var(char **cmd, char ***menvp)
 	*menvp = new_var;
 }
 
-void	ft_export(char **cmd, char ***menvp)
+void	ft_export(char **cmd, t_envp *menvp)
 {
-	if (!cmd || !menvp || !*menvp)
-		return ;
-	if (str_ptr_len(cmd) == 1)
-		return (display_env_var(*menvp));
-	else if (str_ptr_len(cmd) > 1)
-		return (create_var(cmd, menvp));
+	// if (!cmd || !menvp)
+	// 	return ;
+	// if (str_ptr_len(cmd) == 1)
+	// 	return (display_env_var(menvp));
+	// else if (str_ptr_len(cmd) > 1)
+	// 	return (create_var(cmd, menvp));
 	cmd = (char **)cmd;
-	menvp = (char ***)menvp;
+	menvp = (t_envp *)menvp;
 }
