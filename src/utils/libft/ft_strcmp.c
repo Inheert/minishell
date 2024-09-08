@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/21 23:05:31 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/08 15:47:45 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/08/30 13:48:55 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/08/30 14:25:02 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_unset(t_envp *menvp, char *to_unset)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	if (!to_unset || !menvp)
-		return ;
-	while (menvp)
+	while (*s1 && *s2)
 	{
-		if (ft_strcmp(menvp->name, to_unset) == 0)
-		{
-			if (menvp->prev)
-				menvp->prev->next = menvp->next;
-			if (menvp->next)
-				menvp->next->prev = menvp->prev;
-		}
-		menvp = menvp->next;
+		if ((unsigned char)*s1 != (unsigned char)*s2)
+			return ((unsigned char)*s1 - (unsigned char)*s2);
+		s1++;
+		s2++;
 	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
