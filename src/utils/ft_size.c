@@ -62,7 +62,7 @@ unsigned int	menvp_ptr_size(t_envp *menvp)
 {
 	unsigned int size;
 
-	if (menvp)
+	if (!menvp)
 		return (0);
 	size = 0;
 	while (menvp)

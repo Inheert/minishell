@@ -151,6 +151,6 @@ void			exec_main_processus(t_pipe *pipes);
 void			exec_sub_processus(t_pipe *pipes, unsigned int size,
 					unsigned int i);
 void			exec_builtins(t_pipe *pipes, char **cmd);
-void			ft_exec(t_token **tokens, char **envp);
+void			ft_exec(t_token **tokens, t_envp *menvp);
 
 #endif

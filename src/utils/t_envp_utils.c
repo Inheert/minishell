@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:24:05 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/08 16:02:11 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/09 18:53:44 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	t_envp_display(t_envp *envp)
 {
 	while (envp)
 	{
-		fprintf(stderr, "NAME: %s VALUE: %s\n", envp->name, envp->value);
+		fprintf(stderr, "NAME: %s\nVALUE: %s\n\n", envp->name, envp->value);
 		envp = envp->next;
 	}
 }
@@ -133,7 +133,7 @@ char	**create_str_envp(t_envp *menvp)
 	int		size;
 
 	size = menvp_ptr_size(menvp);
-	ptr = ft_malloc((size + 1) * sizeof(char));
+	ptr = ft_malloc((size + 1) * sizeof(char *));
 	size = 0;
 	while (menvp)
 	{

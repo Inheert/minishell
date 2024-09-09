@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/08 15:47:23 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:28:08 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,38 +18,27 @@
 //
 //
 
-void	display_env_var(char **menvp)
+void	display_env_var(t_envp *menvp, t_envp *ignore)
 {
-	char	**tmp;
-	char	*buff;
-	int		size;
-	int		i;
-	int		j;
+	t_envp	*lowest;
+	t_envp	*tmp;
 
-	tmp = copy_str_ptr(menvp);
-	size = str_ptr_len(tmp);
-	i = -1;
-	while (++i < size)
+	lowest = NULL;
+	tmp = menvp;
+	while (tmp)
 	{
-		j = -1;
-		while (++j < size - 1)
+		if (!lowest || (ft_strcmp(lowest->name, tmp->name) > 0 && tmp != ignore))
 		{
-			if (ft_strcmp(tmp[j], tmp[j + 1]) > 0)
-			{
-				buff = tmp[j];
-				tmp[j] = tmp[j + 1];
-				tmp[j + 1] = buff;
-			}
+			printf("-- %s %s %s\n", tmp->name, lowest ? lowest->name : "null", ignore ? ignore->name : "null");
+			lowest = tmp;
 		}
+		tmp = tmp->next;
 	}
-	i = -1;
-	while (tmp[++i])
+	printf("- %s\n", ignore ? ignore->name : "null");
+	if (lowest != ignore)
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(tmp[i], 1);
-		if (ft_strchr(tmp[i], '=') == tmp[i] + ft_strlen(tmp[i]) - 1)
-			write(1, "\"\"", 2);
-		write(1, "\n", 1);
+		printf("%s\n", lowest->name);
+		display_env_var(menvp, lowest);
 	}
 }
 
@@ -77,43 +66,12 @@ char	*get_var(char **menvp, char *var)
 	return (NULL);
 }
 
-void	create_var(char **cmd, char ***menvp)
-{
-	char	**new_var;
-	char	*tmp;
-	int		size;
-	int		i;
-	int		j;
-
-	size = str_ptr_len(cmd);
-	new_var = ft_malloc((size + str_ptr_len(*menvp)) * sizeof(char *));
-	new_var[size - 1] = NULL;
-	i = -1;
-	while ((*menvp)[++i])
-		new_var[i] = ft_strdup((*menvp)[i]);
-	j = 0;
-	while (cmd[++j])
-	{
-		tmp = get_var(new_var, cmd[j]);
-		printf(!tmp ? "var don't exist\n" : "var exist\n");
-		if (tmp)
-			new_var[i] = ft_strdup((ft_free(new_var[i]), cmd[j]));
-		else
-			new_var[i] = ft_strdup(cmd[j]);
-		i++;
-	}
-	free_str_ptr(*menvp);
-	*menvp = new_var;
-}
-
 void	ft_export(char **cmd, t_envp *menvp)
 {
-	// if (!cmd || !menvp)
-	// 	return ;
-	// if (str_ptr_len(cmd) == 1)
-	// 	return (display_env_var(menvp));
-	// else if (str_ptr_len(cmd) > 1)
-	// 	return (create_var(cmd, menvp));
+	if (!cmd || !menvp)
+		return ;
+	if (str_ptr_len(cmd) == 1)
+		return (display_env_var(menvp, NULL));
 	cmd = (char **)cmd;
 	menvp = (t_envp *)menvp;
 }

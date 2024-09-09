@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/08/29 11:32:22 by cluby            ###   ########.fr       */
+/*   Updated: 2024/09/09 16:34:18 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_token *tokenization(char *prompt)
 					else
 						token = ft_token_new(ft_substr(prompt, j, i - j), ENV);
 					split_env(last_token(token));
-				}	
+				}
 			}
 			i++;
 		}
