@@ -6,13 +6,13 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/26 08:49:50 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/08 15:37:56 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_pipe	*prepare_pipes(t_token **tokens, char ***menvp)
+t_pipe	*prepare_pipes(t_token **tokens, t_envp *menvp)
 {
 	t_pipe	*pipes;
 	t_pipe	*tmp_pipe;

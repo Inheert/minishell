@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:41:51 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/23 17:17:57 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/08/30 13:52:07 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		ft_tolower(int c);
 int		ft_toupper(int c);
 int		ft_isprint(int c);
 char	**ft_split(char const *s, char c);
+int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_itoa(int n);
 char	*ft_uitoa(unsigned int n);

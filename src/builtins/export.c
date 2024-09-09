@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/08/28 16:54:01 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/08 15:47:23 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	display_env_var(char **menvp)
 		j = -1;
 		while (++j < size - 1)
 		{
-			if (ft_strncmp(tmp[j], tmp[j + 1], ft_strlen(tmp[j])) > 0)
+			if (ft_strcmp(tmp[j], tmp[j + 1]) > 0)
 			{
 				buff = tmp[j];
 				tmp[j] = tmp[j + 1];
@@ -68,7 +68,7 @@ char	*get_var(char **menvp, char *var)
 		tmp2 = ft_split(*menvp, '=');
 		if (!tmp2)
 			break ;
-		if (tmp2 && ft_strncmp(tmp2[0], tmp[0], size) == 0 && size == ft_strlen(tmp2[0]))
+		if (tmp2 && ft_strcmp(tmp2[0], tmp[0]) == 0)
 			return (free_str_ptr(tmp), free_str_ptr(tmp2), *menvp);
 		free_str_ptr(tmp2);
 		menvp++;
@@ -95,6 +95,7 @@ void	create_var(char **cmd, char ***menvp)
 	while (cmd[++j])
 	{
 		tmp = get_var(new_var, cmd[j]);
+		printf(!tmp ? "var don't exist\n" : "var exist\n");
 		if (tmp)
 			new_var[i] = ft_strdup((ft_free(new_var[i]), cmd[j]));
 		else
@@ -105,14 +106,14 @@ void	create_var(char **cmd, char ***menvp)
 	*menvp = new_var;
 }
 
-void	ft_export(char **cmd, char ***menvp)
+void	ft_export(char **cmd, t_envp *menvp)
 {
-	if (!cmd || !menvp || !*menvp)
-		return ;
-	if (str_ptr_len(cmd) == 1)
-		return (display_env_var(*menvp));
-	else if (str_ptr_len(cmd) > 1)
-		return (create_var(cmd, menvp));
+	// if (!cmd || !menvp)
+	// 	return ;
+	// if (str_ptr_len(cmd) == 1)
+	// 	return (display_env_var(menvp));
+	// else if (str_ptr_len(cmd) > 1)
+	// 	return (create_var(cmd, menvp));
 	cmd = (char **)cmd;
-	menvp = (char ***)menvp;
+	menvp = (t_envp *)menvp;
 }
