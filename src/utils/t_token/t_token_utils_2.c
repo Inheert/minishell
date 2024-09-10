@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_token_utils.c                                   :+:      :+:    :+:   */
+/*   t_token_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 19:09:05 by cluby             #+#    #+#             */
-/*   Updated: 2024/08/23 15:37:39 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:53:23 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*last_token(t_token *lst)
+t_token	*t_token_last(t_token *lst)
 {
 	t_token	*temp;
 	int		last;
 	int		i;
 
 	temp = lst;
-	last = token_ptr_size(temp) - 1;
+	last = t_token_size(temp) - 1;
 	i = 0;
 	while (i++ < last)
 		temp = temp->next;
 	return (temp);
 }
 
-void	display_tokens(t_token *lst)
+void	t_token_display(t_token *lst)
 {
 	if (!lst)
 		return ;
@@ -38,13 +38,13 @@ void	display_tokens(t_token *lst)
 	fprintf(stderr, "\n");
 }
 
-char	**token_struct_to_str_ptr(t_token *lst)
+char	**t_token_to_str_ptr(t_token *lst)
 {
 	char			**ptr;
 	unsigned int	size;
 	unsigned int	i;
 
-	size = token_ptr_size(lst);
+	size = t_token_size(lst);
 	ptr = ft_malloc(sizeof(char *) * (size + 1));
 	ptr[size] = NULL;
 	i = 0;

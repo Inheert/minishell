@@ -16,15 +16,19 @@ SRC_DIR			= ./src/
 BIN_DIR			= ./bin/
 
 SRCS_FILE		= main.c \
-					utils/ft_size.c \
+					utils/ft_size/ft_size.c \
+					utils/ft_size/ft_size_2.c \
 					utils/ft_free.c \
 					utils/ft_copy.c \
-					utils/token/ft_token_add.c \
-					utils/token/ft_token_utils.c \
+					utils/t_token/t_token_utils.c \
+					utils/t_token/t_token_utils_2.c \
 					utils/builtins/builtins_utils.c \
 					utils/exec/token_management.c \
-					utils/ft_pipe_utils.c \
-					utils/t_envp_utils.c \
+					utils/t_pipe/t_pipe_utils.c \
+					utils/t_pipe/t_pipe_utils_2.c \
+					utils/t_envp/t_envp_utils.c \
+					utils/t_envp/t_envp_utils_2.c \
+					utils/t_envp/t_envp_utils_3.c \
 					utils/ft_error.c \
 					builtins/builtins_exec.c \
 					builtins/echo.c \

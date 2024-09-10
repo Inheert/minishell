@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   t_envp_utils_3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/25 16:56:45 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/10 16:56:06 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/09/10 17:50:34 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/09/10 17:52:07 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+t_envp	*t_envp_finding(t_envp *menvp, char *name)
 {
-	char	*s;
-	size_t	ls1;
-	size_t	ls2;
-
-	if (!s1 || !s2)
+	if (!menvp || !name)
 		return (NULL);
-	ls1 = ft_strlen(s1);
-	ls2 = ft_strlen(s2);
-	s = ft_calloc(ls1 + ls2 + 1, sizeof(char));
-	ft_strlcpy(s, s1, ls1 + 1);
-	ft_strlcat(s + ls1, s2, ls2 + 1);
-	return (s);
+	while (menvp)
+	{
+		if (strcmp(menvp->name, name) == 0)
+			return (menvp);
+		menvp = menvp->next;
+	}
+	return (NULL);
 }

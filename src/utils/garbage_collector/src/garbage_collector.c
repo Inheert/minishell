@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:01:31 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/23 06:10:56 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:58:04 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	add_to_garbage(t_ptr_stockage *container[CONTAINER_SIZE], void *ptr)
 		container[index] = new;
 }
 
-void	delete_from_garbage(t_ptr_stockage *container[CONTAINER_SIZE], void *ptr)
+void	delete_from_garbage(t_ptr_stockage *container[CONTAINER_SIZE],
+		void *ptr)
 {
 	t_ptr_stockage	*tmp;
 	unsigned int	index;
