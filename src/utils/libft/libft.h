@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 11:41:51 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/30 13:52:07 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:56:28 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,13 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 char	*get_next_line(int fd);
 
-int				arg_c(va_list args);
-int				arg_s(va_list args);
-int				arg_d(va_list args);
-int				arg_u(va_list args);
-int				arg_p(va_list args);
-int				arg_x(va_list args, int upper);
-int				arg_percent(void);
-int				ft_printf(const char *format, ...);
+int		arg_c(va_list args);
+int		arg_s(va_list args);
+int		arg_d(va_list args);
+int		arg_u(va_list args);
+int		arg_p(va_list args);
+int		arg_x(va_list args, int upper);
+int		arg_percent(void);
+int		ft_printf(const char *format, ...);
 
 #endif

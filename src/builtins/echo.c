@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:27 by Théo              #+#    #+#             */
-/*   Updated: 2024/08/22 02:25:37 by Théo             ###   ########.fr       */
+/*   Updated: 2024/09/10 16:54:00 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_echo(char **cmd)
 
 	if (!cmd)
 		return ;
-	size = str_ptr_len(cmd);
+	size = str_ptr_size(cmd);
 	if (size == 1)
 		printf("\n");
 	if (size > 1)

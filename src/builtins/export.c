@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/08 15:47:23 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:33:41 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,102 +18,109 @@
 //
 //
 
-void	display_env_var(char **menvp)
+void	prepare_display_2(int menvp_size, char **var_name)
 {
-	char	**tmp;
-	char	*buff;
-	int		size;
+	char	*tmp;
 	int		i;
 	int		j;
 
-	tmp = copy_str_ptr(menvp);
-	size = str_ptr_len(tmp);
 	i = -1;
-	while (++i < size)
+	while (++i < menvp_size)
 	{
 		j = -1;
-		while (++j < size - 1)
+		while (++j < menvp_size - 1)
 		{
-			if (ft_strcmp(tmp[j], tmp[j + 1]) > 0)
+			if (ft_strcmp(var_name[j], var_name[j + 1]) > 0)
 			{
-				buff = tmp[j];
-				tmp[j] = tmp[j + 1];
-				tmp[j + 1] = buff;
+				tmp = var_name[j];
+				var_name[j] = var_name[j + 1];
+				var_name[j + 1] = tmp;
 			}
 		}
 	}
-	i = -1;
-	while (tmp[++i])
-	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(tmp[i], 1);
-		if (ft_strchr(tmp[i], '=') == tmp[i] + ft_strlen(tmp[i]) - 1)
-			write(1, "\"\"", 2);
-		write(1, "\n", 1);
-	}
 }
 
-char	*get_var(char **menvp, char *var)
+char	**prepare_display(t_envp *menvp, t_envp *tmp_menvp)
 {
-	char	**tmp;
-	char	**tmp2;
-	size_t	size;
+	char	**var_name;
+	int		menvp_size;
+	int		i;
 
-	tmp = ft_split(var, '=');
-	if (!tmp)
-		return (NULL);
-	size = ft_strlen(tmp[0]);
-	while (menvp)
+	tmp_menvp = menvp;
+	menvp_size = t_envp_size(menvp);
+	var_name = ft_malloc(sizeof(char *) * (menvp_size + 1));
+	i = -1;
+	while (tmp_menvp)
 	{
-		tmp2 = ft_split(*menvp, '=');
-		if (!tmp2)
-			break ;
-		if (tmp2 && ft_strcmp(tmp2[0], tmp[0]) == 0)
-			return (free_str_ptr(tmp), free_str_ptr(tmp2), *menvp);
-		free_str_ptr(tmp2);
-		menvp++;
+		var_name[++i] = ft_strdup(tmp_menvp->name);
+		tmp_menvp = tmp_menvp->next;
 	}
-	free_str_ptr(tmp);
-	return (NULL);
+	var_name[i + 1] = NULL;
+	i = -1;
+	prepare_display_2(menvp_size, var_name);
+	return (var_name);
 }
 
-void	create_var(char **cmd, char ***menvp)
+void	display_env_var(t_envp *menvp, t_envp *tmp_menvp)
+{
+	char	**var_name;
+	int		i;
+
+	var_name = prepare_display(menvp, tmp_menvp);
+	i = -1;
+	while (var_name[++i])
+	{
+		tmp_menvp = menvp;
+		while (tmp_menvp)
+		{
+			if (ft_strcmp(var_name[i], tmp_menvp->name) == 0)
+			{
+				printf("declare -x %s", tmp_menvp->name);
+				if (tmp_menvp->equal && !tmp_menvp->value)
+					printf("=\"\"\n");
+				else if (!tmp_menvp->equal && !tmp_menvp->value)
+					printf("\n");
+				else
+					printf("=%s\n", tmp_menvp->value);
+				break ;
+			}
+			tmp_menvp = tmp_menvp->next;
+		}
+	}
+	free_str_ptr(var_name);
+}
+
+void	set_var(t_envp *menvp, char **cmd)
 {
 	char	**new_var;
-	char	*tmp;
-	int		size;
 	int		i;
-	int		j;
 
-	size = str_ptr_len(cmd);
-	new_var = ft_malloc((size + str_ptr_len(*menvp)) * sizeof(char *));
-	new_var[size - 1] = NULL;
-	i = -1;
-	while ((*menvp)[++i])
-		new_var[i] = ft_strdup((*menvp)[i]);
-	j = 0;
-	while (cmd[++j])
+	i = 0;
+	while (cmd[++i])
 	{
-		tmp = get_var(new_var, cmd[j]);
-		printf(!tmp ? "var don't exist\n" : "var exist\n");
-		if (tmp)
-			new_var[i] = ft_strdup((ft_free(new_var[i]), cmd[j]));
+		new_var = ft_split(cmd[i], '=');
+		if (!new_var)
+		{
+			ft_free(new_var);
+			continue ;
+		}
+		if (str_ptr_size(new_var) == 1)
+			t_envp_add_back(&menvp, t_envp_new(new_var[0], NULL,
+					!ft_strchr(cmd[i], '=')));
 		else
-			new_var[i] = ft_strdup(cmd[j]);
-		i++;
+			t_envp_add_back(&menvp, t_envp_new(new_var[0],
+					concat_str_equal_sign(new_var),
+					!ft_strchr(cmd[i], '=')));
+		free_str_ptr(new_var);
 	}
-	free_str_ptr(*menvp);
-	*menvp = new_var;
 }
 
 void	ft_export(char **cmd, t_envp *menvp)
 {
-	// if (!cmd || !menvp)
-	// 	return ;
-	// if (str_ptr_len(cmd) == 1)
-	// 	return (display_env_var(menvp));
-	// else if (str_ptr_len(cmd) > 1)
-	// 	return (create_var(cmd, menvp));
-	cmd = (char **)cmd;
-	menvp = (t_envp *)menvp;
+	if (!cmd || !menvp)
+		return ;
+	if (str_ptr_size(cmd) == 1)
+		return (display_env_var(menvp, NULL));
+	else
+		return (set_var(menvp, cmd));
 }
