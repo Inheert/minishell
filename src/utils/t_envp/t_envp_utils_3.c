@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*   t_envp_utils_3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/21 22:16:50 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/10 18:05:57 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/09/10 17:50:34 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/09/10 17:52:07 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_command_builtin(char *cmd)
+t_envp	*t_envp_finding(t_envp *menvp, char *name)
 {
-	if (ft_strcmp(cmd, ECHO) == 0)
-		return (1);
-	else if (ft_strcmp(cmd, CD) == 0)
-		return (1);
-	else if (ft_strcmp(cmd, PWD) == 0)
-		return (1);
-	else if (ft_strcmp(cmd, EXPORT) == 0)
-		return (1);
-	else if (ft_strcmp(cmd, UNSET) == 0)
-		return (1);
-	else if (ft_strcmp(cmd, _ENV) == 0)
-		return (1);
-	else if (ft_strcmp(cmd, EXIT) == 0)
-		return (1);
-	return (0);
+	if (!menvp || !name)
+		return (NULL);
+	while (menvp)
+	{
+		if (strcmp(menvp->name, name) == 0)
+			return (menvp);
+		menvp = menvp->next;
+	}
+	return (NULL);
 }

@@ -28,6 +28,7 @@ SRCS_FILE		= main.c \
 					utils/t_pipe/t_pipe_utils_2.c \
 					utils/t_envp/t_envp_utils.c \
 					utils/t_envp/t_envp_utils_2.c \
+					utils/t_envp/t_envp_utils_3.c \
 					utils/ft_error.c \
 					builtins/builtins_exec.c \
 					builtins/echo.c \

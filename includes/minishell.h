@@ -127,6 +127,7 @@ void			t_envp_add_front(t_envp **envp, t_envp *new);
 void			t_envp_update(t_envp **menvp, t_envp *new);
 void			t_envp_display(t_envp *envp);
 int				t_envp_is_exist(t_envp *menvp, char *name);
+t_envp			*t_envp_finding(t_envp *menvp, char *name);
 char			*concat_str_equal_sign(char **str);
 char			**create_str_envp(t_envp *menvp);
 
@@ -134,7 +135,7 @@ char			**create_str_envp(t_envp *menvp);
 int				is_command_builtin(char *cmd);
 void			ft_echo(char **cmd);
 void			ft_pwd(void);
-void			ft_cd(char **cmd);
+void			ft_cd(t_envp *menvp, char **cmd);
 void			ft_env(t_envp *menvp);
 void			ft_unset(t_envp *menvp, char *to_unset);
 void			ft_export(char **cmd, t_envp *menvp);
