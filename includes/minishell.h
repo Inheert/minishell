@@ -56,12 +56,13 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct	s_envp
+typedef struct s_envp
 {
 	char			*name;
 	char			*value;
-	struct	s_envp	*next;
-	struct	s_envp	*prev;
+	int				equal;
+	struct s_envp	*next;
+	struct s_envp	*prev;
 }	t_envp;
 
 typedef struct s_pipe
@@ -84,45 +85,49 @@ void			raise_error(char *error, char *details, int critical,
 					int exit_code);
 
 // Utils - Ptr size functions
-unsigned int	token_ptr_size(t_token *token);
-unsigned int	pipe_ptr_size(t_pipe *pipe);
-unsigned int	menvp_ptr_size(t_envp *menvp);
-unsigned int	str_ptr_len(char **ptr);
-unsigned int	fd_ptr_len(int (*fd)[2]);
+unsigned int	t_token_size(t_token *token);
+unsigned int	t_pipe_size(t_pipe *pipe);
+unsigned int	t_envp_size(t_envp *menvp);
+unsigned int	str_ptr_size(char **ptr);
+unsigned int	fd_ptr_size(int (*fd)[2]);
 unsigned int	count_infile(char *s);
-unsigned int	count_specific_token(t_token *token, e_token code);
+unsigned int	t_token_count_specific(t_token *token, e_token code);
 
 // Utils - Malloc free functions
 void			free_t_token(t_token *token);
 void			free_t_pipe(t_pipe *pipe);
 void			free_str_ptr(char **ptr);
 void			free_one_t_token(t_token *token);
+void			free_t_envp(t_envp *menvp);
 
 // Utils - Tokens structure manipulation
-char			**token_struct_to_str_ptr(t_token *lst);
-t_token			*ft_token_new(char *str, int token);
-t_token			*ft_token_copy(t_token *token);
-t_token			*last_token(t_token *lst);
-void			ft_token_add_front(t_token **token, t_token *new);
-void			ft_token_add_back(t_token **token, t_token *new);
-void			ft_token_del(t_token **tokens, t_token *del);
-void			display_tokens(t_token *lst);
+char			**t_token_to_str_ptr(t_token *lst);
+t_token			*t_token_new(char *str, int token);
+t_token			*t_token_copy(t_token *token);
+t_token			*t_token_last(t_token *lst);
+void			t_token_add_front(t_token **token, t_token *new);
+void			t_token_add_back(t_token **token, t_token *new);
+void			t_token_del(t_token **tokens, t_token *del);
+void			t_token_display(t_token *lst);
 
 // Utils - Pipes structure manipulation
-t_pipe			*ft_pipe_new(t_envp *menvp);
-t_token			*ft_find_token(t_pipe *pipes, e_token token);
-void			ft_pipe_display(t_pipe *pipes);
-void			ft_pipe_add_front(t_pipe **pipes, t_pipe *new);
-void			ft_pipe_add_back(t_pipe **pipes, t_pipe *new);
-void			ft_pipe_close_fds(t_pipe *pipes);
-void			ft_close_pipe(int fd[2]);
+t_pipe			*t_pipe_new(t_envp *menvp);
+t_token			*t_token_finding(t_pipe *pipes, e_token token);
+void			t_pipe_display(t_pipe *pipes);
+void			t_pipe_add_front(t_pipe **pipes, t_pipe *new);
+void			t_pipe_add_back(t_pipe **pipes, t_pipe *new);
+void			t_pipe_close_fds(t_pipe *pipes);
+void			t_close_pipe(int fd[2]);
 
 // Utils - Envp structure manipulation
 t_envp			*init_envp(char **envp);
-t_envp			*t_envp_new(char *name, char *value);
+t_envp			*t_envp_new(char *name, char *value, int no_char_equal);
 void			t_envp_add_back(t_envp **envp, t_envp *new);
 void			t_envp_add_front(t_envp **envp, t_envp *new);
+void			t_envp_update(t_envp **menvp, t_envp *new);
 void			t_envp_display(t_envp *envp);
+int				t_envp_is_exist(t_envp *menvp, char *name);
+char			*concat_str_equal_sign(char **str);
 char			**create_str_envp(t_envp *menvp);
 
 // Utils - Builtins
@@ -147,9 +152,9 @@ t_token			*ft_here_doc(t_pipe *pipes, t_token *token);
 t_token			*ft_redir_in(t_pipe *pipes, t_token *token, int *fdin);
 t_token			*ft_redir_out(t_pipe *pipes, t_token *token, int *fdout);
 void			ft_check_redir_in_out(t_pipe *pipes, int fdin, int fdout);
-void			exec_main_processus(t_pipe *pipes);
-void			exec_sub_processus(t_pipe *pipes, unsigned int size,
-					unsigned int i);
+void			exec_first_processus(t_pipe *pipes);
+void			exec_middle_processus(t_pipe *pipes);
+void			exec_last_processus(t_pipe *pipes);
 void			exec_builtins(t_pipe *pipes, char **cmd);
 void			ft_exec(t_token **tokens, t_envp *menvp);
 

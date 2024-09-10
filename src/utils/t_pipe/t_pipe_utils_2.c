@@ -1,30 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_copy.c                                          :+:      :+:    :+:   */
+/*   t_pipe_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 23:55:52 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/10 16:54:00 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/09/10 16:43:06 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/09/10 16:46:07 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**copy_str_ptr(char **ptr)
+void	t_pipe_display(t_pipe *pipes)
 {
-	char	**copy;
-	size_t	size;
-	size_t	i;
+	while (pipes)
+	{
+		while (pipes->tokens)
+		{
+			printf("%s ", pipes->tokens->str);
+			pipes->tokens = pipes->tokens->next;
+		}
+		printf("\n");
+		pipes = pipes->next;
+	}
+}
 
-	if (!ptr || !*ptr)
-		return (NULL);
-	i = -1;
-	size = str_ptr_size(ptr);
-	copy = ft_malloc(sizeof(char *) * size + 1);
-	while (++i < size - 1 && ptr[i])
-		copy[i] = ft_strdup(ptr[i]);
-	copy[i] = NULL;
-	return (copy);
+void	t_pipe_close_fds(t_pipe *pipes)
+{
+	if (!pipes)
+		return ;
+	close(pipes->fds[0]);
+	close(pipes->fds[1]);
+}
+
+void	t_close_pipe(int fd[2])
+{
+	if (fd[0] != -1)
+		close(fd[0]);
+	if (fd[1] != -1)
+		close(fd[1]);
 }

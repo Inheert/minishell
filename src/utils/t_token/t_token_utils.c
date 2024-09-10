@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_token_add.c                                     :+:      :+:    :+:   */
+/*   t_token_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:32:52 by Théo              #+#    #+#             */
-/*   Updated: 2024/08/23 15:02:58 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:48:07 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_token_add_front(t_token **token, t_token *new)
+void	t_token_add_front(t_token **token, t_token *new)
 {
 	if (!token || !new)
 		return ;
@@ -26,7 +26,7 @@ void	ft_token_add_front(t_token **token, t_token *new)
 	*token = new;
 }
 
-void	ft_token_add_back(t_token **token, t_token *new)
+void	t_token_add_back(t_token **token, t_token *new)
 {
 	t_token	*tmp;
 
@@ -44,7 +44,7 @@ void	ft_token_add_back(t_token **token, t_token *new)
 	new->prev = tmp;
 }
 
-t_token	*ft_token_new(char *str, int token)
+t_token	*t_token_new(char *str, int token)
 {
 	t_token	*new;
 
@@ -56,7 +56,7 @@ t_token	*ft_token_new(char *str, int token)
 	return (new);
 }
 
-void	ft_token_del(t_token **tokens, t_token *del)
+void	t_token_del(t_token **tokens, t_token *del)
 {
 	if (!tokens || !*tokens || !del)
 		return ;
@@ -76,9 +76,9 @@ void	ft_token_del(t_token **tokens, t_token *del)
 	free_one_t_token(del);
 }
 
-t_token	*ft_token_copy(t_token *token)
+t_token	*t_token_copy(t_token *token)
 {
 	if (!token)
 		return (NULL);
-	return (ft_token_new(token->str, token->token));
+	return (t_token_new(token->str, token->token));
 }

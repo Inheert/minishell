@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/09/09 16:34:18 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:48:59 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	split_env(t_token *token)
 	i++;
 	while (tmp[i])
 	{
-		ft_token_add_back(&token, ft_token_new(ft_strdup(tmp[i]), ENV));
+		t_token_add_back(&token, t_token_new(ft_strdup(tmp[i]), ENV));
 		i++;
 	}
 	return ;
@@ -52,9 +52,9 @@ t_token *tokenization(char *prompt)
 			while (prompt[i] == ' ' || prompt[i] == '\t')
 				i++;
 			if (token)
-				ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), BLANK));
+				t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), BLANK));
 			else
-				token = ft_token_new(ft_substr(prompt, j, i - j), BLANK);
+				token = t_token_new(ft_substr(prompt, j, i - j), BLANK);
 		}
 		if (prompt[i] == '\'')
 		{
@@ -63,9 +63,9 @@ t_token *tokenization(char *prompt)
 			while(/*ft_isascii(prompt[i]) && */ prompt[i] != '\0' && prompt[i] != '\'')
 				i++;
 			if (token)
-				ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), QUOTE));
+				t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), QUOTE));
 			else
-				token = ft_token_new(ft_substr(prompt, j, i - j), QUOTE);
+				token = t_token_new(ft_substr(prompt, j, i - j), QUOTE);
 			i++;
 		}
 		if (prompt[i] == '"')
@@ -77,9 +77,9 @@ t_token *tokenization(char *prompt)
 				while (prompt[i] != '$' && prompt[i] != '\0' && prompt[i] != '\"')
 					i++;
 				if (token)
-					ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), QUOTE));
+					t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), QUOTE));
 				else
-					token = ft_token_new(ft_substr(prompt, j, i - j), QUOTE);
+					token = t_token_new(ft_substr(prompt, j, i - j), QUOTE);
 				if (prompt[i] == '$')
 				{
 					i++;
@@ -87,10 +87,10 @@ t_token *tokenization(char *prompt)
 					while(/*ft_isascii(prompt[i]) &&*/ prompt[i] != '\0' && prompt[i] != ' ' && prompt[i] != '\t' && prompt[i] != '\"' && prompt[i] != '\'')
 						i++;
 					if (token)
-						ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), ENV));
+						t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), ENV));
 					else
-						token = ft_token_new(ft_substr(prompt, j, i - j), ENV);
-					split_env(last_token(token));
+						token = t_token_new(ft_substr(prompt, j, i - j), ENV);
+					split_env(t_token_last(token));
 				}
 			}
 			i++;
@@ -98,9 +98,9 @@ t_token *tokenization(char *prompt)
 		if (prompt[i] == '|')
 		{
 			if (token)
-				ft_token_add_back(&token, ft_token_new("|", PIPE));
+				t_token_add_back(&token, t_token_new("|", PIPE));
 			else
-				token = ft_token_new("|", PIPE);
+				token = t_token_new("|", PIPE);
 			i++;
 		}
 		if (prompt[i] == '<')
@@ -108,17 +108,17 @@ t_token *tokenization(char *prompt)
 			if (prompt[i + 1] && prompt[i + 1] == '<')
 			{
 				if (token)
-					ft_token_add_back(&token, ft_token_new("<<", HERE_DOC));
+					t_token_add_back(&token, t_token_new("<<", HERE_DOC));
 				else
-					token = ft_token_new("<<", HERE_DOC);
+					token = t_token_new("<<", HERE_DOC);
 				i++;
 			}
 			else
 			{
 				if (token)
-					ft_token_add_back(&token, ft_token_new("<", REDIR_IN));
+					t_token_add_back(&token, t_token_new("<", REDIR_IN));
 				else
-					token = ft_token_new("<", REDIR_IN);
+					token = t_token_new("<", REDIR_IN);
 			}
 			i++;
 		}
@@ -127,17 +127,17 @@ t_token *tokenization(char *prompt)
 			if (prompt[i + 1] && prompt[i + 1] == '>')
 			{
 				if (token)
-					ft_token_add_back(&token, ft_token_new(">>", REDIR_APPEND_OUT));
+					t_token_add_back(&token, t_token_new(">>", REDIR_APPEND_OUT));
 				else
-					token = ft_token_new(">>", REDIR_APPEND_OUT);
+					token = t_token_new(">>", REDIR_APPEND_OUT);
 				i++;
 			}
 			else
 			{
 				if (token)
-					ft_token_add_back(&token, ft_token_new(">", REDIR_OUT));
+					t_token_add_back(&token, t_token_new(">", REDIR_OUT));
 				else
-					token = ft_token_new(">", REDIR_OUT);
+					token = t_token_new(">", REDIR_OUT);
 			}
 			i++;
 		}
@@ -148,10 +148,10 @@ t_token *tokenization(char *prompt)
 			while(/*ft_isascii(prompt[i]) &&*/ prompt[i] != '\0' && prompt[i] != ' ' && prompt[i] != '\t' && prompt[i] != '\"' && prompt[i] != '\'')
 				i++;
 			if (token)
-				ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), ENV));
+				t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), ENV));
 			else
-				token = ft_token_new(ft_substr(prompt, j, i - j), ENV);
-			split_env(last_token(token));
+				token = t_token_new(ft_substr(prompt, j, i - j), ENV);
+			split_env(t_token_last(token));
 		}
 		j = i;
 		while (/*ft_isascii(prompt[i]) &&*/ prompt[i] != '\0' && prompt[i] != '<' && prompt[i] != '>' && prompt[i] != '|' && prompt[i] != '\'' && prompt[i] != '"' && prompt[i] != '$' && prompt[i] != ' ' && prompt[i] != '\t')
@@ -159,9 +159,9 @@ t_token *tokenization(char *prompt)
 			i++;
 		}
 		if (token && i != j)
-			ft_token_add_back(&token, ft_token_new(ft_substr(prompt, j, i - j), STRING));
+			t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), STRING));
 		else if (i != j)
-			token = ft_token_new(ft_substr(prompt, j, i - j), STRING);
+			token = t_token_new(ft_substr(prompt, j, i - j), STRING);
 	}
 	return (token);
 }
