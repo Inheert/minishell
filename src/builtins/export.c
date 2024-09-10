@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/10 16:54:00 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:33:41 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void	set_var(t_envp *menvp, char **cmd)
 					concat_str_equal_sign(new_var),
 					!ft_strchr(cmd[i], '=')));
 		free_str_ptr(new_var);
-		printf("%s\n", cmd[i]);
 	}
 }
 

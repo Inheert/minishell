@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/10 17:06:28 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:23:31 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	exec_main_processus(t_pipe *pipes)
 	if (!cmd)
 		return (raise_error("Cmd split returned NULL",
 				"func: exec_main_processus", 1, 1));
-	exec_builtins(pipes, cmd);
+	exec_builtins(pipes, cmd, 0);
 }
 
 void	start_execution(t_pipe *pipes)

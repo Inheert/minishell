@@ -155,7 +155,7 @@ void			ft_check_redir_in_out(t_pipe *pipes, int fdin, int fdout);
 void			exec_first_processus(t_pipe *pipes);
 void			exec_middle_processus(t_pipe *pipes);
 void			exec_last_processus(t_pipe *pipes);
-void			exec_builtins(t_pipe *pipes, char **cmd);
+void			exec_builtins(t_pipe *pipes, char **cmd, int sub_process);
 void			ft_exec(t_token **tokens, t_envp *menvp);
 
 #endif
