@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:59:24 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/28 17:54:33 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:45:58 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ t_token	*ft_here_doc(t_pipe *pipes, t_token *token)
 		write(pipes->here_doc[1], "\n", 1);
 	}
 	if (pipes->here_doc[0] != -1 && dup2(pipes->here_doc[0], 0) == -1)
-		return (ft_pipe_close_fds(pipes), raise_perror("dup2 failed", 1), NULL);
+		return (t_pipe_close_fds(pipes), raise_perror("dup2 failed", 1), NULL);
 	return (token);
 }

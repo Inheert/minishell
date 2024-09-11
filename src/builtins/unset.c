@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:31 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/08 15:47:45 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:28:05 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_unset(t_envp *menvp, char *to_unset)
 				menvp->prev->next = menvp->next;
 			if (menvp->next)
 				menvp->next->prev = menvp->prev;
+			free_t_envp(menvp);
+			break ;
 		}
 		menvp = menvp->next;
 	}

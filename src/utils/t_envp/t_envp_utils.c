@@ -6,54 +6,55 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:24:05 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/08 16:02:11 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:54:00 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	t_envp_display(t_envp *envp)
+void	t_envp_add_front(t_envp **menvp, t_envp *new)
 {
-	while (envp)
-	{
-		fprintf(stderr, "NAME: %s VALUE: %s\n", envp->name, envp->value);
-		envp = envp->next;
-	}
-}
-
-void	t_envp_add_front(t_envp **envp, t_envp *new)
-{
-	if (!envp || !new)
+	if (!menvp || !new)
 		return ;
-	if (!*envp)
+	if (!*menvp)
 	{
-		*envp = new;
+		*menvp = new;
 		return ;
 	}
-	new->next = *envp;
-	(*envp)->prev = new;
-	*envp = new;
+	if (t_envp_is_exist(*menvp, new->name))
+	{
+		t_envp_update(menvp, new);
+		return ;
+	}
+	new->next = *menvp;
+	(*menvp)->prev = new;
+	*menvp = new;
 }
 
-void	t_envp_add_back(t_envp **envp, t_envp *new)
+void	t_envp_add_back(t_envp **menvp, t_envp *new)
 {
 	t_envp	*tmp;
 
-	if (!envp || !new)
+	if (!menvp || !new)
 		return ;
-	if (!*envp)
+	if (!*menvp)
 	{
-		*envp = new;
+		*menvp = new;
 		return ;
 	}
-	tmp = *envp;
+	if (t_envp_is_exist(*menvp, new->name))
+	{
+		t_envp_update(menvp, new);
+		return ;
+	}
+	tmp = *menvp;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
 	new->prev = tmp;
 }
 
-t_envp	*t_envp_new(char *name, char *value)
+t_envp	*t_envp_new(char *name, char *value, int no_char_equal)
 {
 	t_envp	*new;
 
@@ -67,36 +68,8 @@ t_envp	*t_envp_new(char *name, char *value)
 		new->value = NULL;
 	new->next = NULL;
 	new->prev = NULL;
+	new->equal = !no_char_equal;
 	return (new);
-}
-
-static char	*concat_str(char **str)
-{
-	char	*tmp;
-	char	*buff;
-	int		i;
-
-	tmp = NULL;
-	i = 0;
-	while (str[++i])
-	{
-		if (!tmp)
-			tmp = str[i];
-		else
-		{
-			buff = tmp;
-			tmp = ft_strjoin(tmp, str[i]);
-			ft_free(buff);
-			ft_free(str[i]);
-		}
-		if (str[i + 1])
-		{
-			buff = tmp;
-			tmp = ft_strjoin(tmp, "=");
-			ft_free(buff);
-		}
-	}
-	return (tmp);
 }
 
 t_envp	*init_envp(char **envp)
@@ -115,10 +88,12 @@ t_envp	*init_envp(char **envp)
 			ft_free(tmp);
 			break ;
 		}
-		if (str_ptr_len(tmp) == 1)
-			t_envp_add_back(&menvp, t_envp_new(tmp[0], NULL));
+		if (str_ptr_size(tmp) == 1)
+			t_envp_add_back(&menvp, t_envp_new(tmp[0], NULL,
+					!ft_strchr(*envp, '=')));
 		else
-			t_envp_add_back(&menvp, t_envp_new(tmp[0], concat_str(tmp)));
+			t_envp_add_back(&menvp, t_envp_new(tmp[0],
+					concat_str_equal_sign(tmp), !ft_strchr(*envp, '=')));
 		ft_free(tmp);
 		envp++;
 	}
@@ -132,8 +107,8 @@ char	**create_str_envp(t_envp *menvp)
 	char	*buff;
 	int		size;
 
-	size = menvp_ptr_size(menvp);
-	ptr = ft_malloc((size + 1) * sizeof(char));
+	size = t_envp_size(menvp);
+	ptr = ft_malloc((size + 1) * sizeof(char *));
 	size = 0;
 	while (menvp)
 	{

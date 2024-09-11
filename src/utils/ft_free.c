@@ -20,7 +20,7 @@ void	free_str_ptr(char **ptr)
 	if (!ptr || !*ptr)
 		return ;
 	i = -1;
-	size = str_ptr_len(ptr);
+	size = str_ptr_size(ptr);
 	while (++i < size && ptr[i])
 		ft_free(ptr[i]);
 	ft_free(ptr);
@@ -62,4 +62,12 @@ void	free_t_pipe(t_pipe *pipe)
 		pipe = pipe->next;
 		ft_free(tmp);
 	}
+}
+
+void	free_t_envp(t_envp *menvp)
+{
+	ft_free(menvp->name);
+	if (menvp->value)
+		ft_free(menvp->value);
+	ft_free(menvp);
 }

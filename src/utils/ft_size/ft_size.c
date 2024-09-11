@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-unsigned int	count_specific_token(t_token *token, e_token code)
+unsigned int	t_token_count_specific(t_token *token, e_token code)
 {
 	unsigned int	size;
 
@@ -28,7 +28,7 @@ unsigned int	count_specific_token(t_token *token, e_token code)
 	return (size);
 }
 
-unsigned int	token_ptr_size(t_token *token)
+unsigned int	t_token_size(t_token *token)
 {
 	unsigned int	size;
 
@@ -43,7 +43,7 @@ unsigned int	token_ptr_size(t_token *token)
 	return (size);
 }
 
-unsigned int	pipe_ptr_size(t_pipe *pipe)
+unsigned int	t_pipe_size(t_pipe *pipe)
 {
 	unsigned int	size;
 
@@ -58,22 +58,22 @@ unsigned int	pipe_ptr_size(t_pipe *pipe)
 	return (size);
 }
 
-unsigned int	menvp_ptr_size(t_envp *menvp)
+unsigned int	t_envp_size(t_envp *menvp)
 {
-	unsigned int size;
+	unsigned int	size;
 
-	if (menvp)
+	if (!menvp)
 		return (0);
 	size = 0;
 	while (menvp)
 	{
-		menvp =  menvp->next;
+		menvp = menvp->next;
 		size++;
 	}
 	return (size);
 }
 
-unsigned int	str_ptr_len(char **ptr)
+unsigned int	str_ptr_size(char **ptr)
 {
 	unsigned int	size;
 
@@ -83,31 +83,4 @@ unsigned int	str_ptr_len(char **ptr)
 	while (ptr[size])
 		size++;
 	return (size);
-}
-
-unsigned int	fd_ptr_len(int (*fd)[2])
-{
-	unsigned int	size;
-
-	if (!fd || !*fd)
-		return (0);
-	size = 0;
-	while (fd[size])
-		size++;
-	return (size);
-}
-
-unsigned int	count_infile(char *s)
-{
-	unsigned int	i;
-	unsigned int	n;
-
-	if (!s)
-		return (0);
-	i = 0;
-	n = 0;
-	while (s[i])
-		if (s[i++] == '<')
-			n++;
-	return (n);
 }

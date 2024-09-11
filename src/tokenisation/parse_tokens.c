@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:59:31 by cluby             #+#    #+#             */
-/*   Updated: 2024/08/29 13:37:34 by cluby            ###   ########.fr       */
+/*   Updated: 2024/09/10 16:48:00 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ static void	redir(t_token **token)
 		tmp->token = (*token)->token;
 		tmp = *token;
 		*token = (*token)->next;
-		ft_token_del(token, tmp);
+		t_token_del(token, tmp);
 	}
 }
 
 /* static void	commands(t_token **token)
 {
-	
+
 } */
 
 static void	env(t_token **token, char **envp)
 {
 	t_token	*tmp;
-	
+
 	(void)envp;
 	if (!(*token))
 		return ;

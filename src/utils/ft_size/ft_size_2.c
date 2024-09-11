@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_size_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/25 16:56:45 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/10 16:56:06 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/09/10 16:51:15 by tclaereb          #+#    #+#             */
+/*   Updated: 2024/09/10 16:54:15 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+unsigned int	fd_ptr_size(int (*fd)[2])
 {
-	char	*s;
-	size_t	ls1;
-	size_t	ls2;
+	unsigned int	size;
 
-	if (!s1 || !s2)
-		return (NULL);
-	ls1 = ft_strlen(s1);
-	ls2 = ft_strlen(s2);
-	s = ft_calloc(ls1 + ls2 + 1, sizeof(char));
-	ft_strlcpy(s, s1, ls1 + 1);
-	ft_strlcat(s + ls1, s2, ls2 + 1);
-	return (s);
+	if (!fd || !*fd)
+		return (0);
+	size = 0;
+	while (fd[size])
+		size++;
+	return (size);
+}
+
+unsigned int	count_infile(char *s)
+{
+	unsigned int	i;
+	unsigned int	n;
+
+	if (!s)
+		return (0);
+	i = 0;
+	n = 0;
+	while (s[i])
+		if (s[i++] == '<')
+			n++;
+	return (n);
 }
