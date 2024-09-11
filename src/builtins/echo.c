@@ -6,43 +6,49 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:27 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/10 16:54:00 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:06:36 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	is_echo_arg(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (i == 0 && str[i] != '-')
+			return (0);
+		else if (i != 0 && str[i] != 'n')
+			return (0);
+	}
+	return (1);
+}
+
 void	ft_echo(char **cmd)
 {
-	char			**tmp;
-	unsigned int	size;
-	unsigned int	new_line;
+	int	line_break;
+	int	line_break_valid;
+	int	i;
 
-	if (!cmd)
-		return ;
-	size = str_ptr_size(cmd);
-	if (size == 1)
-		printf("\n");
-	if (size > 1)
+	line_break = 1;
+	line_break_valid = 1;
+	i = 0;
+	while (cmd[++i])
 	{
-		new_line = 1;
-		tmp = cmd;
-		tmp++;
-		if (ft_strncmp(*tmp, "-n", 2) == 0 && *tmp)
+		if (line_break_valid && is_echo_arg(cmd[i]))
 		{
-			new_line = 0;
-			tmp++;
+			line_break = 0;
+			continue ;
 		}
-		while (*tmp)
-		{
-			write(1, *tmp, ft_strlen(*tmp));
-			tmp++;
-			if (*tmp)
-				write(1, " ", 1);
-		}
-		if (new_line)
-			write(1, "\n", 1);
+		else
+			line_break_valid = 0;
+		if (i > 1)
+			printf(" ");
+		printf("%s", cmd[i]);
 	}
-	ft_free_all();
-	exit(EXIT_SUCCESS);
+	if (line_break)
+		printf("\n");
 }
