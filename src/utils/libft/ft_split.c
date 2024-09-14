@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 17:10:19 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/21 23:37:53 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:50:59 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*apply_string(const char *s, char c)
 		len++;
 	if (len == 0)
 		return (NULL);
-	str = (char *)malloc(len + 1);
+	str = (char *)ft_malloc(len + 1);
 	if (!str)
 		return (NULL);
 	ft_strlcpy(str, s, len + 1);
