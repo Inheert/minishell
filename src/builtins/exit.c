@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:09 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/14 19:49:30 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/14 20:42:22 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	status_code(char *code)
 		result = result * 10 + (*code - '0');
 		code++;
 	}
-	return (result % 256);
+	return (result);
 }
 
 void	ft_exit(char **code)
