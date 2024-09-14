@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:12 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/10 17:36:11 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:45:54 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_env(t_envp *menvp)
 		if (!menvp->equal && !menvp->value)
 		{
 			menvp = menvp->next;
-			continue;
+			continue ;
 		}
 		printf("%s", menvp->name);
 		if (menvp->equal && !menvp->value)
