@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/09/10 16:48:59 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/13 10:13:33 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_token *tokenization(char *prompt)
 		{
 			i++;
 			j = i;
-			while(/*ft_isascii(prompt[i]) && */ prompt[i] != '\0' && prompt[i] != '\'')
+			while(prompt[i] != '\0' && prompt[i] != '\'')
 				i++;
 			if (token)
 				t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), QUOTE));
@@ -71,7 +71,7 @@ t_token *tokenization(char *prompt)
 		if (prompt[i] == '"')
 		{
 			i++;
-			while(/*ft_isascii(prompt[i]) &&*/ prompt[i] != '\0' && prompt[i] != '"' )
+			while(prompt[i] != '\0' && prompt[i] != '"' )
 			{
 				j = i;
 				while (prompt[i] != '$' && prompt[i] != '\0' && prompt[i] != '\"')
@@ -84,7 +84,7 @@ t_token *tokenization(char *prompt)
 				{
 					i++;
 					j = i;
-					while(/*ft_isascii(prompt[i]) &&*/ prompt[i] != '\0' && prompt[i] != ' ' && prompt[i] != '\t' && prompt[i] != '\"' && prompt[i] != '\'')
+					while(prompt[i] != '\0' && prompt[i] != ' ' && prompt[i] != '\t' && prompt[i] != '\"' && prompt[i] != '\'')
 						i++;
 					if (token)
 						t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), ENV));
@@ -145,7 +145,7 @@ t_token *tokenization(char *prompt)
 		{
 			i++;
 			j = i;
-			while(/*ft_isascii(prompt[i]) &&*/ prompt[i] != '\0' && prompt[i] != ' ' && prompt[i] != '\t' && prompt[i] != '\"' && prompt[i] != '\'')
+			while(prompt[i] != '\0' && prompt[i] != ' ' && prompt[i] != '\t' && prompt[i] != '\"' && prompt[i] != '\'')
 				i++;
 			if (token)
 				t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), ENV));
@@ -154,7 +154,7 @@ t_token *tokenization(char *prompt)
 			split_env(t_token_last(token));
 		}
 		j = i;
-		while (/*ft_isascii(prompt[i]) &&*/ prompt[i] != '\0' && prompt[i] != '<' && prompt[i] != '>' && prompt[i] != '|' && prompt[i] != '\'' && prompt[i] != '"' && prompt[i] != '$' && prompt[i] != ' ' && prompt[i] != '\t')
+		while (prompt[i] != '\0' && prompt[i] != '<' && prompt[i] != '>' && prompt[i] != '|' && prompt[i] != '\'' && prompt[i] != '"' && prompt[i] != '$' && prompt[i] != ' ' && prompt[i] != '\t')
 		{
 			i++;
 		}
