@@ -141,6 +141,7 @@ void			ft_cd(t_envp *menvp, char **cmd);
 void			ft_env(t_envp *menvp);
 void			ft_unset(t_envp *menvp, char *to_unset);
 void			ft_export(char **cmd, t_envp *menvp);
+void			ft_exit(char **code);
 
 // Utils - Exec
 t_pipe			*prepare_pipes(t_token **tokens, t_envp *menvp);

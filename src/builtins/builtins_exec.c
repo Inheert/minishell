@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:10:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/11 17:37:12 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:49:07 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	exec_builtins(t_pipe *pipes, char **cmd, int sub_process)
 		ft_unset(pipes->menvp, cmd[1]);
 	else if (ft_strcmp(cmd[0], EXPORT) == 0)
 		ft_export(cmd, pipes->menvp);
+	else if (ft_strcmp(cmd[0], EXIT) == 0)
+		ft_exit(cmd);
 	if (sub_process)
 	{
 		ft_free_all();
