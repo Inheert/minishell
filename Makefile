@@ -37,6 +37,7 @@ SRCS_FILE		= main.c \
 					builtins/env.c \
 					builtins/unset.c \
 					builtins/export.c \
+					builtins/exit.c \
 					exec/ft_exec.c \
 					exec/processus_management.c \
 					exec/command.c \
