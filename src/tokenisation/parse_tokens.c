@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:59:31 by cluby             #+#    #+#             */
-/*   Updated: 2024/09/10 16:48:00 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/15 23:42:59 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,37 @@ static void	redir(t_token **token)
 	}
 }
 
-/* static void	commands(t_token **token)
+static void	env(t_token **token, t_envp *menvp)
 {
+	t_envp	*tmp;
 
-} */
-
-static void	env(t_token **token, char **envp)
-{
-	t_token	*tmp;
-
-	(void)envp;
 	if (!(*token))
 		return ;
 	if ((*token)->token == ENV)
 	{
-		printf("%s\n", getenv((*token)->str));
+		tmp = t_envp_finding(menvp, (*token)->str);
+		if (tmp)
+		{
+			free((*token)->str);
+			(*token)->token = STRING;
+			(*token)->str = ft_strdup(tmp->value);
+		}
+		else
+		{
+			t_token_del(token, *token);
+			return ;
+		}
 	}
-	tmp = *token;
 }
 
-void	parse_tokens(t_token *token, char **envp)
+void	parse_tokens(t_token *token, t_envp *menvp)
 {
 	while (token)
 	{
-		env(&token, envp);
+		env(&token, menvp);
+		if (!token)
+			return ;
 		redir(&token);
-		//commands(&token);
 		token = token->next;
 	}
 }
