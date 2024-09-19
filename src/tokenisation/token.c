@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/09/13 10:13:33 by cluby            ###   ########.fr       */
+/*   Updated: 2024/09/19 15:48:32 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_token *tokenization(char *prompt)
 			j = i;
 			while(prompt[i] != '\0' && prompt[i] != '\'')
 				i++;
+			printf("i = %d\nj = %d\n", i, j);
 			if (token)
 				t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), QUOTE));
 			else
@@ -71,15 +72,32 @@ t_token *tokenization(char *prompt)
 		if (prompt[i] == '"')
 		{
 			i++;
+			if (prompt[i] == '"')
+			{
+				if (token)
+					t_token_add_back(&token, t_token_new("", QUOTE));
+				else
+					token = t_token_new("", QUOTE);
+				i++;
+			}
 			while(prompt[i] != '\0' && prompt[i] != '"' )
 			{
 				j = i;
 				while (prompt[i] != '$' && prompt[i] != '\0' && prompt[i] != '\"')
 					i++;
+				printf("i = %d\nj = %d\n", i, j);
 				if (token)
-					t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), QUOTE));
+				{
+					if (i == j)
+						t_token_add_back(&token, t_token_new("", QUOTE));
+					t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), QUOTE));	
+				}
 				else
+				{
+					if (i == j)
+						token = t_token_new("", QUOTE);
 					token = t_token_new(ft_substr(prompt, j, i - j), QUOTE);
+				}
 				if (prompt[i] == '$')
 				{
 					i++;

@@ -45,7 +45,8 @@ SRCS_FILE		= main.c \
 					tokenisation/token.c\
 					tokenisation/parse_tokens.c\
 					tokenisation/join_tokens.c\
-					tokenisation/clean_blank.c
+					tokenisation/clean_blank.c\
+					tokenisation/put_cmd.c
 
 # Convert .c files to .o files
 SRCS_COMPILE	= $(SRCS_FILE:.c=.o)

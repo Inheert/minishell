@@ -77,9 +77,10 @@ typedef struct s_pipe
 }	t_pipe;
 
 t_token			*tokenization(char *prompt);
-void			parse_tokens(t_token *token, t_envp *menvp);
+int				parse_tokens(t_token *token, t_envp *menvp);
 void			join_tokens(t_token *token);
 void			clean_blank(t_token **token);
+void			put_cmd(t_token *token);
 
 // Utils - Error management
 void			raise_perror(char *error, int critical);
