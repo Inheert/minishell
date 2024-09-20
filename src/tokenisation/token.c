@@ -6,7 +6,7 @@
 /*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/09/19 15:48:32 by cluby            ###   ########.fr       */
+/*   Updated: 2024/09/20 13:23:38 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	split_env(t_token *token)
 	return ;
 }
 
-t_token *tokenization(char *prompt)
+t_token *tokenisation(char *prompt)
 {
 	int	i;
 	int	j;
@@ -45,30 +45,8 @@ t_token *tokenization(char *prompt)
 	j = 0;
 	while (prompt[i] != '\0')
 	{
-		if (prompt[i] == ' ' || prompt[i] == '\t')
-		{
-			j = i;
-			i++;
-			while (prompt[i] == ' ' || prompt[i] == '\t')
-				i++;
-			if (token)
-				t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), BLANK));
-			else
-				token = t_token_new(ft_substr(prompt, j, i - j), BLANK);
-		}
-		if (prompt[i] == '\'')
-		{
-			i++;
-			j = i;
-			while(prompt[i] != '\0' && prompt[i] != '\'')
-				i++;
-			printf("i = %d\nj = %d\n", i, j);
-			if (token)
-				t_token_add_back(&token, t_token_new(ft_substr(prompt, j, i - j), QUOTE));
-			else
-				token = t_token_new(ft_substr(prompt, j, i - j), QUOTE);
-			i++;
-		}
+		blanks(token, prompt, &i);
+		simple_quote(token, prompt, &i);
 		if (prompt[i] == '"')
 		{
 			i++;

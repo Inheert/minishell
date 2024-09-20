@@ -76,7 +76,9 @@ typedef struct s_pipe
 	struct s_pipe	*prev;
 }	t_pipe;
 
-t_token			*tokenization(char *prompt);
+t_token			*tokenisation(char *prompt);
+void			blanks(t_token *token, char *prompt, int *i);
+void			simple_quote(t_token *token, char *prompt, int *i);
 int				parse_tokens(t_token *token, t_envp *menvp);
 void			join_tokens(t_token *token);
 void			clean_blank(t_token **token);
