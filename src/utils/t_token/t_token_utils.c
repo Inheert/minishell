@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_token_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:32:52 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/13 10:36:28 by cluby            ###   ########.fr       */
+/*   Updated: 2024/09/20 11:38:05 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,5 @@ t_token	*t_token_copy(t_token *token)
 {
 	if (!token)
 		return (NULL);
-	return (t_token_new(token->str, token->token));
+	return (t_token_new(ft_strdup(token->str), token->token));
 }

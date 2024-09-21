@@ -16,6 +16,7 @@ SRC_DIR			= ./src/
 BIN_DIR			= ./bin/
 
 SRCS_FILE		= main.c \
+					signals/signals_handlers.c \
 					utils/ft_size/ft_size.c \
 					utils/ft_size/ft_size_2.c \
 					utils/ft_free.c \

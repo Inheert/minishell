@@ -13,6 +13,10 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define _GNU_SOURCE
+
+# include <signal.h>
+# include <string.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
@@ -24,6 +28,7 @@
 # include <readline/history.h>
 # include "../src/utils/libft/libft.h"
 # include "../src/utils/garbage_collector/includes/garbage_collector.h"
+
 
 # define ECHO "echo"
 # define CD "cd"
@@ -76,7 +81,12 @@ typedef struct s_pipe
 	struct s_pipe	*prev;
 }	t_pipe;
 
-t_token			*tokenisation(char *prompt);
+// Signals handlers prototypes
+void	init_parent_signals_handlers(void);
+void	init_children_signals_handlers(void);
+
+// Parsing 
+t_token		*tokenisation(char *prompt);
 void			blanks(t_token *token, char *prompt, int *i);
 void			simple_quote(t_token *token, char *prompt, int *i);
 int				parse_tokens(t_token *token, t_envp *menvp);
@@ -84,19 +94,26 @@ void			join_tokens(t_token *token);
 void			clean_blank(t_token **token);
 void			put_cmd(t_token *token);
 
+// Exec
+t_token			*ft_here_doc(t_pipe *pipes, t_token *token);
+t_token			*ft_redir_in(t_pipe *pipes, t_token *token, int *fdin);
+t_token			*ft_redir_out(t_pipe *pipes, t_token *token, int *fdout);
+void			ft_check_redir_in_out(t_pipe *pipes, int fdin, int fdout);
+void			exec_first_processus(t_pipe *pipes);
+void			exec_middle_processus(t_pipe *pipes);
+void			exec_last_processus(t_pipe *pipes);
+void			exec_builtins(t_pipe *pipes, char **cmd, int sub_process);
+void			ft_exec(t_token **tokens, t_envp *menvp);
+
 // Utils - Error management
 void			raise_perror(char *error, int critical);
 void			raise_error(char *error, char *details, int critical,
 					int exit_code);
 
 // Utils - Ptr size functions
-unsigned int	t_token_size(t_token *token);
-unsigned int	t_pipe_size(t_pipe *pipe);
-unsigned int	t_envp_size(t_envp *menvp);
 unsigned int	str_ptr_size(char **ptr);
 unsigned int	fd_ptr_size(int (*fd)[2]);
 unsigned int	count_infile(char *s);
-unsigned int	t_token_count_specific(t_token *token, e_token code);
 
 // Utils - Malloc free functions
 void			free_t_token(t_token *token);
@@ -114,6 +131,8 @@ void			t_token_add_front(t_token **token, t_token *new);
 void			t_token_add_back(t_token **token, t_token *new);
 void			t_token_del(t_token **tokens, t_token *del);
 void			t_token_display(t_token *lst);
+unsigned int	t_token_size(t_token *token);
+unsigned int	t_token_count_specific(t_token *token, e_token code);
 
 // Utils - Pipes structure manipulation
 t_pipe			*t_pipe_new(t_envp *menvp);
@@ -123,9 +142,10 @@ void			t_pipe_add_front(t_pipe **pipes, t_pipe *new);
 void			t_pipe_add_back(t_pipe **pipes, t_pipe *new);
 void			t_pipe_close_fds(t_pipe *pipes);
 void			t_close_pipe(int fd[2]);
+unsigned int	t_pipe_size(t_pipe *pipe);
 
 // Utils - Envp structure manipulation
-t_envp			*init_envp(char **envp);
+t_envp			*t_envp_init(char **envp);
 t_envp			*t_envp_new(char *name, char *value, int no_char_equal);
 void			t_envp_add_back(t_envp **envp, t_envp *new);
 void			t_envp_add_front(t_envp **envp, t_envp *new);
@@ -135,6 +155,7 @@ int				t_envp_is_exist(t_envp *menvp, char *name);
 t_envp			*t_envp_finding(t_envp *menvp, char *name);
 char			*concat_str_equal_sign(char **str);
 char			**create_str_envp(t_envp *menvp);
+unsigned int	t_envp_size(t_envp *menvp);
 
 // Utils - Builtins
 int				is_command_builtin(char *cmd);
@@ -153,16 +174,5 @@ void			token_management(t_pipe *pipes, t_token *token);
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
 char			*find_path(char **cmd, char **envp);
-
-// Exec
-t_token			*ft_here_doc(t_pipe *pipes, t_token *token);
-t_token			*ft_redir_in(t_pipe *pipes, t_token *token, int *fdin);
-t_token			*ft_redir_out(t_pipe *pipes, t_token *token, int *fdout);
-void			ft_check_redir_in_out(t_pipe *pipes, int fdin, int fdout);
-void			exec_first_processus(t_pipe *pipes);
-void			exec_middle_processus(t_pipe *pipes);
-void			exec_last_processus(t_pipe *pipes);
-void			exec_builtins(t_pipe *pipes, char **cmd, int sub_process);
-void			ft_exec(t_token **tokens, t_envp *menvp);
 
 #endif

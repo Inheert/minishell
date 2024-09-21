@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:38:28 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/10 17:23:36 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/21 11:32:21 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	manage_execve(t_pipe *pipes, char **cmd, char **menvp)
 		return (raise_error(cmd[0], "command not found", 1, 1));
 	if (is_command_builtin(cmd_path))
 		exec_builtins(pipes, cmd, 1);
-	if (execve(cmd_path, cmd, menvp) == -1)
+	if (execve(cmd_path, cmd, menvp) < 0)
 		raise_perror("execve error", 1);
 }
 
@@ -60,7 +60,6 @@ void	exec_middle_processus(t_pipe *pipes)
 		raise_perror("dup2 failed", 1);
 	if (dup2(pipes->fds[1], 1) == -1)
 		raise_perror("dup2 failed", 1);
-	t_pipe_close_fds(pipes);
 	t_pipe_close_fds(pipes->prev);
 	t_close_pipe(pipes->here_doc);
 	token = t_token_finding(pipes, COMMAND);
