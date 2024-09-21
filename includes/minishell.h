@@ -85,8 +85,8 @@ typedef struct s_pipe
 void	init_parent_signals_handlers(void);
 void	init_children_signals_handlers(void);
 
-// Parsing 
-t_token		*tokenisation(char *prompt);
+// Parsing
+t_token 		*tokenisation(char *prompt);
 void			blanks(t_token *token, char *prompt, int *i);
 void			simple_quote(t_token *token, char *prompt, int *i);
 int				parse_tokens(t_token *token, t_envp *menvp);

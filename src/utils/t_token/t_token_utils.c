@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_token_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:32:52 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/20 11:38:05 by Théo             ###   ########.fr       */
+/*   Updated: 2024/09/21 12:09:26 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	t_token_del(t_token **tokens, t_token *del)
 			del->prev->next = del->next;
 		if (del->next)
 			del->next->prev = del->prev;
-		else 
+		else
 			del->prev->next = NULL;
 	}
 	free_one_t_token(del);
