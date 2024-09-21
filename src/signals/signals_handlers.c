@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_handlers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:09:51 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/21 09:10:29 by Théo             ###   ########.fr       */
+/*   Updated: 2024/09/21 11:36:41 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	parent_signals_handlers(int sig)
 	if (sig == SIGQUIT)
 	{
 		ft_free_all();
-		exit(0);
+		exit(131);
 	}
 }
 
@@ -43,10 +43,10 @@ void	init_parent_signals_handlers(void)
 
 void	children_signals_handlers(int sig)
 {
-	printf("zpo,ge");
 	if (sig == SIGINT)
 	{
 		printf("\n");
+		
 	}
 	else if (sig == SIGQUIT)
 	{
@@ -65,5 +65,9 @@ void	init_children_signals_handlers(void)
 	sigaddset(&sa.sa_mask, SIGQUIT);
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
-	printf("Init\n");
+}
+
+void	init_silence_signals_handlers(void)
+{
+
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_pipe_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:43:06 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/20 11:27:41 by Théo             ###   ########.fr       */
+/*   Updated: 2024/09/21 10:55:27 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,16 @@ void	t_pipe_close_fds(t_pipe *pipes)
 {
 	if (!pipes)
 		return ;
-	close(pipes->fds[0]);
-	close(pipes->fds[1]);
+	while (pipes->prev)
+		pipes = pipes->prev;
+	while (pipes)
+	{
+		if (pipes->fds[0] != 0 && pipes->fds[0] != -1)
+			close(pipes->fds[0]);
+		if (pipes->fds[1] != 1 && pipes->fds[1] != -1)
+			close(pipes->fds[1]);
+		pipes = pipes->next;
+	}
 }
 
 void	t_close_pipe(int fd[2])
