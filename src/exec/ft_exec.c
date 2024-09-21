@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/11 16:07:56 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/21 09:11:28 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 // Last processus dont write output at all
 void	exec_sub_processus(t_pipe *pipes, unsigned int size, unsigned int i)
 {
+	init_children_signals_handlers();
 	if (i == size)
 		exec_last_processus(pipes);
 	else if (i == 1)

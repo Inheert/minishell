@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_pipe_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:43:06 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/10 16:46:07 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:27:41 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void	t_pipe_display(t_pipe *pipes)
 {
+	t_token	*tmp;
+
 	while (pipes)
 	{
-		while (pipes->tokens)
+		tmp = pipes->tokens;
+		while (tmp)
 		{
-			printf("%s ", pipes->tokens->str);
-			pipes->tokens = pipes->tokens->next;
+			printf("%s ", tmp->str);
+			tmp = tmp->next;
 		}
 		printf("\n");
 		pipes = pipes->next;

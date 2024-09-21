@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_envp_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:24:05 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/10 16:54:00 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/21 09:14:06 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_envp	*t_envp_new(char *name, char *value, int no_char_equal)
 	return (new);
 }
 
-t_envp	*init_envp(char **envp)
+t_envp	*t_envp_init(char **envp)
 {
 	t_envp	*menvp;
 	char	**tmp;
