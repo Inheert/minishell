@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/09/20 11:19:47 by Théo             ###   ########.fr       */
+/*   Updated: 2024/09/20 13:23:38 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	split_env(t_token *token)
 	return ;
 }
 
-t_token *tokenization(char *prompt)
+t_token *tokenisation(char *prompt)
 {
 	int	i;
 	int	j;
@@ -69,6 +69,8 @@ t_token *tokenization(char *prompt)
 				token = t_token_new(ft_substr(prompt, j, i - j), QUOTE);
 			i++;
 		}
+		blanks(token, prompt, &i);
+		simple_quote(token, prompt, &i);
 		if (prompt[i] == '"')
 		{
 			i++;
