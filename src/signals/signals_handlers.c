@@ -6,13 +6,13 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:09:51 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/21 11:36:41 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/21 19:32:19 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parent_signals_handlers(int sig)
+static void	parent_signals_handlers(int sig)
 {
 
 	if (sig == SIGINT)
@@ -41,12 +41,12 @@ void	init_parent_signals_handlers(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	children_signals_handlers(int sig)
+static void	children_signals_handlers(int sig)
 {
 	if (sig == SIGINT)
 	{
 		printf("\n");
-		
+
 	}
 	else if (sig == SIGQUIT)
 	{
@@ -69,5 +69,6 @@ void	init_children_signals_handlers(void)
 
 void	init_silence_signals_handlers(void)
 {
-
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 }
