@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/11 16:07:56 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/21 10:58:33 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 // Last processus dont write output at all
 void	exec_sub_processus(t_pipe *pipes, unsigned int size, unsigned int i)
 {
+	init_children_signals_handlers();
 	if (i == size)
 		exec_last_processus(pipes);
 	else if (i == 1)
@@ -45,6 +46,7 @@ void	exec_main_processus(t_pipe *pipes)
 
 void	start_execution(t_pipe *pipes)
 {
+	t_pipe			*tmp;
 	unsigned int	size;
 	unsigned int	i;
 
@@ -53,6 +55,7 @@ void	start_execution(t_pipe *pipes)
 	if (size == 1 && t_token_finding(pipes, COMMAND)
 		&& is_command_builtin(t_token_finding(pipes, COMMAND)->str))
 		return (exec_main_processus(pipes));
+	tmp = pipes;
 	while (pipes)
 	{
 		pipes->pid = fork();
@@ -61,10 +64,9 @@ void	start_execution(t_pipe *pipes)
 		if (pipes->pid == 0)
 			exec_sub_processus(pipes, size, i);
 		i++;
-		if (pipes->prev)
-			t_pipe_close_fds(pipes->prev);
 		pipes = pipes->next;
 	}
+	 t_pipe_close_fds(tmp);
 }
 
 void	ft_exec(t_token **tokens, t_envp *menvp)
