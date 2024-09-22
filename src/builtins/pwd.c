@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:38 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/20 11:40:36 by Théo             ###   ########.fr       */
+/*   Updated: 2024/09/22 10:56:02 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,5 @@ void	ft_pwd(void)
 
 	cwd = getcwd(NULL, 0);
 	printf("%s\n", cwd);
+	free(cwd);
 }

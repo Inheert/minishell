@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:56:38 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/07/21 23:56:42 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/22 10:35:22 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ void	ptr_stockage_add_back(t_ptr_stockage **storage, t_ptr_stockage *new)
 	}
 	tmp = *storage;
 	while (tmp->next)
+	{
+		if (tmp->ptr == new->ptr)
+			return (free(new));
 		tmp = tmp->next;
+	}
 	tmp->next = new;
 	new->prev = tmp;
 }
