@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/21 10:58:33 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/22 11:25:48 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 // Why heredoc dont work good when he is part of a middle processus? What pipe create this problem? What connection/dup2 is wrong/missing?
 // Is all fds are closed in the right way? Even for errors?
 
-// First sub process write output in the standard output even if an outfile is given
-// Last processus dont write output at all
 void	exec_sub_processus(t_pipe *pipes, unsigned int size, unsigned int i)
 {
 	init_children_signals_handlers();
@@ -63,6 +61,7 @@ void	start_execution(t_pipe *pipes)
 			raise_perror("Fork creation failed", 1);
 		if (pipes->pid == 0)
 			exec_sub_processus(pipes, size, i);
+		//init_silence_signals_handlers();
 		i++;
 		pipes = pipes->next;
 	}
