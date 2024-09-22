@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:56:17 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/10 16:57:46 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/22 10:34:13 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@ void	*ft_malloc(size_t size)
 		return (malloc_error(), NULL);
 	garbage_collector(ADD, ptr);
 	return (ptr);
+}
+
+void	ft_store_malloc(void *ptr)
+{
+	if (!ptr)
+		return ;
+	garbage_collector(ADD, ptr);
 }
 
 void	ft_free(void *ptr)

@@ -84,6 +84,7 @@ typedef struct s_pipe
 // Signals handlers prototypes
 void	init_parent_signals_handlers(void);
 void	init_children_signals_handlers(void);
+void	init_silence_signals_handlers(void);
 
 // Parsing
 t_token 		*tokenisation(char *prompt);
