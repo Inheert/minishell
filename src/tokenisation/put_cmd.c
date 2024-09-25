@@ -3,30 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   put_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 15:58:10 by cluby             #+#    #+#             */
-/*   Updated: 2024/09/21 19:52:37 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:53:46 by cluby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	put_cmd(t_token *token)
+void	put_cmd(t_token **tokens)
 {
-	if (!token)
+	t_token *tmp;
+
+	tmp = (*tokens);
+	if (!tmp)
 		return ;
-	if (token->token == STRING || token->token == QUOTE)
-		token->token = COMMAND;
-	while (token)
+	if (tmp->token == STRING || tmp->token == QUOTE)
+		tmp->token = COMMAND;
+	while (tmp)
 	{
-		if (token->token == PIPE || token->token == REDIR_APPEND_OUT || token->token == HERE_DOC || token->token == REDIR_IN || token->token == REDIR_OUT)
+		if (tmp->token == PIPE || tmp->token == REDIR_APPEND_OUT || tmp->token == HERE_DOC || tmp->token == REDIR_IN || tmp->token == REDIR_OUT)
 		{
-			token = token->next;
-			if (token && (token->token == STRING || token->token == QUOTE))
-				token->token = COMMAND;
+			tmp = tmp->next;
+			if (tmp->token == BLANK && tmp)
+				tmp = tmp->next;
+			if (tmp && (tmp->token == STRING || tmp->token == QUOTE))
+				tmp->token = COMMAND;
 		}
-		if (token)
-			token = token->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
 }
