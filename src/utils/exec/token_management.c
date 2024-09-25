@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_management.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/20 11:37:14 by Théo             ###   ########.fr       */
+/*   Updated: 2024/09/25 17:34:35 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_pipe	*prepare_pipes(t_token **tokens, t_envp *menvp)
 void	token_management(t_pipe *pipes, t_token *token)
 {
 	t_token	*tmp;
-	//char	*buff;
 	int		fdin;
 	int		fdout;
 
@@ -53,7 +52,6 @@ void	token_management(t_pipe *pipes, t_token *token)
 	while (token)
 	{
 		tmp = NULL;
-		//buff = NULL;
 		if (token->token == HERE_DOC)
 			tmp = ft_here_doc(pipes, token);
 		else if (token->token == REDIR_IN)

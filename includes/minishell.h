@@ -90,7 +90,7 @@ void	init_silence_signals_handlers(void);
 t_token 		*tokenisation(char *prompt);
 void			blanks(t_token *token, char *prompt, int *i);
 void			simple_quote(t_token *token, char *prompt, int *i);
-int				parse_tokens(t_token *token, t_envp *menvp);
+int				parse_tokens(t_token **token, t_envp *menvp);
 void			join_tokens(t_token *token);
 void			clean_blank(t_token **token);
 void			put_cmd(t_token *token);
