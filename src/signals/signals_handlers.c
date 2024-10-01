@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:09:51 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/21 19:32:19 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:39:12 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	parent_signals_handlers(int sig)
 {
-
 	if (sig == SIGINT)
 	{
 		printf("\n");
