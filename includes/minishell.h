@@ -157,6 +157,7 @@ t_envp			*t_envp_finding(t_envp *menvp, char *name);
 char			*concat_str_equal_sign(char **str);
 char			**create_str_envp(t_envp *menvp);
 unsigned int	t_envp_size(t_envp *menvp);
+void			t_envp_check(t_envp *menvp);
 
 // Utils - Builtins
 int				is_command_builtin(char *cmd);

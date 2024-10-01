@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:59:31 by cluby             #+#    #+#             */
-/*   Updated: 2024/09/25 17:31:40 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:05:36 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	parse_tokens(t_token **token, t_envp *menvp)
 		if (!redir(tmp, token))
 			return (0);
 		// printf("%d %s actual token adress: %p\n", token->token, token->str, token);
+		if (!tmp)
+			return (1);
 		tmp = tmp->next;
 	}
 	return (1);
