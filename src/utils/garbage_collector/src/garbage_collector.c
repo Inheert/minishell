@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:01:31 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/22 10:37:50 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:39:58 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	add_to_garbage(t_ptr_stockage *container[CONTAINER_SIZE], void *ptr)
 }
 
 void	delete_from_garbage(t_ptr_stockage *container[CONTAINER_SIZE],
-		void *ptr)
+		void *ptr, int had_to_be_free)
 {
 	t_ptr_stockage	*tmp;
 	unsigned int	index;
@@ -73,8 +73,11 @@ void	delete_from_garbage(t_ptr_stockage *container[CONTAINER_SIZE],
 		tmp->next->prev = tmp->prev;
 	if (tmp == container[index])
 		container[index] = container[index]->next;
-	free(tmp->ptr);
-	free(tmp);
+	if (had_to_be_free)
+	{
+		free(tmp->ptr);
+		free(tmp);
+	}
 }
 
 void	clear_garbage(t_ptr_stockage *container[CONTAINER_SIZE])
@@ -95,8 +98,10 @@ void	*garbage_collector(t_garbage_action action, void *ptr)
 	if (action == ADD)
 		add_to_garbage(container, ptr);
 	else if (action == DELETE)
-		delete_from_garbage(container, ptr);
+		delete_from_garbage(container, ptr, 1);
 	else if (action == CLEAR)
 		clear_garbage(container);
+	else if (action == UNSTORE)
+		delete_from_garbage(container, ptr, 0);
 	return (NULL);
 }

@@ -6,14 +6,25 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:10:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/02 16:01:27 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:46:30 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	manage_sub_processus_exit(int sub_process)
+{
+	if (sub_process)
+	{
+		ft_free_all();
+		exit(EXIT_SUCCESS);
+	}
+}
+
 void	exec_builtins(t_pipe *pipes, char **cmd, int sub_process)
 {
+	int	fd;
+
 	if (!cmd || !*cmd)
 		return ;
 	token_management(pipes, pipes->tokens, 0);
@@ -31,9 +42,8 @@ void	exec_builtins(t_pipe *pipes, char **cmd, int sub_process)
 		ft_export(cmd, pipes, pipes->menvp);
 	else if (ft_strcmp(cmd[0], EXIT) == 0)
 		ft_exit(cmd);
-	if (sub_process)
-	{
-		ft_free_all();
-		exit(EXIT_SUCCESS);
-	}
+	fd = get_fds(pipes, STDOUT_FILENO);
+	if (fd != 1 && fd != -1)
+		close(fd);
+	manage_sub_processus_exit(sub_process);
 }

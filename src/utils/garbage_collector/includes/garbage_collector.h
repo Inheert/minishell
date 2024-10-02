@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:05:01 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/22 10:42:35 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:50:07 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ typedef enum s_garbage_action
 {
 	ADD,
 	CLEAR,
-	DELETE
+	DELETE,
+	UNSTORE
 }	t_garbage_action;
 
 typedef struct s_ptr_stockage
@@ -44,6 +45,7 @@ void			ptr_stockage_clear(t_ptr_stockage **storage);
 // Allocation and free functions
 void			*ft_malloc(size_t size);
 void			ft_store_malloc(void *ptr);
+void			ft_unstore_malloc(void *ptr);
 void			ft_free(void *ptr);
 void			ft_free_all(void);
 
