@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:56:38 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/02 17:22:13 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:00:59 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,28 @@ void	ptr_stockage_clear(t_ptr_stockage **storage)
 		free(tmp->ptr);
 		free(tmp);
 	}
+}
+
+unsigned int	hashf(void *ptr, int size)
+{
+	unsigned long long	ptr_value;
+	unsigned int		hash;
+	size_t				i;
+	size_t				s;
+
+	ptr_value = (unsigned long long)ptr;
+	i = 0;
+	hash = 0;
+	s = sizeof(ptr_value);
+	while (i < s)
+	{
+		hash += ((ptr_value >> (i * 8)) & 0xFF);
+		hash += (hash << 10);
+		hash ^= (hash >> 6);
+		i++;
+	}
+	hash += (hash << 3);
+	hash ^= (hash >> 11);
+	hash += (hash << 15);
+	return (hash % size);
 }

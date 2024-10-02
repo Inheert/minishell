@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:05:01 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/02 16:50:07 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:01:19 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_ptr_stockage	*ptr_stockage_new(void *ptr);
 void			ptr_stockage_add_back(t_ptr_stockage **storage,
 					t_ptr_stockage *new);
 void			ptr_stockage_clear(t_ptr_stockage **storage);
+unsigned int	hashf(void *ptr, int size);
 
 // Allocation and free functions
 void			*ft_malloc(size_t size);

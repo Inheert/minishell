@@ -6,34 +6,17 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:01:31 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/02 16:39:58 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:01:44 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "garbage_collector.h"
 
-unsigned int	hashf(void *ptr, int size)
+void	malloc_error(void)
 {
-	unsigned long long	ptr_value;
-	unsigned int		hash;
-	size_t				i;
-	size_t				s;
-
-	ptr_value = (unsigned long long)ptr;
-	i = 0;
-	hash = 0;
-	s = sizeof(ptr_value);
-	while (i < s)
-	{
-		hash += ((ptr_value >> (i * 8)) & 0xFF);
-		hash += (hash << 10);
-		hash ^= (hash >> 6);
-		i++;
-	}
-	hash += (hash << 3);
-	hash ^= (hash >> 11);
-	hash += (hash << 15);
-	return (hash % size);
+	printf("ERROR: a problem occured when using malloc.\n");
+	ft_free_all();
+	exit(EXIT_FAILURE);
 }
 
 void	add_to_garbage(t_ptr_stockage *container[CONTAINER_SIZE], void *ptr)
