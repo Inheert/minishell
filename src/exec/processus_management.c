@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:38:28 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/25 17:59:05 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:20:32 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	exec_first_processus(t_pipe *pipes)
 	char	**cmd;
 
 	menvp = create_str_envp(pipes->menvp);
-	token_management(pipes, pipes->tokens);
+	token_management(pipes, pipes->tokens, 1);
 	if (dup2(pipes->fds[1], 1) == -1)
 		raise_perror("dup2 failed", 1);
 	t_pipe_close_fds(pipes);
@@ -55,7 +55,7 @@ void	exec_middle_processus(t_pipe *pipes)
 	char	**cmd;
 
 	menvp = create_str_envp(pipes->menvp);
-	token_management(pipes, pipes->tokens);
+	token_management(pipes, pipes->tokens, 1);
 	if (pipes->here_doc[0] == -1 && dup2(pipes->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
 	if (dup2(pipes->fds[1], 1) == -1)
@@ -80,7 +80,7 @@ void	exec_last_processus(t_pipe *pipes)
 	char	**cmd;
 
 	menvp = create_str_envp(pipes->menvp);
-	token_management(pipes, pipes->tokens);
+	token_management(pipes, pipes->tokens, 1);
 	if (pipes->prev && dup2(pipes->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
 	t_pipe_close_fds(pipes->prev);

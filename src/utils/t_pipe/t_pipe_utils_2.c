@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:43:06 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/21 10:55:27 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:25:49 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,26 @@ void	t_close_pipe(int fd[2])
 		close(fd[0]);
 	if (fd[1] != -1)
 		close(fd[1]);
+}
+
+int	get_fds(t_pipe *pipes, int fd)
+{
+	printf("");
+	if (fd == 0)
+	{
+		if (!pipes)
+			return (0);
+		if (pipes->fds[0] == -1)
+			return (0);
+		return (pipes->fds[0]);
+	}
+	else if (fd == 1)
+	{
+		if (!pipes)
+			return (1);
+		if (pipes->fds[1] == -1)
+			return (1);
+		return (pipes->fds[1]);
+	}
+	return (-1);
 }
