@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/25 17:34:35 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:26:51 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_pipe	*prepare_pipes(t_token **tokens, t_envp *menvp)
 	return (pipes);
 }
 
-void	token_management(t_pipe *pipes, t_token *token)
+void	token_management(t_pipe *pipes, t_token *token, int is_sub_process)
 {
 	t_token	*tmp;
 	int		fdin;
@@ -62,5 +62,11 @@ void	token_management(t_pipe *pipes, t_token *token)
 		if (tmp)
 			t_token_del(&pipes->tokens, tmp);
 	}
-	ft_check_redir_in_out(pipes, fdin, fdout);
+	if (is_sub_process)
+		ft_check_redir_in_out(pipes, fdin, fdout);
+	else
+	{
+		pipes->fds[0] = fdin;
+		pipes->fds[1] = fdout;
+	}
 }

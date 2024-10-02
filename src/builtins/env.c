@@ -6,13 +6,13 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:12 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/11 18:45:54 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:32:33 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(t_envp *menvp)
+void	ft_env(t_pipe *pipes, t_envp *menvp)
 {
 	if (!menvp)
 		return ;
@@ -23,11 +23,14 @@ void	ft_env(t_envp *menvp)
 			menvp = menvp->next;
 			continue ;
 		}
-		printf("%s", menvp->name);
+		ft_putstr_fd(menvp->name, get_fds(pipes, STDOUT_FILENO));
 		if (menvp->equal && !menvp->value)
-			printf("=\n");
+			ft_putendl_fd("=\n", get_fds(pipes, STDOUT_FILENO));
 		else
-			printf("=%s\n", menvp->value);
+		{
+			ft_putstr_fd("=", get_fds(pipes, STDOUT_FILENO));
+			ft_putendl_fd(menvp->value, get_fds(pipes, STDOUT_FILENO));
+		}
 		menvp = menvp->next;
 	}
 }

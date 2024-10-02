@@ -6,18 +6,11 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:56:17 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/22 10:34:13 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:01:40 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "garbage_collector.h"
-
-void	malloc_error(void)
-{
-	printf("ERROR: a problem occured when using malloc.\n");
-	ft_free_all();
-	exit(EXIT_FAILURE);
-}
 
 void	*ft_malloc(size_t size)
 {
@@ -37,6 +30,13 @@ void	ft_store_malloc(void *ptr)
 	if (!ptr)
 		return ;
 	garbage_collector(ADD, ptr);
+}
+
+void	ft_unstore_malloc(void *ptr)
+{
+	if (!ptr)
+		return ;
+	garbage_collector(UNSTORE, ptr);
 }
 
 void	ft_free(void *ptr)

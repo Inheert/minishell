@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:47 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/10 18:12:36 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:42:06 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_cd(t_envp *menvp, char **cmd)
 	unsigned int	i;
 
 	i = 1;
-	if (!cmd[i])
+	if (!cmd || !cmd[i])
 		return ;
 	dir = opendir(cmd[1]);
 	if (!dir)

@@ -144,6 +144,7 @@ void			t_pipe_add_back(t_pipe **pipes, t_pipe *new);
 void			t_pipe_close_fds(t_pipe *pipes);
 void			t_close_pipe(int fd[2]);
 unsigned int	t_pipe_size(t_pipe *pipe);
+int				get_fds(t_pipe *pipes, int fd);
 
 // Utils - Envp structure manipulation
 t_envp			*t_envp_init(char **envp);
@@ -157,20 +158,21 @@ t_envp			*t_envp_finding(t_envp *menvp, char *name);
 char			*concat_str_equal_sign(char **str);
 char			**create_str_envp(t_envp *menvp);
 unsigned int	t_envp_size(t_envp *menvp);
+void			t_envp_check(t_envp *menvp);
 
 // Utils - Builtins
 int				is_command_builtin(char *cmd);
-void			ft_echo(char **cmd);
-void			ft_pwd(void);
+void			ft_echo(char **cmd, t_pipe *pipes);
+void			ft_pwd(t_pipe *pipes);
 void			ft_cd(t_envp *menvp, char **cmd);
-void			ft_env(t_envp *menvp);
+void			ft_env(t_pipe *pipes, t_envp *menvp);
 void			ft_unset(t_envp *menvp, char *to_unset);
-void			ft_export(char **cmd, t_envp *menvp);
+void			ft_export(char **cmd, t_pipe *pipes, t_envp *menvp);
 void			ft_exit(char **code);
 
 // Utils - Exec
 t_pipe			*prepare_pipes(t_token **tokens, t_envp *menvp);
-void			token_management(t_pipe *pipes, t_token *token);
+void			token_management(t_pipe *pipes, t_token *token, int is_sub_process);
 
 // Utils - Other
 char			**copy_str_ptr(char **ptr);
