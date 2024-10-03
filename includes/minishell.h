@@ -75,6 +75,7 @@ typedef struct s_pipe
 	int				fds[2];
 	int				here_doc[2];
 	int				pid;
+	int				status_code;
 	t_envp			*menvp;
 	struct s_token	*tokens;
 	struct s_pipe	*next;

@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:43:06 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/03 13:22:44 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:02:45 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	t_pipe_close_fds(t_pipe *pipes)
 			close(pipes->fds[0]);
 		if (pipes->fds[1] != 1 && pipes->fds[1] != -1)
 			close(pipes->fds[1]);
+		pipes->fds[0] = -1;
+		pipes->fds[1] = -1;
 		pipes = pipes->next;
 	}
 }
@@ -49,6 +51,8 @@ void	t_pipe_close_builtin_fds(t_pipe *pipes)
 {
 	int	fd;
 
+	if (!pipes)
+		return ;
 	fd = get_fds(pipes, STDOUT_FILENO);
 	if (fd != 1 && fd != -1)
 		close(fd);
