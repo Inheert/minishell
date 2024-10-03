@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/01 15:46:10 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:10:39 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,18 @@ void	start_execution(t_pipe *pipes)
 			raise_perror("Fork creation failed", 1);
 		if (pipes->pid == 0)
 			exec_sub_processus(pipes, size, i);
-		//init_silence_signals_handlers();
 		i++;
 		pipes = pipes->next;
 	}
-	 t_pipe_close_fds(tmp);
+	init_silence_signals_handlers();
+	t_pipe_close_fds(tmp);
 }
 
 void	ft_exec(t_token **tokens, t_envp *menvp)
 {
 	t_pipe			*pipes;
 	t_pipe			*tmp;
+	int				exit_status;
 
 	pipes = prepare_pipes(tokens, menvp);
 	if (!pipes)
@@ -80,7 +81,7 @@ void	ft_exec(t_token **tokens, t_envp *menvp)
 	start_execution(pipes);
 	while (tmp)
 	{
-		if (tmp->pid != -1 && waitpid(tmp->pid, NULL, 0) == -1)
+		if (tmp->pid != -1 && waitpid(tmp->pid, &exit_status, 0) == -1)
 			raise_perror("waitpid failed", 1);
 		tmp = tmp->next;
 	}

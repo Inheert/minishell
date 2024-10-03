@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:09 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/14 20:42:22 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:25:54 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ static int	status_code(char *code)
 	return (result);
 }
 
-void	ft_exit(char **code)
+void	ft_exit(t_pipe *pipes, char **code)
 {
 	int	exit_code;
 
+	ft_putendl_fd("exit", 1);
 	if (!code || str_ptr_size(code) <= 1)
 	{
+		t_pipe_close_builtin_fds(pipes);
 		ft_free_all();
 		exit(0);
 	}
@@ -47,6 +49,7 @@ void	ft_exit(char **code)
 		raise_error("exit", "too many arguments", 0, 1);
 		return ;
 	}
+	t_pipe_close_builtin_fds(pipes);
 	exit_code = status_code(code[1]);
 	ft_free_all();
 	exit(exit_code);

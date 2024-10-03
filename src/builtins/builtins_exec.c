@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:10:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/02 17:46:30 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:23:56 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static void	manage_sub_processus_exit(int sub_process)
 
 void	exec_builtins(t_pipe *pipes, char **cmd, int sub_process)
 {
-	int	fd;
-
 	if (!cmd || !*cmd)
 		return ;
 	token_management(pipes, pipes->tokens, 0);
@@ -41,9 +39,7 @@ void	exec_builtins(t_pipe *pipes, char **cmd, int sub_process)
 	else if (ft_strcmp(cmd[0], EXPORT) == 0)
 		ft_export(cmd, pipes, pipes->menvp);
 	else if (ft_strcmp(cmd[0], EXIT) == 0)
-		ft_exit(cmd);
-	fd = get_fds(pipes, STDOUT_FILENO);
-	if (fd != 1 && fd != -1)
-		close(fd);
+		ft_exit(pipes, cmd);
+	t_pipe_close_builtin_fds(pipes);
 	manage_sub_processus_exit(sub_process);
 }
