@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/03 15:08:07 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:01:28 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	start_execution(t_pipe *pipes)
 	t_pipe_close_fds(tmp);
 }
 
-void	ft_exec(t_token **tokens, t_envp *menvp)
+int	ft_exec(t_token **tokens, t_envp *menvp)
 {
 	t_pipe			*pipes;
 	t_pipe			*tmp;
@@ -76,7 +76,8 @@ void	ft_exec(t_token **tokens, t_envp *menvp)
 
 	pipes = prepare_pipes(tokens, menvp);
 	if (!pipes)
-		return ;
+		return (0);
+	exit_status = 0;
 	tmp = pipes;
 	start_execution(pipes);
 	while (tmp)
@@ -85,4 +86,7 @@ void	ft_exec(t_token **tokens, t_envp *menvp)
 			raise_perror("waitpid failed", 1);
 		tmp = tmp->next;
 	}
+	if (WIFEXITED(exit_status))
+		return (WEXITSTATUS(exit_status));
+	return (0);
 }

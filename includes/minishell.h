@@ -75,6 +75,7 @@ typedef struct s_pipe
 	int				fds[2];
 	int				here_doc[2];
 	int				pid;
+	int				parent_pid;
 	int				status_code;
 	t_envp			*menvp;
 	struct s_token	*tokens;
@@ -105,7 +106,7 @@ void			exec_first_processus(t_pipe *pipes);
 void			exec_middle_processus(t_pipe *pipes);
 void			exec_last_processus(t_pipe *pipes);
 void			exec_builtins(t_pipe *pipes, char **cmd, int sub_process);
-void			ft_exec(t_token **tokens, t_envp *menvp);
+int				ft_exec(t_token **tokens, t_envp *menvp);
 
 // Utils - Error management
 void			raise_perror(char *error, int critical);

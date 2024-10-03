@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/03 14:19:01 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:23:34 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_pipe	*t_pipe_new(t_envp *menvp)
 	new->menvp = menvp;
 	new->status_code = 0;
 	new->pid = -1;
+	new->parent_pid = getpid();
 	new->tokens = NULL;
 	new->fds[0] = 0;
 	new->fds[1] = 1;
