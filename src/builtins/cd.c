@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:47 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/01 13:42:06 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:41:12 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	modify_envp_path(t_envp *menvp)
 {
 	t_envp	*pwd;
 	t_envp	*old_pwd;
+	char	*tmp;
 
 	pwd = t_envp_finding(menvp, "PWD");
 	old_pwd = t_envp_finding(menvp, "OLDPWD");
@@ -28,7 +29,9 @@ void	modify_envp_path(t_envp *menvp)
 		}
 		else
 			ft_free(pwd->value);
-		pwd->value = getcwd(NULL, 0);
+		tmp = getcwd(NULL, 0);
+		pwd->value = ft_strdup(tmp);
+		free(tmp);
 	}
 	else if (!pwd)
 	{

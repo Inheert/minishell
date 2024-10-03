@@ -75,6 +75,8 @@ typedef struct s_pipe
 	int				fds[2];
 	int				here_doc[2];
 	int				pid;
+	int				parent_pid;
+	int				status_code;
 	t_envp			*menvp;
 	struct s_token	*tokens;
 	struct s_pipe	*next;
@@ -104,7 +106,7 @@ void			exec_first_processus(t_pipe *pipes);
 void			exec_middle_processus(t_pipe *pipes);
 void			exec_last_processus(t_pipe *pipes);
 void			exec_builtins(t_pipe *pipes, char **cmd, int sub_process);
-void			ft_exec(t_token **tokens, t_envp *menvp);
+int				ft_exec(t_token **tokens, t_envp *menvp);
 
 // Utils - Error management
 void			raise_perror(char *error, int critical);
@@ -142,6 +144,7 @@ void			t_pipe_display(t_pipe *pipes);
 void			t_pipe_add_front(t_pipe **pipes, t_pipe *new);
 void			t_pipe_add_back(t_pipe **pipes, t_pipe *new);
 void			t_pipe_close_fds(t_pipe *pipes);
+void			t_pipe_close_builtin_fds(t_pipe *pipes);
 void			t_close_pipe(int fd[2]);
 unsigned int	t_pipe_size(t_pipe *pipe);
 int				get_fds(t_pipe *pipes, int fd);
@@ -168,7 +171,7 @@ void			ft_cd(t_envp *menvp, char **cmd);
 void			ft_env(t_pipe *pipes, t_envp *menvp);
 void			ft_unset(t_envp *menvp, char *to_unset);
 void			ft_export(char **cmd, t_pipe *pipes, t_envp *menvp);
-void			ft_exit(char **code);
+void			ft_exit(t_pipe *pipes, char **code);
 
 // Utils - Exec
 t_pipe			*prepare_pipes(t_token **tokens, t_envp *menvp);
