@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:09:51 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/02 17:36:55 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:43:39 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,9 @@ void	init_parent_signals_handlers(void)
 static void	children_signals_handlers(int sig)
 {
 	if (sig == SIGINT)
-	{
 		printf("\n");
-
-	}
 	else if (sig == SIGQUIT)
-	{
 		printf("exit\n");
-	}
 }
 
 void	init_children_signals_handlers(void)
