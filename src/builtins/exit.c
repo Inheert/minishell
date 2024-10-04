@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:09 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/03 15:43:43 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:44:02 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	status_code(char *code)
 {
 	int	result;
 
-	result  = 0;
+	result = 0;
 	if (*code == '+' || *code == '-')
 		code++;
 	if (!code)

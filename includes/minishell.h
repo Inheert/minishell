@@ -29,7 +29,6 @@
 # include "../src/utils/libft/libft.h"
 # include "../src/utils/garbage_collector/includes/garbage_collector.h"
 
-
 # define ECHO "echo"
 # define CD "cd"
 # define PWD "pwd"
@@ -84,12 +83,12 @@ typedef struct s_pipe
 }	t_pipe;
 
 // Signals handlers prototypes
-void	init_parent_signals_handlers(void);
-void	init_children_signals_handlers(void);
-void	init_silence_signals_handlers(void);
+void			init_parent_signals_handlers(void);
+void			init_children_signals_handlers(void);
+void			init_silence_signals_handlers(void);
 
 // Parsing
-t_token 		*tokenisation(char *prompt);
+t_token			*tokenisation(char *prompt);
 void			blanks(t_token *token, char *prompt, int *i);
 void			simple_quote(t_token *token, char *prompt, int *i);
 int				parse_tokens(t_token **token, t_envp *menvp);
@@ -159,7 +158,7 @@ void			t_envp_display(t_envp *envp);
 int				t_envp_is_exist(t_envp *menvp, char *name);
 t_envp			*t_envp_finding(t_envp *menvp, char *name);
 char			*concat_str_equal_sign(char **str);
-char			**create_str_envp(t_envp *menvp);
+char			**t_envp_convert_to_str(t_envp *menvp);
 unsigned int	t_envp_size(t_envp *menvp);
 void			t_envp_check(t_envp *menvp);
 
@@ -175,7 +174,8 @@ void			ft_exit(t_pipe *pipes, char **code);
 
 // Utils - Exec
 t_pipe			*prepare_pipes(t_token **tokens, t_envp *menvp);
-void			token_management(t_pipe *pipes, t_token *token, int is_sub_process);
+void			token_management(t_pipe *pipes, t_token *token,
+					int is_sub_process);
 
 // Utils - Other
 char			**copy_str_ptr(char **ptr);

@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:01:31 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/02 18:01:44 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:41:07 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,12 @@ void	clear_garbage(t_ptr_stockage *container[CONTAINER_SIZE])
 
 	if (!container)
 		return ;
-	i = 0;
-	while (i < CONTAINER_SIZE)
-		ptr_stockage_clear(&container[i++]);
+	i = -1;
+	while (++i < CONTAINER_SIZE)
+	{
+		ptr_stockage_clear(&container[i]);
+		container[i] = NULL;
+	}
 }
 
 void	*garbage_collector(t_garbage_action action, void *ptr)
