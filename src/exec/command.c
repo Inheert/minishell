@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 07:34:17 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/08/24 16:52:47 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:24:00 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,34 @@ char	*check_path(char **cmd, char **envp)
 	{
 		partial_path = ft_strjoin(envp[i], "/");
 		if (!partial_path)
-			return (free_str_ptr(envp), NULL);
+			return (NULL);
 		full_path = ft_strjoin(partial_path, cmd[0]);
 		if (!full_path)
-			return (free(partial_path), free_str_ptr(envp), NULL);
+			return (free(partial_path), NULL);
 		ft_free(partial_path);
 		if (access(full_path, X_OK) == 0 || access(full_path, F_OK) == 0)
-			return (free_str_ptr(envp), full_path);
+			return (full_path);
 		ft_free(full_path);
 	}
-	free_str_ptr(envp);
 	return (NULL);
 }
 
 char	*find_path(char **cmd, char **envp)
 {
 	if (ft_strlen(cmd[0]) == 0)
-		return (free_str_ptr(cmd), raise_error("Command not valid",
+		return (raise_error("Command not valid",
 				"command len is equal to 0", 1, 1), NULL);
 	if (is_command_builtin(cmd[0]))
 		return (cmd[0]);
 	if (!envp || !*envp)
-		return (free_str_ptr(cmd),
-			raise_error("envp error", "envp is missing or NULL", 1, 1), NULL);
-	if (access(cmd[0], X_OK) == 0)
-		return (cmd[0]);
-	else if (access(cmd[0], F_OK) == 0 && cmd[0][0] == '.')
-		return (free_str_ptr(cmd), raise_error("Permission denied",
-				"command can be executed", 1, 126), NULL);
+		return (raise_error("envp error", "envp is missing or NULL", 1, 1),
+				NULL);
+	if (access(cmd[0], X_OK) == 0 && ft_strncmp(cmd[0], "./", 2) == 0)
+		return (printf("XOK\n"), cmd[0]);
+	else if (access(cmd[0], F_OK) == 0 && ft_strncmp(cmd[0], "./", 2) == 0)
+		return (printf("FOK\n"), cmd[0]);
+	else if (ft_strncmp(cmd[0], "./", 2) == 0)
+		return (NULL);
 	while (envp && *envp && ft_strncmp(*envp, "PATH=", 5) != 0)
 		envp++;
 	envp = ft_split(*envp, ':');
