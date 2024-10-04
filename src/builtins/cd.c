@@ -6,42 +6,49 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:47 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/03 13:41:12 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:47:11 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	pwd_exist(t_envp *pwd, t_envp *old_pwd)
+{
+	char	*tmp;
+
+	if (old_pwd)
+	{
+		ft_free(old_pwd->value);
+		old_pwd->value = pwd->value;
+	}
+	else
+		ft_free(pwd->value);
+	tmp = getcwd(NULL, 0);
+	pwd->value = ft_strdup(tmp);
+	free(tmp);
+}
+
+static void	pwd_dont_exist(t_envp *old_pwd)
+{
+	if (old_pwd && old_pwd->value)
+	{
+		ft_free(old_pwd->value);
+		old_pwd->value = NULL;
+		old_pwd->equal = 0;
+	}
+}
+
 void	modify_envp_path(t_envp *menvp)
 {
 	t_envp	*pwd;
 	t_envp	*old_pwd;
-	char	*tmp;
 
 	pwd = t_envp_finding(menvp, "PWD");
 	old_pwd = t_envp_finding(menvp, "OLDPWD");
 	if (pwd)
-	{
-		if (old_pwd)
-		{
-			ft_free(old_pwd->value);
-			old_pwd->value = pwd->value;
-		}
-		else
-			ft_free(pwd->value);
-		tmp = getcwd(NULL, 0);
-		pwd->value = ft_strdup(tmp);
-		free(tmp);
-	}
+		pwd_exist(pwd, old_pwd);
 	else if (!pwd)
-	{
-		if (old_pwd && old_pwd->value)
-		{
-			ft_free(old_pwd->value);
-			old_pwd->value = NULL;
-			old_pwd->equal = 0;
-		}
-	}
+		pwd_dont_exist(old_pwd);
 }
 
 void	ft_cd(t_envp *menvp, char **cmd)

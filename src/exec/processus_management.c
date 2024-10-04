@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:38:28 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/04 15:27:24 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:28:35 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@ void	store_unstore_malloc(char *cmd_path, char **cmd, char **menvp,
 		ft_unstore_malloc(cmd);
 		ft_unstore_malloc(menvp);
 		i = -1;
-		while(cmd[++i])
-				ft_unstore_malloc(cmd[i]);
+		while (cmd[++i])
+			ft_unstore_malloc(cmd[i]);
 		i = -1;
 		while (menvp[++i])
-				ft_unstore_malloc(menvp[i]);
+			ft_unstore_malloc(menvp[i]);
 		return ;
 	}
-		ft_store_malloc(cmd_path);
-		ft_store_malloc(cmd);
-		ft_store_malloc(menvp);
-		i = -1;
-		while (cmd[++i])
-				ft_store_malloc(cmd[i]);
-		i = -1;
-		while (menvp[++i])
-				ft_store_malloc(menvp[i]);
+	ft_store_malloc(cmd_path);
+	ft_store_malloc(cmd);
+	ft_store_malloc(menvp);
+	i = -1;
+	while (cmd[++i])
+		ft_store_malloc(cmd[i]);
+	i = -1;
+	while (menvp[++i])
+		ft_store_malloc(menvp[i]);
 }
 
 void	manage_execve(t_pipe *pipes, char **cmd, char **menvp)
@@ -60,7 +60,7 @@ void	exec_first_processus(t_pipe *pipes)
 	char	**menvp;
 	char	**cmd;
 
-	menvp = create_str_envp(pipes->menvp);
+	menvp = t_envp_convert_to_str(pipes->menvp);
 	token_management(pipes, pipes->tokens, 1);
 	if (dup2(pipes->fds[1], 1) == -1)
 		raise_perror("dup2 failed", 1);
@@ -83,7 +83,7 @@ void	exec_middle_processus(t_pipe *pipes)
 	char	**menvp;
 	char	**cmd;
 
-	menvp = create_str_envp(pipes->menvp);
+	menvp = t_envp_convert_to_str(pipes->menvp);
 	token_management(pipes, pipes->tokens, 1);
 	if (pipes->here_doc[0] == -1 && dup2(pipes->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
@@ -108,7 +108,7 @@ void	exec_last_processus(t_pipe *pipes)
 	char	**menvp;
 	char	**cmd;
 
-	menvp = create_str_envp(pipes->menvp);
+	menvp = t_envp_convert_to_str(pipes->menvp);
 	token_management(pipes, pipes->tokens, 1);
 	if (pipes->prev && dup2(pipes->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);

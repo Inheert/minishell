@@ -6,13 +6,14 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/04 15:20:04 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:22:49 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Why heredoc dont work good when he is part of a middle processus? What pipe create this problem? What connection/dup2 is wrong/missing?
+// Why heredoc dont work good when he is part of a middle processus?
+// What pipe create this problem? What connection/dup2 is wrong/missing?
 // Is all fds are closed in the right way? Even for errors?
 
 void	exec_sub_processus(t_pipe *pipes, unsigned int size, unsigned int i)

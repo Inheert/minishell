@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 14:24:05 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/04 13:41:59 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:43:10 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_envp	*t_envp_init(char **envp)
 	return (menvp);
 }
 
-char	**create_str_envp(t_envp *menvp)
+char	**t_envp_convert_to_str(t_envp *menvp)
 {
 	char	**ptr;
 	char	*tmp;

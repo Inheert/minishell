@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/04 15:24:10 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:43:52 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	display_env_var(char *var_name, t_pipe *pipes, t_envp *tmp_menvp)
 	{
 		if (ft_strcmp(var_name, tmp_menvp->name) == 0)
 		{
-			ft_putstr_fd("declare -x ",get_fds(pipes, STDOUT_FILENO));
+			ft_putstr_fd("declare -x ", get_fds(pipes, STDOUT_FILENO));
 			ft_putstr_fd(tmp_menvp->name, get_fds(pipes, STDOUT_FILENO));
 			if (tmp_menvp->equal && !tmp_menvp->value)
 				ft_putendl_fd("=\"\"\n", get_fds(pipes, STDOUT_FILENO));

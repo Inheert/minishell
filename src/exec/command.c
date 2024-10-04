@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 07:34:17 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/04 15:24:00 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:28:18 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*find_path(char **cmd, char **envp)
 		return (cmd[0]);
 	if (!envp || !*envp)
 		return (raise_error("envp error", "envp is missing or NULL", 1, 1),
-				NULL);
+			NULL);
 	if (access(cmd[0], X_OK) == 0 && ft_strncmp(cmd[0], "./", 2) == 0)
 		return (printf("XOK\n"), cmd[0]);
 	else if (access(cmd[0], F_OK) == 0 && ft_strncmp(cmd[0], "./", 2) == 0)

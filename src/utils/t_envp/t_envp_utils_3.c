@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 17:50:34 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/01 15:46:23 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:27:45 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,31 @@ static	void	set_pwd(t_envp *menvp, char *path)
 	}
 }
 
-void	t_envp_check(t_envp *menvp)
+static int	check_env_var(t_envp *menvp, char **pwd)
 {
 	DIR		*dir;
-	t_envp	*env_var;
-	char	*pwd;
 	char	*tmp;
 	int		idx;
+
+	dir = opendir(*pwd);
+	if (!dir)
+	{
+		idx = find_last_slash(*pwd);
+		if (idx == -1 || idx == 0)
+			return (0);
+		tmp = *pwd;
+		*pwd = ft_substr(*pwd, 0, idx);
+		ft_free(tmp);
+	}
+	else
+		return (chdir(*pwd), closedir(dir), set_pwd(menvp, *pwd), 1);
+	return (0);
+}
+
+void	t_envp_check(t_envp *menvp)
+{
+	t_envp	*env_var;
+	char	*pwd;
 
 	if (!menvp)
 		return ;
@@ -82,18 +100,6 @@ void	t_envp_check(t_envp *menvp)
 		return ;
 	pwd = ft_strdup(env_var->value);
 	while (pwd)
-	{
-		dir = opendir(pwd);
-		if (!dir)
-		{
-			idx = find_last_slash(pwd);
-			if (idx == -1 || idx == 0)
-				break ;
-			tmp = pwd;
-			pwd = ft_substr(pwd, 0, idx);
-			ft_free(tmp);
-		}
-		else
-			return (chdir(pwd), closedir(dir), set_pwd(menvp, pwd));
-	}
+		if (check_env_var(menvp, &pwd))
+			break ;
 }
