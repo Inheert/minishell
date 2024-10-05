@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_pipe_utils_2.c                                   :+:      :+:    :+:   */
+/*   t_processus_utils_2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 16:43:06 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/03 14:02:45 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/10/05 18:01:32 by Théo              #+#    #+#             */
+/*   Updated: 2024/10/05 18:01:36 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	t_pipe_display(t_pipe *pipes)
+void	t_processus_display(t_processus *pipes)
 {
 	t_token	*tmp;
 
@@ -29,7 +29,7 @@ void	t_pipe_display(t_pipe *pipes)
 	}
 }
 
-void	t_pipe_close_fds(t_pipe *pipes)
+void	t_processus_close_fds(t_processus *pipes)
 {
 	if (!pipes)
 		return ;
@@ -41,13 +41,19 @@ void	t_pipe_close_fds(t_pipe *pipes)
 			close(pipes->fds[0]);
 		if (pipes->fds[1] != 1 && pipes->fds[1] != -1)
 			close(pipes->fds[1]);
+		if (pipes->here_doc[0] != -1)
+			close(pipes->here_doc[0]);
+		if (pipes->here_doc[1] != -1)
+			close(pipes->here_doc[1]);
 		pipes->fds[0] = -1;
 		pipes->fds[1] = -1;
+		pipes->here_doc[0] = -1;
+		pipes->here_doc[1] = -1;
 		pipes = pipes->next;
 	}
 }
 
-void	t_pipe_close_builtin_fds(t_pipe *pipes)
+void	t_processus_close_builtin_fds(t_processus *pipes)
 {
 	int	fd;
 
@@ -61,17 +67,8 @@ void	t_pipe_close_builtin_fds(t_pipe *pipes)
 		close(fd);
 }
 
-void	t_close_pipe(int fd[2])
+int	get_fds(t_processus *pipes, int fd)
 {
-	if (fd[0] != -1)
-		close(fd[0]);
-	if (fd[1] != -1)
-		close(fd[1]);
-}
-
-int	get_fds(t_pipe *pipes, int fd)
-{
-	printf("");
 	if (fd == 0)
 	{
 		if (!pipes)

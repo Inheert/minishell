@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_pipe_utils.c                                     :+:      :+:    :+:   */
+/*   t_processus_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 23:55:09 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/03 15:23:34 by tclaereb         ###   ########.fr       */
+/*   Created: 2024/10/05 18:01:24 by Théo              #+#    #+#             */
+/*   Updated: 2024/10/05 18:01:27 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	t_pipe_add_front(t_pipe **pipes, t_pipe *new)
+void	t_processus_add_front(t_processus **pipes, t_processus *new)
 {
 	if (!pipes || !new)
 		return ;
@@ -26,9 +26,9 @@ void	t_pipe_add_front(t_pipe **pipes, t_pipe *new)
 	*pipes = new;
 }
 
-void	t_pipe_add_back(t_pipe **pipes, t_pipe *new)
+void	t_processus_add_back(t_processus **pipes, t_processus *new)
 {
-	t_pipe	*tmp;
+	t_processus	*tmp;
 
 	if (!pipes || !new)
 		return ;
@@ -47,11 +47,11 @@ void	t_pipe_add_back(t_pipe **pipes, t_pipe *new)
 			raise_perror("Pipe creation failed", 1);
 }
 
-t_pipe	*t_pipe_new(t_envp *menvp)
+t_processus	*t_processus_new(t_envp *menvp)
 {
-	t_pipe	*new;
+	t_processus	*new;
 
-	new = ft_malloc(sizeof(t_pipe));
+	new = ft_malloc(sizeof(t_processus));
 	new->menvp = menvp;
 	new->status_code = 0;
 	new->pid = -1;
@@ -66,7 +66,7 @@ t_pipe	*t_pipe_new(t_envp *menvp)
 	return (new);
 }
 
-t_token	*t_token_finding(t_pipe *pipes, e_token token)
+t_token	*t_token_finding(t_processus *pipes, t_token_type token)
 {
 	t_token	*tmp;
 

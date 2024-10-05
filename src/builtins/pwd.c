@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:38 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/02 15:28:43 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:55:52 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd(t_pipe *pipes)
+void	ft_pwd(t_processus *pipes)
 {
 	char	*cwd;
 
