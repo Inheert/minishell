@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/05 18:24:53 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/05 23:36:54 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,36 @@ t_processus	*prepare_processus(t_token **tokens, t_envp *menvp)
 	return (pipes);
 }
 
+static void	delete_useless_tokens(t_processus *pipes)
+{
+	t_token	*tokens;
+	t_token	*tmp;
+
+	if (!pipes)
+		return ;
+	tokens = pipes->tokens;
+	while (tokens)
+	{
+		if (tokens->token == REDIR_IN || tokens->token == REDIR_OUT
+			|| tokens->token == REDIR_APPEND_OUT || tokens->token == HERE_DOC)
+		{
+			tmp = tokens;
+			tokens = tokens->next;
+			t_token_del(&pipes->tokens, tmp);
+			continue ;
+		}
+		tokens = tokens->next;
+	}
+}
+
 void	token_management(t_processus *pipes, t_token *token, int is_sub_process)
 {
 	int		fdin;
 	int		fdout;
 
+	pipes = NULL;
+	if (!pipes || ! token)
+		return (raise_error("CRITICAL", "An important pointer is NULL!", 1, 1));
 	fdin = -1;
 	fdout = -1;
 	while (token)
@@ -63,4 +88,5 @@ void	token_management(t_processus *pipes, t_token *token, int is_sub_process)
 		pipes->fds[0] = fdin;
 		pipes->fds[1] = fdout;
 	}
+	delete_useless_tokens(pipes);
 }
