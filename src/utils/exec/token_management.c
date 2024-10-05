@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/05 23:47:40 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 t_processus	*prepare_processus(t_token **tokens, t_envp *menvp)
 {
-	t_processus	*pipes;
+	t_processus	*process;
 	t_processus	*tmp_pipe;
 	t_token		*tmp_token;
 
-	pipes = NULL;
+	process = NULL;
 	tmp_pipe = NULL;
 	tmp_token = *tokens;
 	while (tmp_token)
@@ -29,26 +29,26 @@ t_processus	*prepare_processus(t_token **tokens, t_envp *menvp)
 			t_token_add_back(&tmp_pipe->tokens, t_token_copy(tmp_token));
 		else
 		{
-			t_processus_add_back(&pipes, tmp_pipe);
+			t_processus_add_back(&process, tmp_pipe);
 			tmp_pipe = NULL;
 		}
 		tmp_token = tmp_token->next;
 	}
 	if (tmp_pipe)
-		t_processus_add_back(&pipes, tmp_pipe);
+		t_processus_add_back(&process, tmp_pipe);
 	free_t_token(*tokens);
 	*tokens = NULL;
-	return (pipes);
+	return (process);
 }
 
-static void	delete_useless_tokens(t_processus *pipes)
+static void	delete_useless_tokens(t_processus *process)
 {
 	t_token	*tokens;
 	t_token	*tmp;
 
-	if (!pipes)
+	if (!process)
 		return ;
-	tokens = pipes->tokens;
+	tokens = process->tokens;
 	while (tokens)
 	{
 		if (tokens->token == REDIR_IN || tokens->token == REDIR_OUT
@@ -56,36 +56,36 @@ static void	delete_useless_tokens(t_processus *pipes)
 		{
 			tmp = tokens;
 			tokens = tokens->next;
-			t_token_del(&pipes->tokens, tmp);
+			t_token_del(&process->tokens, tmp);
 			continue ;
 		}
 		tokens = tokens->next;
 	}
 }
 
-void	token_management(t_processus *pipes, t_token *token, int is_sub_process)
+void	token_management(t_processus *process, t_token *token, int is_sub_process)
 {
 	int		fdin;
 	int		fdout;
 
-	if (!pipes || ! token)
+	if (!process || ! token)
 		return (raise_error("CRITICAL", "An important pointer is NULL!", 1, 1));
 	fdin = -1;
 	fdout = -1;
 	while (token)
 	{
 		if (token->token == REDIR_IN)
-			ft_redir_in(pipes, token, &fdin);
+			ft_redir_in(process, token, &fdin);
 		else if (token->token == REDIR_OUT || token->token == REDIR_APPEND_OUT)
-			ft_redir_out(pipes, token, &fdout);
+			ft_redir_out(process, token, &fdout);
 		token = token->next;
 	}
 	if (is_sub_process)
-		ft_check_redir_in_out(pipes, fdin, fdout);
+		ft_check_redir_in_out(process, fdin, fdout);
 	else
 	{
-		pipes->fds[0] = fdin;
-		pipes->fds[1] = fdout;
+		process->fds[0] = fdin;
+		process->fds[1] = fdout;
 	}
-	delete_useless_tokens(pipes);
+	delete_useless_tokens(process);
 }

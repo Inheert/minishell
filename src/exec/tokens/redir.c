@@ -6,30 +6,30 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:59:46 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/06 00:46:37 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*ft_redir_in(t_processus *pipes, t_token *token, int *fdin)
+t_token	*ft_redir_in(t_processus *process, t_token *token, int *fdin)
 {
 	if (*fdin != -1)
 		close(*fdin);
 	*fdin = open(token->str, O_RDONLY);
 	if (*fdin == -1)
 	{
-		if (pipes->parent_pid == getpid())
-			return (t_processus_close_fds(pipes),
+		if (process->parent_pid == getpid())
+			return (t_processus_close_fds(process),
 				raise_perror(token->str, 0), NULL);
 		else
-			return (t_processus_close_fds(pipes),
+			return (t_processus_close_fds(process),
 				raise_perror(token->str, 1), NULL);
 	}
 	return (token);
 }
 
-t_token	*ft_redir_out(t_processus *pipes, t_token *token, int *fdout)
+t_token	*ft_redir_out(t_processus *process, t_token *token, int *fdout)
 {
 	if (*fdout != -1)
 		close(*fdout);
@@ -39,24 +39,24 @@ t_token	*ft_redir_out(t_processus *pipes, t_token *token, int *fdout)
 		*fdout = open(token->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (*fdout == -1)
 	{
-		if (pipes->parent_pid == getpid())
-			return (t_processus_close_fds(pipes),
+		if (process->parent_pid == getpid())
+			return (t_processus_close_fds(process),
 				raise_perror(token->str, 0), NULL);
 		else
-			return (t_processus_close_fds(pipes),
+			return (t_processus_close_fds(process),
 				raise_perror(token->str, 1), NULL);
 	}
 	return (token);
 }
 
-static int	is_heredoc_a_priority(t_processus *pipes, int fdin)
+static int	is_heredoc_a_priority(t_processus *process, int fdin)
 {
 	t_token	*here_doc;
 	t_token	*tmp;
 	int		is_redir_after_here_doc;
 
 	is_redir_after_here_doc = 0;
-	here_doc = t_token_finding(pipes, HERE_DOC);
+	here_doc = t_token_finding(process, HERE_DOC);
 	if (!here_doc)
 		return (0);
 	tmp = here_doc;
@@ -72,45 +72,45 @@ static int	is_heredoc_a_priority(t_processus *pipes, int fdin)
 		return (0);
 	if (fdin != -1)
 		close(fdin);
-	if (dup2(pipes->here_doc[0], 0) == -1)
-		return (t_processus_close_fds(pipes),
+	if (dup2(process->here_doc[0], 0) == -1)
+		return (t_processus_close_fds(process),
 			raise_perror("dup2 failed", 1), 1);
 	return (1);
 }
 
-static void	close_here_docs(t_processus *pipes)
+static void	close_here_docs(t_processus *process)
 {
-	if (pipes->here_doc[0] > 0)
-		close(pipes->here_doc[0]);
-	if (pipes->here_doc[1] > 1)
-		close(pipes->here_doc[1]);
-	pipes->here_doc[0] = -1;
-	pipes->here_doc[1] = -1;
+	if (process->here_doc[0] > 0)
+		close(process->here_doc[0]);
+	if (process->here_doc[1] > 1)
+		close(process->here_doc[1]);
+	process->here_doc[0] = -1;
+	process->here_doc[1] = -1;
 }
 
-void	ft_check_redir_in_out(t_processus *pipes, int fdin, int fdout)
+void	ft_check_redir_in_out(t_processus *process, int fdin, int fdout)
 {
 	int	get_heredoc_as_input;
 
-	get_heredoc_as_input = is_heredoc_a_priority(pipes, fdin);
+	get_heredoc_as_input = is_heredoc_a_priority(process, fdin);
 	if (!get_heredoc_as_input && fdin != -1)
 	{
 		if (dup2(fdin, 0) == -1)
-			return (t_processus_close_fds(pipes),
+			return (t_processus_close_fds(process),
 				raise_perror("dup2 failed", 1));
-		if (pipes->fds[0] > 0)
-			close(pipes->fds[0]);
-		pipes->fds[0] = fdin;
+		if (process->fds[0] > 0)
+			close(process->fds[0]);
+		process->fds[0] = fdin;
 	}
 	if (!get_heredoc_as_input)
-		close_here_docs(pipes);
+		close_here_docs(process);
 	if (fdout != -1)
 	{
 		if (dup2(fdout, 1) == -1)
-			return (t_processus_close_fds(pipes),
+			return (t_processus_close_fds(process),
 				raise_perror("dup2 failed", 1));
-		if (pipes->fds[1] > 1)
-			close(pipes->fds[1]);
-		pipes->fds[1] = fdout;
+		if (process->fds[1] > 1)
+			close(process->fds[1]);
+		process->fds[1] = fdout;
 	}
 }

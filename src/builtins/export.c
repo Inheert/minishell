@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/05 17:55:52 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,22 @@ char	**prepare_display(t_envp *menvp, t_envp *tmp_menvp)
 	return (var_name);
 }
 
-void	display_env_var(char *var_name, t_processus *pipes, t_envp *tmp_menvp)
+void	display_env_var(char *var_name, t_processus *process, t_envp *tmp_menvp)
 {
 	while (tmp_menvp)
 	{
 		if (ft_strcmp(var_name, tmp_menvp->name) == 0)
 		{
-			ft_putstr_fd("declare -x ", get_fds(pipes, STDOUT_FILENO));
-			ft_putstr_fd(tmp_menvp->name, get_fds(pipes, STDOUT_FILENO));
+			ft_putstr_fd("declare -x ", get_fds(process, STDOUT_FILENO));
+			ft_putstr_fd(tmp_menvp->name, get_fds(process, STDOUT_FILENO));
 			if (tmp_menvp->equal && !tmp_menvp->value)
-				ft_putendl_fd("=\"\"\n", get_fds(pipes, STDOUT_FILENO));
+				ft_putendl_fd("=\"\"\n", get_fds(process, STDOUT_FILENO));
 			else if (!tmp_menvp->equal && !tmp_menvp->value)
-				ft_putstr_fd("\n", get_fds(pipes, STDOUT_FILENO));
+				ft_putstr_fd("\n", get_fds(process, STDOUT_FILENO));
 			else
 			{
-				ft_putstr_fd(tmp_menvp->value, get_fds(pipes, STDOUT_FILENO));
-				ft_putendl_fd(tmp_menvp->value, get_fds(pipes, STDOUT_FILENO));
+				ft_putstr_fd(tmp_menvp->value, get_fds(process, STDOUT_FILENO));
+				ft_putendl_fd(tmp_menvp->value, get_fds(process, STDOUT_FILENO));
 			}
 			break ;
 		}
@@ -109,7 +109,7 @@ void	set_var(t_envp *menvp, char **cmd)
 	}
 }
 
-void	ft_export(char **cmd, t_processus *pipes, t_envp *menvp)
+void	ft_export(char **cmd, t_processus *process, t_envp *menvp)
 {
 	char	**var_name;
 	t_envp	*tmp_menvp;
@@ -125,7 +125,7 @@ void	ft_export(char **cmd, t_processus *pipes, t_envp *menvp)
 		while (var_name[++i])
 		{
 			tmp_menvp = menvp;
-			display_env_var(var_name[i], pipes, tmp_menvp);
+			display_env_var(var_name[i], process, tmp_menvp);
 			tmp_menvp = tmp_menvp->next;
 		}
 		free_str_ptr(var_name);

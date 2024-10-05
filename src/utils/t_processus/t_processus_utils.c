@@ -6,38 +6,38 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 18:01:24 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/05 18:01:27 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	t_processus_add_front(t_processus **pipes, t_processus *new)
+void	t_processus_add_front(t_processus **process, t_processus *new)
 {
-	if (!pipes || !new)
+	if (!process || !new)
 		return ;
-	if (!*pipes)
+	if (!*process)
 	{
-		*pipes = new;
+		*process = new;
 		return ;
 	}
-	new->next = *pipes;
-	(*pipes)->prev = new;
-	*pipes = new;
+	new->next = *process;
+	(*process)->prev = new;
+	*process = new;
 }
 
-void	t_processus_add_back(t_processus **pipes, t_processus *new)
+void	t_processus_add_back(t_processus **process, t_processus *new)
 {
 	t_processus	*tmp;
 
-	if (!pipes || !new)
+	if (!process || !new)
 		return ;
-	if (!*pipes)
+	if (!*process)
 	{
-		*pipes = new;
+		*process = new;
 		return ;
 	}
-	tmp = *pipes;
+	tmp = *process;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
@@ -66,13 +66,13 @@ t_processus	*t_processus_new(t_envp *menvp)
 	return (new);
 }
 
-t_token	*t_token_finding(t_processus *pipes, t_token_type token)
+t_token	*t_token_finding(t_processus *process, t_token_type token)
 {
 	t_token	*tmp;
 
-	if (!pipes)
+	if (!process)
 		return (NULL);
-	tmp = pipes->tokens;
+	tmp = process->tokens;
 	while (tmp && tmp->token != token)
 		tmp = tmp->next;
 	if (!tmp || tmp->token != token)
