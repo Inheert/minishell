@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:59:46 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/05 23:33:01 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 00:46:37 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	ft_check_redir_in_out(t_processus *pipes, int fdin, int fdout)
 		if (pipes->fds[0] > 0)
 			close(pipes->fds[0]);
 		pipes->fds[0] = fdin;
-		//fprintf(stderr, "%d fdout: %d fdin: %d\n", getpid(), pipes->fds[1], pipes->fds[0]);
 	}
 	if (!get_heredoc_as_input)
 		close_here_docs(pipes);
@@ -113,6 +112,5 @@ void	ft_check_redir_in_out(t_processus *pipes, int fdin, int fdout)
 		if (pipes->fds[1] > 1)
 			close(pipes->fds[1]);
 		pipes->fds[1] = fdout;
-		//fprintf(stderr, "%d fdout: %d fdin: %d\n", getpid(), pipes->fds[1], pipes->fds[0]);
 	}
 }
