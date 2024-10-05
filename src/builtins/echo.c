@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:27 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/05 17:55:52 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	is_echo_arg(char *str)
 	return (1);
 }
 
-void	ft_echo(char **cmd, t_processus *pipes)
+void	ft_echo(char **cmd, t_processus *process)
 {
 	int	line_break;
 	int	line_break_valid;
@@ -47,8 +47,8 @@ void	ft_echo(char **cmd, t_processus *pipes)
 		}
 		else
 			line_break_valid = 0;
-		ft_putstr_fd(cmd[i], get_fds(pipes, STDOUT_FILENO));
+		ft_putstr_fd(cmd[i], get_fds(process, STDOUT_FILENO));
 	}
 	if (line_break)
-		ft_putstr_fd("\n", get_fds(pipes, STDOUT_FILENO));
+		ft_putstr_fd("\n", get_fds(process, STDOUT_FILENO));
 }

@@ -120,31 +120,31 @@ void			put_cmd(t_token **token);
 
 // Take processus ptr (all of them) struct as arg
 // Create fds for here_docs of each process and write in it.
-void			ft_here_docs(t_processus *pipes);
+void			ft_here_docs(t_processus *process);
 
 // Take the actual processus struct, redir token and a ptr to int as arg.
 // Open the new infile and close the old one if exists.
-t_token			*ft_redir_in(t_processus *pipes, t_token *token, int *fdin);
+t_token			*ft_redir_in(t_processus *process, t_token *token, int *fdin);
 
 // Take the actual processus struct, redir token and a ptr to int as arg.
 // Open the new outfile and close the old one if exists.
-t_token			*ft_redir_out(t_processus *pipes, t_token *token, int *fdout);
+t_token			*ft_redir_out(t_processus *process, t_token *token, int *fdout);
 
 // Take the actual processus struct, redir in and out as arg.
 // Dup2 the standard input and output by the last infile/here_doc or outfile.
-void			ft_check_redir_in_out(t_processus *pipes, int fdin, int fdout);
+void			ft_check_redir_in_out(t_processus *process, int fdin, int fdout);
 
 // Take the actual processus as arg.
 // Manage the first processus.
-void			exec_first_processus(t_processus *pipes);
+void			exec_first_processus(t_processus *process);
 
 // Take the actual processus as arg.
 // Manage all middle processus.
-void			exec_middle_processus(t_processus *pipes);
+void			exec_middle_processus(t_processus *process);
 
 // Take the actual processus as arg.
 // Manage the last processus.
-void			exec_last_processus(t_processus *pipes);
+void			exec_last_processus(t_processus *process);
 
 // take a char ** (command + arg) and another char ** (envp) as arg.
 // This function is used to find the actual path of the command and return it.
@@ -153,7 +153,7 @@ char			*find_path(char **cmd, char **envp);
 // Take the actual processus, the command + args and a bool
 // if this is a sub_processus as arg.
 // Manage the execution of builtins.
-void			exec_builtins(t_processus *pipes, char **cmd, int sub_process);
+void			exec_builtins(t_processus *process, char **cmd, int sub_process);
 
 // Take the address of the original tokens ptr and var env as arg.
 // Used to start the execution of the current command line.
@@ -282,28 +282,28 @@ t_processus		*t_processus_new(t_envp *menvp);
 // Take a t_processus ptr and a token type as arg.
 // Return the first token found with the token type arg in the t_processus
 // struct, else return NULL.
-t_token			*t_token_finding(t_processus *pipes, t_token_type token);
+t_token			*t_token_finding(t_processus *process, t_token_type token);
 
 // Take a t_processus ptr as arg.
 // Display all the chained list on the standard output, used for debug. 
-void			t_processus_display(t_processus *pipes);
+void			t_processus_display(t_processus *process);
 
 // Take the address of the original t_processus ptr and a
 // new t_processus as arg. Add it at the start of the chained list.
-void			t_processus_add_front(t_processus **pipes, t_processus *new);
+void			t_processus_add_front(t_processus **process, t_processus *new);
 
 // Take the address of the original t_processus ptr and
 // a new t_processus as arg. Add it at the end of the chained list.
-void			t_processus_add_back(t_processus **pipes, t_processus *new);
+void			t_processus_add_back(t_processus **process, t_processus *new);
 
 // Take a t_processus ptr as arg.
 // Close the fds of ALL t_processus, it loop to t_processus->prev
 // until no prev exist.
-void			t_processus_close_fds(t_processus *pipes);
+void			t_processus_close_fds(t_processus *process);
 
 // Take a t_processus ptr as arg.
 // Specifically used to close fds for builtins when used in the main processus.
-void			t_processus_close_builtin_fds(t_processus *pipes);
+void			t_processus_close_builtin_fds(t_processus *process);
 
 // Take a t_processus ptr as arg.
 // Return the size of the chained list, if arg is NULL return 0. 
@@ -313,7 +313,7 @@ unsigned int	t_processus_size(t_processus *pipe);
 // Return the standard input/output for the actual process.
 // If t_processus ptr is NULL or there is no infile / outfile then the
 // standard input / output is returned.
-int				get_fds(t_processus *pipes, int fd);
+int				get_fds(t_processus *process, int fd);
 
 //  _____  _____  _    _   __
 // |_   _||_   _|/ |_ (_) [  |
@@ -404,11 +404,11 @@ int				is_command_builtin(char *cmd);
 
 // Take a char ** (command + arg) and a t_processus ptr as arg.
 // Reproduce the bash echo command.
-void			ft_echo(char **cmd, t_processus *pipes);
+void			ft_echo(char **cmd, t_processus *process);
 
 // Take a t_processus ptr as arg.
 // Reproduce the bash pwd command.
-void			ft_pwd(t_processus *pipes);
+void			ft_pwd(t_processus *process);
 
 // Take a t_envp ptr and a char ** (command + arg) as arg.
 // Reproduce the bash cd command.
@@ -416,7 +416,7 @@ void			ft_cd(t_envp *menvp, char **cmd);
 
 // Take a t_processus ptr and a t_envp ptr as arg.
 // Reproduce the bash env command.
-void			ft_env(t_processus *pipes, t_envp *menvp);
+void			ft_env(t_processus *process, t_envp *menvp);
 
 // Take t_envp ptr and a char * (env var to unset) as arg.
 // Reproduce the bash unset command.
@@ -424,11 +424,11 @@ void			ft_unset(t_envp *menvp, char *to_unset);
 
 // Take a char ** (command + arg), a t_processus ptr and a t_envp ptr as arg.
 // Reproduce the bash export command.
-void			ft_export(char **cmd, t_processus *pipes, t_envp *menvp);
+void			ft_export(char **cmd, t_processus *process, t_envp *menvp);
 
 // Take a t_processus ptr as arg and a char ** (command args) as arg.
 // Reproduce the bash exit command.
-void			ft_exit(t_processus *pipes, char **code);
+void			ft_exit(t_processus *process, char **code);
 
 //  _____  _____  _    _   __
 // |_   _||_   _|/ |_ (_) [  |
@@ -451,7 +451,7 @@ t_processus		*prepare_processus(t_token **tokens, t_envp *menvp);
 // Take the t_processus ptr (actual processus struct details), a t_token ptr and
 // a bool to know if we are in a sub_process or not.
 // This function manage all redirection dup2 like <, >, >> and <<.
-void			token_management(t_processus *pipes, t_token *token,
+void			token_management(t_processus *process, t_token *token,
 					int is_sub_process);
 
 //  _____  _____  _    _   __
