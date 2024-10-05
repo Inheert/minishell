@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_envp_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:37:42 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/10 16:59:33 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/05 18:26:14 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	t_envp_is_exist(t_envp *menvp, char *name)
 	return (0);
 }
 
-void	t_envp_update_2(t_envp *menvp, t_envp *new)
+static void	t_envp_update_2(t_envp *menvp, t_envp *new)
 {
 	while (menvp)
 	{

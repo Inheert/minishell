@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-unsigned int	t_token_count_specific(t_token *token, e_token code)
+unsigned int	t_token_count_specific(t_token *token, t_token_type code)
 {
 	unsigned int	size;
 
@@ -43,7 +43,7 @@ unsigned int	t_token_size(t_token *token)
 	return (size);
 }
 
-unsigned int	t_pipe_size(t_pipe *pipe)
+unsigned int	t_processus_size(t_processus *pipe)
 {
 	unsigned int	size;
 

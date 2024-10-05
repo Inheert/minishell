@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:10:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/03 14:20:05 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:55:52 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_builtins(t_pipe *pipes, char **cmd, int sub_process)
+void	exec_builtins(t_processus *pipes, char **cmd, int sub_process)
 {
 	if (!cmd || !*cmd)
 		return ;
@@ -32,7 +32,7 @@ void	exec_builtins(t_pipe *pipes, char **cmd, int sub_process)
 		ft_export(cmd, pipes, pipes->menvp);
 	else if (ft_strcmp(cmd[0], EXIT) == 0)
 		ft_exit(pipes, cmd);
-	t_pipe_close_builtin_fds(pipes);
+	t_processus_close_builtin_fds(pipes);
 	if (sub_process)
 	{
 		ft_free_all();

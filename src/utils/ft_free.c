@@ -49,9 +49,9 @@ void	free_t_token(t_token *token)
 	}
 }
 
-void	free_t_pipe(t_pipe *pipe)
+void	free_t_processus(t_processus *pipe)
 {
-	t_pipe	*tmp;
+	t_processus	*tmp;
 
 	if (!pipe)
 		return ;

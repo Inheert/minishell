@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:09 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/04 15:44:02 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:55:52 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ static int	status_code(char *code)
 	return (result);
 }
 
-void	ft_exit(t_pipe *pipes, char **code)
+void	ft_exit(t_processus *pipes, char **code)
 {
 	int	exit_code;
 
 	ft_putendl_fd("exit", 1);
 	if (!code || str_ptr_size(code) <= 1)
 	{
-		t_pipe_close_builtin_fds(pipes);
+		t_processus_close_builtin_fds(pipes);
 		ft_free_all();
 		exit(0);
 	}
@@ -49,7 +49,7 @@ void	ft_exit(t_pipe *pipes, char **code)
 		raise_error("exit", "too many arguments", 0, 1);
 		return ;
 	}
-	t_pipe_close_builtin_fds(pipes);
+	t_processus_close_builtin_fds(pipes);
 	exit_code = status_code(code[1]);
 	ft_free_all();
 	exit(exit_code);

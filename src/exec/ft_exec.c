@@ -3,20 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/04 16:22:49 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/05 18:24:53 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Why heredoc dont work good when he is part of a middle processus?
-// What pipe create this problem? What connection/dup2 is wrong/missing?
-// Is all fds are closed in the right way? Even for errors?
-
-void	exec_sub_processus(t_pipe *pipes, unsigned int size, unsigned int i)
+// Init children signal and execute sub-processus
+static void	exec_sub_processus(t_processus *pipes, unsigned int size,
+								unsigned int i)
 {
 	init_children_signals_handlers();
 	if (i == size)
@@ -27,7 +25,9 @@ void	exec_sub_processus(t_pipe *pipes, unsigned int size, unsigned int i)
 		exec_middle_processus(pipes);
 }
 
-void	exec_main_processus(t_pipe *pipes)
+// Parse token, create char ** command + arg and execute builtin on the main
+// processus.
+static void	exec_main_processus(t_processus *pipes)
 {
 	t_token	*token;
 	char	**cmd;
@@ -43,13 +43,15 @@ void	exec_main_processus(t_pipe *pipes)
 	exec_builtins(pipes, cmd, 0);
 }
 
-void	start_execution(t_pipe *pipes)
+// Function used to create sub-processus (fork) or to execute builtin
+// on the main processus.
+static void	start_execution(t_processus *pipes)
 {
-	t_pipe			*tmp;
+	t_processus		*tmp;
 	unsigned int	size;
 	unsigned int	i;
 
-	size = t_pipe_size(pipes);
+	size = t_processus_size(pipes);
 	i = 1;
 	if (size == 1 && t_token_finding(pipes, COMMAND)
 		&& is_command_builtin(t_token_finding(pipes, COMMAND)->str))
@@ -66,16 +68,17 @@ void	start_execution(t_pipe *pipes)
 		pipes = pipes->next;
 	}
 	init_silence_signals_handlers();
-	t_pipe_close_fds(tmp);
+	t_processus_close_fds(tmp);
 }
 
 int	ft_exec(t_token **tokens, t_envp *menvp)
 {
-	t_pipe			*pipes;
-	t_pipe			*tmp;
-	int				exit_status;
+	t_processus			*pipes;
+	t_processus			*tmp;
+	int					exit_status;
 
-	pipes = prepare_pipes(tokens, menvp);
+	pipes = prepare_processus(tokens, menvp);
+	ft_here_docs(pipes);
 	if (!pipes)
 		return (0);
 	exit_status = 0;

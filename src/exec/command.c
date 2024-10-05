@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 07:34:17 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/04 16:28:18 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:46:25 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*check_path(char **cmd, char **envp)
+// Check every path in PATH var env, return the path if ok, else return NULL.
+static char	*check_path(char **cmd, char **envp)
 {
 	int		i;
 	char	*partial_path;
@@ -46,9 +47,9 @@ char	*find_path(char **cmd, char **envp)
 		return (raise_error("envp error", "envp is missing or NULL", 1, 1),
 			NULL);
 	if (access(cmd[0], X_OK) == 0 && ft_strncmp(cmd[0], "./", 2) == 0)
-		return (printf("XOK\n"), cmd[0]);
+		return (cmd[0]);
 	else if (access(cmd[0], F_OK) == 0 && ft_strncmp(cmd[0], "./", 2) == 0)
-		return (printf("FOK\n"), cmd[0]);
+		return (cmd[0]);
 	else if (ft_strncmp(cmd[0], "./", 2) == 0)
 		return (NULL);
 	while (envp && *envp && ft_strncmp(*envp, "PATH=", 5) != 0)

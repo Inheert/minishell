@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/04 15:43:52 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:55:52 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**prepare_display(t_envp *menvp, t_envp *tmp_menvp)
 	return (var_name);
 }
 
-void	display_env_var(char *var_name, t_pipe *pipes, t_envp *tmp_menvp)
+void	display_env_var(char *var_name, t_processus *pipes, t_envp *tmp_menvp)
 {
 	while (tmp_menvp)
 	{
@@ -109,7 +109,7 @@ void	set_var(t_envp *menvp, char **cmd)
 	}
 }
 
-void	ft_export(char **cmd, t_pipe *pipes, t_envp *menvp)
+void	ft_export(char **cmd, t_processus *pipes, t_envp *menvp)
 {
 	char	**var_name;
 	t_envp	*tmp_menvp;
