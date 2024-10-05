@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/05 23:36:54 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/05 23:47:40 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	token_management(t_processus *pipes, t_token *token, int is_sub_process)
 	int		fdin;
 	int		fdout;
 
-	pipes = NULL;
 	if (!pipes || ! token)
 		return (raise_error("CRITICAL", "An important pointer is NULL!", 1, 1));
 	fdin = -1;
