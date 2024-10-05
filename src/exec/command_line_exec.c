@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exec.c                                          :+:      :+:    :+:   */
+/*   command_line_exec.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 23:19:39 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
+/*   Created: 2024/10/06 01:34:58 by Théo              #+#    #+#             */
+/*   Updated: 2024/10/06 01:35:00 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,14 @@ static void	start_execution(t_processus *process)
 	t_processus_close_fds(tmp);
 }
 
-int	ft_exec(t_token **tokens, t_envp *menvp)
+int	command_line_exec(t_token **tokens, t_envp *menvp)
 {
 	t_processus			*process;
 	t_processus			*tmp;
 	int					exit_status;
 
 	process = prepare_processus(tokens, menvp);
-	ft_here_docs(process);
+	ft_heredocs(process);
 	if (!process)
 		return (0);
 	exit_status = 0;

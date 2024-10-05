@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 01:35:25 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ t_processus	*prepare_processus(t_token **tokens, t_envp *menvp)
 	return (process);
 }
 
+// Function used to delete all REDIR (in, out, append, heredoc) tokens,
+// when this func is used those tokens are useless and avoid the program
+// to work properly so we delete them.
 static void	delete_useless_tokens(t_processus *process)
 {
 	t_token	*tokens;
@@ -52,7 +55,7 @@ static void	delete_useless_tokens(t_processus *process)
 	while (tokens)
 	{
 		if (tokens->token == REDIR_IN || tokens->token == REDIR_OUT
-			|| tokens->token == REDIR_APPEND_OUT || tokens->token == HERE_DOC)
+			|| tokens->token == REDIR_APPEND_OUT || tokens->token == HEREDOC)
 		{
 			tmp = tokens;
 			tokens = tokens->next;
@@ -75,9 +78,9 @@ void	token_management(t_processus *process, t_token *token, int is_sub_process)
 	while (token)
 	{
 		if (token->token == REDIR_IN)
-			ft_redir_in(process, token, &fdin);
+			manage_redir_in(process, token, &fdin);
 		else if (token->token == REDIR_OUT || token->token == REDIR_APPEND_OUT)
-			ft_redir_out(process, token, &fdout);
+			manage_redir_out(process, token, &fdout);
 		token = token->next;
 	}
 	if (is_sub_process)

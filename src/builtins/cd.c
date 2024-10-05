@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:47 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/04 15:47:11 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/06 01:22:30 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Update the pwd and old_pwd env var update
 static void	pwd_exist(t_envp *pwd, t_envp *old_pwd)
 {
 	char	*tmp;
@@ -28,6 +29,7 @@ static void	pwd_exist(t_envp *pwd, t_envp *old_pwd)
 	free(tmp);
 }
 
+// Update the old_pwd env var if pwd env var don't exist
 static void	pwd_dont_exist(t_envp *old_pwd)
 {
 	if (old_pwd && old_pwd->value)

@@ -6,13 +6,13 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:59:46 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 01:35:25 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*ft_redir_in(t_processus *process, t_token *token, int *fdin)
+t_token	*manage_redir_in(t_processus *process, t_token *token, int *fdin)
 {
 	if (*fdin != -1)
 		close(*fdin);
@@ -29,7 +29,7 @@ t_token	*ft_redir_in(t_processus *process, t_token *token, int *fdin)
 	return (token);
 }
 
-t_token	*ft_redir_out(t_processus *process, t_token *token, int *fdout)
+t_token	*manage_redir_out(t_processus *process, t_token *token, int *fdout)
 {
 	if (*fdout != -1)
 		close(*fdout);
@@ -49,43 +49,47 @@ t_token	*ft_redir_out(t_processus *process, t_token *token, int *fdout)
 	return (token);
 }
 
+// Used to know if the heredoc is the last redir in token in the current
+// command line, if yes then it dup2 the standard entry and avoid future dup2,
+// else it close heredoc fds and let the program dup2 other infile.
 static int	is_heredoc_a_priority(t_processus *process, int fdin)
 {
-	t_token	*here_doc;
+	t_token	*heredoc;
 	t_token	*tmp;
-	int		is_redir_after_here_doc;
+	int		is_redir_after_heredoc;
 
-	is_redir_after_here_doc = 0;
-	here_doc = t_token_finding(process, HERE_DOC);
-	if (!here_doc)
+	is_redir_after_heredoc = 0;
+	heredoc = t_token_finding(process, HEREDOC);
+	if (!heredoc)
 		return (0);
-	tmp = here_doc;
+	tmp = heredoc;
 	while (tmp)
 	{
 		if (tmp->token == REDIR_IN)
-			is_redir_after_here_doc = 1;
-		else if (tmp->token == HERE_DOC)
-			is_redir_after_here_doc = 0;
+			is_redir_after_heredoc = 1;
+		else if (tmp->token == HEREDOC)
+			is_redir_after_heredoc = 0;
 		tmp = tmp->next;
 	}
-	if (is_redir_after_here_doc)
+	if (is_redir_after_heredoc)
 		return (0);
 	if (fdin != -1)
 		close(fdin);
-	if (dup2(process->here_doc[0], 0) == -1)
+	if (dup2(process->heredoc[0], 0) == -1)
 		return (t_processus_close_fds(process),
 			raise_perror("dup2 failed", 1), 1);
 	return (1);
 }
 
-static void	close_here_docs(t_processus *process)
+// Used to close heredocs fds.
+static void	close_heredocs(t_processus *process)
 {
-	if (process->here_doc[0] > 0)
-		close(process->here_doc[0]);
-	if (process->here_doc[1] > 1)
-		close(process->here_doc[1]);
-	process->here_doc[0] = -1;
-	process->here_doc[1] = -1;
+	if (process->heredoc[0] > 0)
+		close(process->heredoc[0]);
+	if (process->heredoc[1] > 1)
+		close(process->heredoc[1]);
+	process->heredoc[0] = -1;
+	process->heredoc[1] = -1;
 }
 
 void	ft_check_redir_in_out(t_processus *process, int fdin, int fdout)
@@ -103,7 +107,7 @@ void	ft_check_redir_in_out(t_processus *process, int fdin, int fdout)
 		process->fds[0] = fdin;
 	}
 	if (!get_heredoc_as_input)
-		close_here_docs(process);
+		close_heredocs(process);
 	if (fdout != -1)
 	{
 		if (dup2(fdout, 1) == -1)
