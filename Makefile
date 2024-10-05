@@ -39,10 +39,10 @@ SRCS_FILE		= main.c \
 					builtins/unset.c \
 					builtins/export.c \
 					builtins/exit.c \
-					exec/ft_exec.c \
+					exec/command_line_exec.c \
 					exec/processus_management.c \
 					exec/command.c \
-					exec/tokens/here_doc.c \
+					exec/tokens/heredoc.c \
 					exec/tokens/redir.c \
 					tokenisation/token.c\
 					tokenisation/parse_tokens.c\

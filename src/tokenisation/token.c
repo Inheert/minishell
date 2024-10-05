@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 17:49:29 by cluby             #+#    #+#             */
-/*   Updated: 2024/09/20 13:23:38 by cluby            ###   ########.fr       */
+/*   Updated: 2024/10/06 01:29:43 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,9 @@ t_token *tokenisation(char *prompt)
 			if (prompt[i + 1] && prompt[i + 1] == '<')
 			{
 				if (token)
-					t_token_add_back(&token, t_token_new("<<", HERE_DOC));
+					t_token_add_back(&token, t_token_new("<<", HEREDOC));
 				else
-					token = t_token_new("<<", HERE_DOC);
+					token = t_token_new("<<", HEREDOC);
 				i++;
 			}
 			else

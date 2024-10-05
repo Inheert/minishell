@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:11:56 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/09/22 11:20:05 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/06 01:34:39 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		join_tokens(token);
 		clean_blank(&token);
 		put_cmd(token);
-		ft_exec(&token, menvp);
+		command_line_exec(&token, menvp);
 	}
 	ft_free_all();
 	return (0);

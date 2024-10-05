@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 18:59:31 by cluby             #+#    #+#             */
-/*   Updated: 2024/10/02 15:16:24 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/06 01:29:52 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	redir(t_token *token, t_token **token_origin)
 			tmp = tmp->next->next;
 		else
 			tmp = tmp->next;
-		if (tmp->token == PIPE || tmp->token == REDIR_APPEND_OUT || tmp->token == HERE_DOC || tmp->token == REDIR_IN || tmp->token == REDIR_OUT)
+		if (tmp->token == PIPE || tmp->token == REDIR_APPEND_OUT || tmp->token == HEREDOC || tmp->token == REDIR_IN || tmp->token == REDIR_OUT)
 		{
 			return (0); //bash: syntax error near unexpected token `token->str'
 		}

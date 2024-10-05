@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cluby <cluby@student.42.fr>                +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 15:58:10 by cluby             #+#    #+#             */
-/*   Updated: 2024/09/25 17:53:46 by cluby            ###   ########.fr       */
+/*   Updated: 2024/10/06 01:30:01 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	put_cmd(t_token **tokens)
 		tmp->token = COMMAND;
 	while (tmp)
 	{
-		if (tmp->token == PIPE || tmp->token == REDIR_APPEND_OUT || tmp->token == HERE_DOC || tmp->token == REDIR_IN || tmp->token == REDIR_OUT)
+		if (tmp->token == PIPE || tmp->token == REDIR_APPEND_OUT || tmp->token == HEREDOC || tmp->token == REDIR_IN || tmp->token == REDIR_OUT)
 		{
 			tmp = tmp->next;
 			if (tmp->token == BLANK && tmp)

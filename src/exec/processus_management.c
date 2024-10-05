@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:38:28 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 01:27:40 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 // 		ft_store_malloc(menvp[i]);
 // }
 
+// Function used by all sub-processus tu prepare the execution of execve.
 static void	manage_execve(t_processus *process, char **cmd, char **menvp)
 {
 	char	*cmd_path;
@@ -84,10 +85,10 @@ void	exec_middle_processus(t_processus *process)
 
 	menvp = t_envp_convert_to_str(process->menvp);
 	token_management(process, process->tokens, 1);
-	if (process->here_doc[0] == -1 && process->fds[0] == -1
+	if (process->heredoc[0] == -1 && process->fds[0] == -1
 		&& dup2(process->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
-	else if (process->here_doc[0] == -1 && process->fds[0] != -1
+	else if (process->heredoc[0] == -1 && process->fds[0] != -1
 		&& dup2(process->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
 	if (dup2(process->fds[1], 1) == -1)
@@ -112,7 +113,7 @@ void	exec_last_processus(t_processus *process)
 
 	menvp = t_envp_convert_to_str(process->menvp);
 	token_management(process, process->tokens, 1);
-	if (process->here_doc[0] == -1 && process->fds[0] == 0
+	if (process->heredoc[0] == -1 && process->fds[0] == 0
 		&& process->prev && dup2(process->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
 	t_processus_close_fds(process);

@@ -45,7 +45,7 @@ typedef enum token
 	PIPE,
 	STRING,
 	REDIR_APPEND_OUT,
-	HERE_DOC,
+	HEREDOC,
 	REDIR_IN,
 	REDIR_OUT,
 	COMMAND,
@@ -87,7 +87,7 @@ typedef struct s_envp
 typedef struct s_processus
 {
 	int					fds[2];
-	int					here_doc[2];
+	int					heredoc[2];
 	int					pid;
 	int					parent_pid;
 	int					status_code;
@@ -118,21 +118,9 @@ void			put_cmd(t_token **token);
 //  _| |__/ | _/ /'`\ \_  _| |__/ |\ `.___.'
 // |________||____||____||________| `.____ .' 
 
-// Take processus ptr (all of them) struct as arg
-// Create fds for here_docs of each process and write in it.
-void			ft_here_docs(t_processus *process);
-
-// Take the actual processus struct, redir token and a ptr to int as arg.
-// Open the new infile and close the old one if exists.
-t_token			*ft_redir_in(t_processus *process, t_token *token, int *fdin);
-
-// Take the actual processus struct, redir token and a ptr to int as arg.
-// Open the new outfile and close the old one if exists.
-t_token			*ft_redir_out(t_processus *process, t_token *token, int *fdout);
-
-// Take the actual processus struct, redir in and out as arg.
-// Dup2 the standard input and output by the last infile/here_doc or outfile.
-void			ft_check_redir_in_out(t_processus *process, int fdin, int fdout);
+// Take the address of the original tokens ptr and var env as arg.
+// Used to start the execution of the current command line.
+int				command_line_exec(t_token **tokens, t_envp *menvp);
 
 // Take the actual processus as arg.
 // Manage the first processus.
@@ -146,18 +134,30 @@ void			exec_middle_processus(t_processus *process);
 // Manage the last processus.
 void			exec_last_processus(t_processus *process);
 
-// take a char ** (command + arg) and another char ** (envp) as arg.
-// This function is used to find the actual path of the command and return it.
-char			*find_path(char **cmd, char **envp);
-
 // Take the actual processus, the command + args and a bool
 // if this is a sub_processus as arg.
 // Manage the execution of builtins.
 void			exec_builtins(t_processus *process, char **cmd, int sub_process);
 
-// Take the address of the original tokens ptr and var env as arg.
-// Used to start the execution of the current command line.
-int				ft_exec(t_token **tokens, t_envp *menvp);
+// take a char ** (command + arg) and another char ** (envp) as arg.
+// This function is used to find the actual path of the command and return it.
+char			*find_path(char **cmd, char **envp);
+
+// Take processus ptr (all of them) struct as arg
+// Create fds for heredocs of each process and write in it.
+void			ft_heredocs(t_processus *process);
+
+// Take the actual processus struct, redir token and a ptr to int as arg.
+// Open the new infile and close the old one if exists.
+t_token			*manage_redir_in(t_processus *process, t_token *token, int *fdin);
+
+// Take the actual processus struct, redir token and a ptr to int as arg.
+// Open the new outfile and close the old one if exists.
+t_token			*manage_redir_out(t_processus *process, t_token *token, int *fdout);
+
+// Take the actual processus struct, redir in and out as arg.
+// Dup2 the standard input and output by the last infile/heredoc or outfile.
+void			ft_check_redir_in_out(t_processus *process, int fdin, int fdout);
 
 //  _____  _____  _    _   __
 // |_   _||_   _|/ |_ (_) [  |
