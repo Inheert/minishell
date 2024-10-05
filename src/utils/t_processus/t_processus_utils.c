@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 18:01:24 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 01:27:40 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ t_processus	*t_processus_new(t_envp *menvp)
 	new->tokens = NULL;
 	new->fds[0] = 0;
 	new->fds[1] = 1;
-	new->here_doc[0] = -1;
-	new->here_doc[1] = -1;
+	new->heredoc[0] = -1;
+	new->heredoc[1] = -1;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

@@ -6,12 +6,13 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:09 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 01:23:43 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Adapted version of atoi to return the exit code.
 static int	status_code(char *code)
 {
 	int	result;

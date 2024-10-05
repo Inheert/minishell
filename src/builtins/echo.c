@@ -6,12 +6,14 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:27 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 01:23:14 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Boolean used to return 1 if the char * is a echo arg (-n / -nn / -nnn / ...)
+// else 0
 static int	is_echo_arg(char *str)
 {
 	int	i;
