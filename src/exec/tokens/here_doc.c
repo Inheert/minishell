@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:59:24 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/05 17:55:52 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/05 23:27:34 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static t_token	*manage_here_doc(t_processus *pipes, t_token *token)
 			break ;
 		write(pipes->here_doc[1], buff, ft_strlen(buff));
 		write(pipes->here_doc[1], "\n", 1);
+		//free(buff);
 	}
 	return (token);
 }
@@ -40,8 +41,12 @@ void	ft_here_docs(t_processus *pipes)
 	while (pipes)
 	{
 		here_doc = t_token_finding(pipes, HERE_DOC);
-		if (here_doc)
-			manage_here_doc(pipes, here_doc);
+		while (here_doc)
+		{
+			if (here_doc->token == HERE_DOC)
+				manage_here_doc(pipes, here_doc);
+			here_doc = here_doc->next;
+		}
 		pipes = pipes->next;
 	}
 }

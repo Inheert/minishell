@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:38:28 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/05 17:55:52 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/05 23:32:05 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,11 @@ void	exec_middle_processus(t_processus *pipes)
 
 	menvp = t_envp_convert_to_str(pipes->menvp);
 	token_management(pipes, pipes->tokens, 1);
-	if (dup2(pipes->prev->fds[0], 0) == -1)
+	if (pipes->here_doc[0] == -1 && pipes->fds[0] == -1
+		&& dup2(pipes->prev->fds[0], 0) == -1)
+		raise_perror("dup2 failed", 1);
+	else if (pipes->here_doc[0] == -1 && pipes->fds[0] != -1
+		&& dup2(pipes->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
 	if (dup2(pipes->fds[1], 1) == -1)
 		raise_perror("dup2 failed", 1);
@@ -108,7 +112,8 @@ void	exec_last_processus(t_processus *pipes)
 
 	menvp = t_envp_convert_to_str(pipes->menvp);
 	token_management(pipes, pipes->tokens, 1);
-	if (pipes->prev && dup2(pipes->prev->fds[0], 0) == -1)
+	if (pipes->here_doc[0] == -1 && pipes->fds[0] == 0
+		&& pipes->prev && dup2(pipes->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
 	t_processus_close_fds(pipes);
 	token = t_token_finding(pipes, COMMAND);
