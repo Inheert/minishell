@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:27 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/02 16:02:06 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:55:52 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	is_echo_arg(char *str)
 	return (1);
 }
 
-void	ft_echo(char **cmd, t_pipe *pipes)
+void	ft_echo(char **cmd, t_processus *pipes)
 {
 	int	line_break;
 	int	line_break_valid;
