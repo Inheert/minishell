@@ -458,7 +458,7 @@ void			ft_exit(t_processus *process, char **code);
 //   |  _|  [ `/'`\]/ /__\\/ /__\\ '-| |-'[  | | | [ `.-. | / /'`\]
 //  _| |_    | |    | \__.,| \__.,   | |   | \_/ |, | | | | | \__.
 // |_____|  [___]    '.__.' '.__.'  [___]  '.__.'_/[___||__]'.___.'
-                                                                 
+
 // Used to free a t_token struct properly.
 void			free_one_t_token(t_token *token);
 
@@ -480,7 +480,6 @@ void			free_t_envp(t_envp *menvp);
 // | |   | | | |  | .-. |/ /__\\[ `/'`\]
 // \  `-'  / | |, | | | || \__., | |
 //  `.___.'  \__/[___]|__]'.__.'[___]
-                                      
 
 // Return the size of a char **.
 unsigned int	str_ptr_size(char **ptr);
