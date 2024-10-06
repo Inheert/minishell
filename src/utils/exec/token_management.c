@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_management.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/06 13:16:59 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 18:46:22 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ t_processus	*prepare_processus(t_token **tokens, t_envp *menvp)
 	return (process);
 }
 
-// Function used to delete all REDIR (in, out, append, heredoc) tokens,
-// when this func is used those tokens are useless and avoid the program
-// to work properly so we delete them.
-static void	delete_useless_tokens(t_processus *process)
+void	delete_useless_tokens(t_processus *process)
 {
 	t_token	*tokens;
 	t_token	*tmp;
@@ -91,5 +88,4 @@ void	token_management(t_processus *process, t_token *token,
 		process->fds[0] = fdin;
 		process->fds[1] = fdout;
 	}
-	delete_useless_tokens(process);
 }

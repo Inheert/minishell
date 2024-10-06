@@ -121,12 +121,12 @@ void			join_tokens(t_token *token);
 void			clean_blank(t_token **token);
 void			put_cmd(t_token **token);
 
-//  ________  ____  ____  ________    ______  
-// |_   __  ||_  _||_  _||_   __  | .' ___  | 
-//   | |_ \_|  \ \  / /    | |_ \_|/ .'   \_| 
-//   |  _| _    > `' <     |  _| _ | |        
+//  ________  ____  ____  ________    ______
+// |_   __  ||_  _||_  _||_   __  | .' ___  |
+//   | |_ \_|  \ \  / /    | |_ \_|/ .'   \_|
+//   |  _| _    > `' <     |  _| _ | |
 //  _| |__/ | _/ /'`\ \_  _| |__/ |\ `.___.'
-// |________||____||____||________| `.____ .' 
+// |________||____||____||________| `.____ .'
 
 // Take the address of the original tokens ptr and var env as arg.
 // Used to start the execution of the current command line.
@@ -193,9 +193,20 @@ t_processus		*prepare_processus(t_token **tokens, t_envp *menvp);
 void			token_management(t_processus *process, t_token *token,
 					int is_sub_process);
 
-// take a char ** (command + arg) and another char ** (envp) as arg.
+// Take a char ** (command + arg) and another char ** (envp) as arg.
 // This function is used to find the actual path of the command and return it.
 char			*find_path(char **cmd, char **envp);
+
+// Take a t_processus ptr as arg.
+// This function return a bool, if there is a redir in (infile, heredoc) in the
+// given process it return 1, else 0.
+int				is_redir_in_priority(t_processus *process);
+
+// Take a t_processus ptr as arg.
+// Function used to delete all REDIR (in, out, append, heredoc) tokens,
+// when this func is used those tokens are useless and avoid the program
+// to work properly so we delete them.
+void			delete_useless_tokens(t_processus *process);
 
 //  _____  _____  _    _   __
 // |_   _||_   _|/ |_ (_) [  |
@@ -301,7 +312,7 @@ t_processus		*t_processus_new(t_envp *menvp);
 t_token			*t_token_finding(t_processus *process, t_token_type token);
 
 // Take a t_processus ptr as arg.
-// Display all the chained list on the standard output, used for debug. 
+// Display all the chained list on the standard output, used for debug.
 void			t_processus_display(t_processus *process);
 
 // Take the address of the original t_processus ptr and a
@@ -322,7 +333,7 @@ void			t_processus_close_fds(t_processus *process);
 void			t_processus_close_builtin_fds(t_processus *process);
 
 // Take a t_processus ptr as arg.
-// Return the size of the chained list, if arg is NULL return 0. 
+// Return the size of the chained list, if arg is NULL return 0.
 unsigned int	t_processus_size(t_processus *pipe);
 
 // Take a t_processus ptr as arg and the fd type (input / output, 0 / 1) as arg.
@@ -371,7 +382,7 @@ void			t_envp_add_back(t_envp **envp, t_envp *new);
 void			t_envp_update(t_envp **menvp, t_envp *new);
 
 // Take a t_envp ptr as arg.
-// Display all the chained list on the standard output, used for debug. 
+// Display all the chained list on the standard output, used for debug.
 void			t_envp_display(t_envp *envp);
 
 // Take a t_envp ptr and a char * (env name) as arg.
