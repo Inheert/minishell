@@ -84,6 +84,16 @@ typedef struct s_envp
 	struct s_envp	*prev;
 }	t_envp;
 
+// processus structure used to store data related to each processus.
+// int fds[2]		-> pipe fds storage.
+// int heredoc[2]	-> heredoc fds storage.
+// int pid			-> store the processus id.
+// int parent_id	-> store the parent processus id.
+// int status_code	-> used to store the last exit code of a processus/command.
+// t_envp *menvp	-> env var structure.
+// t_token *tokens	-> all tokens related to the processus.
+// struct s_processus *next -> next processus.
+// struct s_processus *prev -> previous processus.
 typedef struct s_processus
 {
 	int					fds[2];
@@ -92,7 +102,7 @@ typedef struct s_processus
 	int					parent_pid;
 	int					status_code;
 	t_envp				*menvp;
-	struct s_token		*tokens;
+	t_token				*tokens;
 	struct s_processus	*next;
 	struct s_processus	*prev;
 }	t_processus;
@@ -111,12 +121,12 @@ void			join_tokens(t_token *token);
 void			clean_blank(t_token **token);
 void			put_cmd(t_token **token);
 
-//  ________  ____  ____  ________    ______  
-// |_   __  ||_  _||_  _||_   __  | .' ___  | 
-//   | |_ \_|  \ \  / /    | |_ \_|/ .'   \_| 
-//   |  _| _    > `' <     |  _| _ | |        
+//  ________  ____  ____  ________    ______
+// |_   __  ||_  _||_  _||_   __  | .' ___  |
+//   | |_ \_|  \ \  / /    | |_ \_|/ .'   \_|
+//   |  _| _    > `' <     |  _| _ | |
 //  _| |__/ | _/ /'`\ \_  _| |__/ |\ `.___.'
-// |________||____||____||________| `.____ .' 
+// |________||____||____||________| `.____ .'
 
 // Take the address of the original tokens ptr and var env as arg.
 // Used to start the execution of the current command line.
@@ -137,11 +147,8 @@ void			exec_last_processus(t_processus *process);
 // Take the actual processus, the command + args and a bool
 // if this is a sub_processus as arg.
 // Manage the execution of builtins.
-void			exec_builtins(t_processus *process, char **cmd, int sub_process);
-
-// take a char ** (command + arg) and another char ** (envp) as arg.
-// This function is used to find the actual path of the command and return it.
-char			*find_path(char **cmd, char **envp);
+void			exec_builtins(t_processus *process, char **cmd,
+					int sub_process);
 
 // Take processus ptr (all of them) struct as arg
 // Create fds for heredocs of each process and write in it.
@@ -149,15 +156,57 @@ void			ft_heredocs(t_processus *process);
 
 // Take the actual processus struct, redir token and a ptr to int as arg.
 // Open the new infile and close the old one if exists.
-t_token			*manage_redir_in(t_processus *process, t_token *token, int *fdin);
+t_token			*manage_redir_in(t_processus *process, t_token *token,
+					int *fdin);
 
 // Take the actual processus struct, redir token and a ptr to int as arg.
 // Open the new outfile and close the old one if exists.
-t_token			*manage_redir_out(t_processus *process, t_token *token, int *fdout);
+t_token			*manage_redir_out(t_processus *process, t_token *token,
+					int *fdout);
 
 // Take the actual processus struct, redir in and out as arg.
 // Dup2 the standard input and output by the last infile/heredoc or outfile.
-void			ft_check_redir_in_out(t_processus *process, int fdin, int fdout);
+void			ft_check_redir_in_out(t_processus *process, int fdin,
+					int fdout);
+
+//  _____  _____  _    _   __
+// |_   _||_   _|/ |_ (_) [  |
+//   | |    | | `| |-'__   | |  .--.
+//   | '    ' |  | | [  |  | | ( (`\]
+//    \ \__/ /   | |, | |  | |  `'.'.
+//     `.__.'    \__/[___][___][\__) )
+//  ________
+// |_   __  |
+//   | |_ \_| _   __  .---.  .---.
+//   |  _| _ [ \ [  ]/ /__\\/ /'`\]
+//  _| |__/ | > '  < | \__.,| \__.
+// |________|[__]`\_] '.__.''.___.'
+
+// Take the address of the original t_token ptr and a t_envp ptr as arg.
+// Used to prepare t_processus (struct processus used for the execution) by
+// dividing token for each process, manage heredoc, etc
+t_processus		*prepare_processus(t_token **tokens, t_envp *menvp);
+
+// Take the t_processus ptr (actual processus struct details), a t_token ptr and
+// a bool to know if we are in a sub_process or not.
+// This function manage all redirection dup2 like <, >, >> and <<.
+void			token_management(t_processus *process, t_token *token,
+					int is_sub_process);
+
+// Take a char ** (command + arg) and another char ** (envp) as arg.
+// This function is used to find the actual path of the command and return it.
+char			*find_path(char **cmd, char **envp);
+
+// Take a t_processus ptr as arg.
+// This function return a bool, if there is a redir in (infile, heredoc) in the
+// given process it return 1, else 0.
+int				is_redir_in_priority(t_processus *process);
+
+// Take a t_processus ptr as arg.
+// Function used to delete all REDIR (in, out, append, heredoc) tokens,
+// when this func is used those tokens are useless and avoid the program
+// to work properly so we delete them.
+void			delete_useless_tokens(t_processus *process);
 
 //  _____  _____  _    _   __
 // |_   _||_   _|/ |_ (_) [  |
@@ -185,28 +234,6 @@ void			raise_perror(char *error, int critical);
 // and exit the program if critical.
 void			raise_error(char *error, char *details, int critical,
 					int exit_code);
-
-// Utils - Ptr size functions
-
-// Return the size of a char **.
-unsigned int	str_ptr_size(char **ptr);
-
-// Utils - Malloc free functions
-
-// Used to free a t_token struct properly.
-void			free_one_t_token(t_token *token);
-
-// Used to free all t_token chained list properly.
-void			free_t_token(t_token *token);
-
-// Used to free all t_processus chained list properly.
-void			free_t_processus(t_processus *pipe);
-
-// Used to free a char ** properly.
-void			free_str_ptr(char **ptr);
-
-// Used to free all t_envp chained list properly.
-void			free_t_envp(t_envp *menvp);
 
 //  _____  _____  _    _   __
 // |_   _||_   _|/ |_ (_) [  |
@@ -285,7 +312,7 @@ t_processus		*t_processus_new(t_envp *menvp);
 t_token			*t_token_finding(t_processus *process, t_token_type token);
 
 // Take a t_processus ptr as arg.
-// Display all the chained list on the standard output, used for debug. 
+// Display all the chained list on the standard output, used for debug.
 void			t_processus_display(t_processus *process);
 
 // Take the address of the original t_processus ptr and a
@@ -306,7 +333,7 @@ void			t_processus_close_fds(t_processus *process);
 void			t_processus_close_builtin_fds(t_processus *process);
 
 // Take a t_processus ptr as arg.
-// Return the size of the chained list, if arg is NULL return 0. 
+// Return the size of the chained list, if arg is NULL return 0.
 unsigned int	t_processus_size(t_processus *pipe);
 
 // Take a t_processus ptr as arg and the fd type (input / output, 0 / 1) as arg.
@@ -355,7 +382,7 @@ void			t_envp_add_back(t_envp **envp, t_envp *new);
 void			t_envp_update(t_envp **menvp, t_envp *new);
 
 // Take a t_envp ptr as arg.
-// Display all the chained list on the standard output, used for debug. 
+// Display all the chained list on the standard output, used for debug.
 void			t_envp_display(t_envp *envp);
 
 // Take a t_envp ptr and a char * (env name) as arg.
@@ -436,39 +463,36 @@ void			ft_exit(t_processus *process, char **code);
 //   | '    ' |  | | [  |  | | ( (`\]
 //    \ \__/ /   | |, | |  | |  `'.'.
 //     `.__.'    \__/[___][___][\__) )
-//  ________
-// |_   __  |
-//   | |_ \_| _   __  .---.  .---.
-//   |  _| _ [ \ [  ]/ /__\\/ /'`\]
-//  _| |__/ | > '  < | \__.,| \__.
-// |________|[__]`\_] '.__.''.___.'
+//  ________                           ___
+// |_   __  |                        .' ..]
+//   | |_ \_|_ .--.  .---.  .---.   _| |_  __   _   _ .--.   .---.
+//   |  _|  [ `/'`\]/ /__\\/ /__\\ '-| |-'[  | | | [ `.-. | / /'`\]
+//  _| |_    | |    | \__.,| \__.,   | |   | \_/ |, | | | | | \__.
+// |_____|  [___]    '.__.' '.__.'  [___]  '.__.'_/[___||__]'.___.'
 
-// Take the address of the original t_token ptr and a t_envp ptr as arg.
-// Used to prepare t_processus (struct processus used for the execution) by
-// dividing token for each process, manage heredoc, etc
-t_processus		*prepare_processus(t_token **tokens, t_envp *menvp);
+// Used to free a t_token struct properly.
+void			free_one_t_token(t_token *token);
 
-// Take the t_processus ptr (actual processus struct details), a t_token ptr and
-// a bool to know if we are in a sub_process or not.
-// This function manage all redirection dup2 like <, >, >> and <<.
-void			token_management(t_processus *process, t_token *token,
-					int is_sub_process);
+// Used to free all t_token chained list properly.
+void			free_t_token(t_token *token);
 
-//  _____  _____  _    _   __
-// |_   _||_   _|/ |_ (_) [  |
-//   | |    | | `| |-'__   | |  .--.
-//   | '    ' |  | | [  |  | | ( (`\]
-//    \ \__/ /   | |, | |  | |  `'.'.
-//     `.__.'    \__/[___][___][\__) )
-//    ___     _   __                     
-//  .'   `.  / |_[  |                    
-// /  .-.  \`| |-'| |--.  .---.  _ .--.  
-// | |   | | | |  | .-. |/ /__\\[ `/'`\] 
-// \  `-'  / | |, | | | || \__., | |     
-//  `.___.'  \__/[___]|__]'.__.'[___]    
+// Used to free all t_processus chained list properly.
+void			free_t_processus(t_processus *pipe);
 
-// Take a char ** as arg.
-// Copy and return the char ** arg.
-char			**copy_str_ptr(char **ptr);
+// Used to free a char ** properly.
+void			free_str_ptr(char **ptr);
+
+// Used to free all t_envp chained list properly.
+void			free_t_envp(t_envp *menvp);
+
+//    ___     _   __
+//  .'   `.  / |_[  |
+// /  .-.  \`| |-'| |--.  .---.  _ .--.
+// | |   | | | |  | .-. |/ /__\\[ `/'`\]
+// \  `-'  / | |, | | | || \__., | |
+//  `.___.'  \__/[___]|__]'.__.'[___]
+
+// Return the size of a char **.
+unsigned int	str_ptr_size(char **ptr);
 
 #endif

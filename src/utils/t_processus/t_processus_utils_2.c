@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_processus_utils_2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 18:01:32 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/06 01:27:40 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 18:34:35 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,18 @@ int	get_fds(t_processus *process, int fd)
 		return (process->fds[1]);
 	}
 	return (-1);
+}
+
+int	is_redir_in_priority(t_processus *process)
+{
+	t_token	*token;
+
+	token = process->tokens;
+	while (token)
+	{
+		if (token->token == REDIR_IN || token->token == HEREDOC)
+			return (1);
+		token = token->next;
+	}
+	return (0);
 }
