@@ -30,7 +30,9 @@ static t_token	*manage_heredoc(t_processus *process, t_token *token)
 			break ;
 		write(process->heredoc[1], buff, ft_strlen(buff));
 		write(process->heredoc[1], "\n", 1);
+		free(buff);
 	}
+	free(buff);
 	return (token);
 }
 
