@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/06 01:35:25 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 13:16:59 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static void	delete_useless_tokens(t_processus *process)
 	}
 }
 
-void	token_management(t_processus *process, t_token *token, int is_sub_process)
+void	token_management(t_processus *process, t_token *token,
+						int is_sub_process)
 {
 	int		fdin;
 	int		fdout;

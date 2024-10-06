@@ -19,7 +19,6 @@ SRCS_FILE		= main.c \
 					signals/signals_handlers.c \
 					utils/ft_size/ft_size.c \
 					utils/ft_free.c \
-					utils/ft_copy.c \
 					utils/t_token/t_token_utils.c \
 					utils/t_token/t_token_utils_2.c \
 					utils/t_token/tokenisation_utils.c\

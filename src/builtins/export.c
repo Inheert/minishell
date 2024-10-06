@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/06 01:18:35 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 13:17:39 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void	display_env_var(char *var_name, t_processus *process, t_envp *tmp_menvp)
 			else
 			{
 				ft_putstr_fd(tmp_menvp->value, get_fds(process, STDOUT_FILENO));
-				ft_putendl_fd(tmp_menvp->value, get_fds(process, STDOUT_FILENO));
+				ft_putendl_fd(tmp_menvp->value,
+					get_fds(process, STDOUT_FILENO));
 			}
 			break ;
 		}

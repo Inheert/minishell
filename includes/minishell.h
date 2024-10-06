@@ -147,7 +147,8 @@ void			exec_last_processus(t_processus *process);
 // Take the actual processus, the command + args and a bool
 // if this is a sub_processus as arg.
 // Manage the execution of builtins.
-void			exec_builtins(t_processus *process, char **cmd, int sub_process);
+void			exec_builtins(t_processus *process, char **cmd,
+					int sub_process);
 
 // Take processus ptr (all of them) struct as arg
 // Create fds for heredocs of each process and write in it.
@@ -155,15 +156,18 @@ void			ft_heredocs(t_processus *process);
 
 // Take the actual processus struct, redir token and a ptr to int as arg.
 // Open the new infile and close the old one if exists.
-t_token			*manage_redir_in(t_processus *process, t_token *token, int *fdin);
+t_token			*manage_redir_in(t_processus *process, t_token *token,
+					int *fdin);
 
 // Take the actual processus struct, redir token and a ptr to int as arg.
 // Open the new outfile and close the old one if exists.
-t_token			*manage_redir_out(t_processus *process, t_token *token, int *fdout);
+t_token			*manage_redir_out(t_processus *process, t_token *token,
+					int *fdout);
 
 // Take the actual processus struct, redir in and out as arg.
 // Dup2 the standard input and output by the last infile/heredoc or outfile.
-void			ft_check_redir_in_out(t_processus *process, int fdin, int fdout);
+void			ft_check_redir_in_out(t_processus *process, int fdin,
+					int fdout);
 
 //  _____  _____  _    _   __
 // |_   _||_   _|/ |_ (_) [  |
@@ -219,28 +223,6 @@ void			raise_perror(char *error, int critical);
 // and exit the program if critical.
 void			raise_error(char *error, char *details, int critical,
 					int exit_code);
-
-// Utils - Ptr size functions
-
-// Return the size of a char **.
-unsigned int	str_ptr_size(char **ptr);
-
-// Utils - Malloc free functions
-
-// Used to free a t_token struct properly.
-void			free_one_t_token(t_token *token);
-
-// Used to free all t_token chained list properly.
-void			free_t_token(t_token *token);
-
-// Used to free all t_processus chained list properly.
-void			free_t_processus(t_processus *pipe);
-
-// Used to free a char ** properly.
-void			free_str_ptr(char **ptr);
-
-// Used to free all t_envp chained list properly.
-void			free_t_envp(t_envp *menvp);
 
 //  _____  _____  _    _   __
 // |_   _||_   _|/ |_ (_) [  |
@@ -470,15 +452,37 @@ void			ft_exit(t_processus *process, char **code);
 //   | '    ' |  | | [  |  | | ( (`\]
 //    \ \__/ /   | |, | |  | |  `'.'.
 //     `.__.'    \__/[___][___][\__) )
-//    ___     _   __                     
-//  .'   `.  / |_[  |                    
-// /  .-.  \`| |-'| |--.  .---.  _ .--.  
-// | |   | | | |  | .-. |/ /__\\[ `/'`\] 
-// \  `-'  / | |, | | | || \__., | |     
-//  `.___.'  \__/[___]|__]'.__.'[___]    
+//  ________                           ___
+// |_   __  |                        .' ..]
+//   | |_ \_|_ .--.  .---.  .---.   _| |_  __   _   _ .--.   .---.
+//   |  _|  [ `/'`\]/ /__\\/ /__\\ '-| |-'[  | | | [ `.-. | / /'`\]
+//  _| |_    | |    | \__.,| \__.,   | |   | \_/ |, | | | | | \__.
+// |_____|  [___]    '.__.' '.__.'  [___]  '.__.'_/[___||__]'.___.'
+                                                                 
+// Used to free a t_token struct properly.
+void			free_one_t_token(t_token *token);
 
-// Take a char ** as arg.
-// Copy and return the char ** arg.
-char			**copy_str_ptr(char **ptr);
+// Used to free all t_token chained list properly.
+void			free_t_token(t_token *token);
+
+// Used to free all t_processus chained list properly.
+void			free_t_processus(t_processus *pipe);
+
+// Used to free a char ** properly.
+void			free_str_ptr(char **ptr);
+
+// Used to free all t_envp chained list properly.
+void			free_t_envp(t_envp *menvp);
+
+//    ___     _   __
+//  .'   `.  / |_[  |
+// /  .-.  \`| |-'| |--.  .---.  _ .--.
+// | |   | | | |  | .-. |/ /__\\[ `/'`\]
+// \  `-'  / | |, | | | || \__., | |
+//  `.___.'  \__/[___]|__]'.__.'[___]
+                                      
+
+// Return the size of a char **.
+unsigned int	str_ptr_size(char **ptr);
 
 #endif
