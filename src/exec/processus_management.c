@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processus_management.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:38:28 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/06 01:27:40 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/06 18:43:52 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void	exec_first_processus(t_processus *process)
 	if (dup2(process->fds[1], 1) == -1)
 		raise_perror("dup2 failed", 1);
 	t_processus_close_fds(process);
+	delete_useless_tokens(process);
 	token = t_token_finding(process, COMMAND);
 	if (!token)
-		return (raise_error("COMMAND token not found",
-				"func: exec_first_processus", 1, 1));
+		return (raise_error(NULL, NULL, 1, 0));
 	cmd = t_token_to_str_ptr(token);
 	if (!cmd)
 		return (raise_error("Cmd split returned NULL",
@@ -85,19 +85,15 @@ void	exec_middle_processus(t_processus *process)
 
 	menvp = t_envp_convert_to_str(process->menvp);
 	token_management(process, process->tokens, 1);
-	if (process->heredoc[0] == -1 && process->fds[0] == -1
-		&& dup2(process->prev->fds[0], 0) == -1)
-		raise_perror("dup2 failed", 1);
-	else if (process->heredoc[0] == -1 && process->fds[0] != -1
-		&& dup2(process->fds[0], 0) == -1)
+	if (!is_redir_in_priority(process) && dup2(process->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
 	if (dup2(process->fds[1], 1) == -1)
 		raise_perror("dup2 failed", 1);
 	t_processus_close_fds(process);
+	delete_useless_tokens(process);
 	token = t_token_finding(process, COMMAND);
 	if (!token)
-		return (raise_error("COMMAND token not found",
-				"func: exec_middle_processus", 1, 1));
+		return (raise_error(NULL, NULL, 1, 0));
 	cmd = t_token_to_str_ptr(token);
 	if (!cmd)
 		return (raise_error("Cmd split returned NULL",
@@ -113,14 +109,14 @@ void	exec_last_processus(t_processus *process)
 
 	menvp = t_envp_convert_to_str(process->menvp);
 	token_management(process, process->tokens, 1);
-	if (process->heredoc[0] == -1 && process->fds[0] == 0
-		&& process->prev && dup2(process->prev->fds[0], 0) == -1)
+	if (!is_redir_in_priority(process) && process->prev
+		&& dup2(process->prev->fds[0], 0) == -1)
 		raise_perror("dup2 failed", 1);
 	t_processus_close_fds(process);
+	delete_useless_tokens(process);
 	token = t_token_finding(process, COMMAND);
 	if (!token)
-		return (raise_error("COMMAND token not found",
-				"func: exec_last_processus", 1, 1));
+		return (raise_error(NULL, NULL, 1, 0));
 	cmd = t_token_to_str_ptr(token);
 	if (!cmd)
 		return (raise_error("Cmd split returned NULL",
