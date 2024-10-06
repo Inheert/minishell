@@ -25,6 +25,7 @@ SRCS_FILE		= main.c \
 					utils/t_token/tokenisation_utils.c\
 					utils/builtins/builtins_utils.c \
 					utils/exec/token_management.c \
+					utils/exec/path_finding.c \
 					utils/t_processus/t_processus_utils.c \
 					utils/t_processus/t_processus_utils_2.c \
 					utils/t_envp/t_envp_utils.c \
@@ -41,7 +42,6 @@ SRCS_FILE		= main.c \
 					builtins/exit.c \
 					exec/command_line_exec.c \
 					exec/processus_management.c \
-					exec/command.c \
 					exec/tokens/heredoc.c \
 					exec/tokens/redir.c \
 					tokenisation/token.c\

@@ -84,6 +84,16 @@ typedef struct s_envp
 	struct s_envp	*prev;
 }	t_envp;
 
+// processus structure used to store data related to each processus.
+// int fds[2]		-> pipe fds storage.
+// int heredoc[2]	-> heredoc fds storage.
+// int pid			-> store the processus id.
+// int parent_id	-> store the parent processus id.
+// int status_code	-> used to store the last exit code of a processus/command.
+// t_envp *menvp	-> env var structure.
+// t_token *tokens	-> all tokens related to the processus.
+// struct s_processus *next -> next processus.
+// struct s_processus *prev -> previous processus.
 typedef struct s_processus
 {
 	int					fds[2];
@@ -92,7 +102,7 @@ typedef struct s_processus
 	int					parent_pid;
 	int					status_code;
 	t_envp				*menvp;
-	struct s_token		*tokens;
+	t_token				*tokens;
 	struct s_processus	*next;
 	struct s_processus	*prev;
 }	t_processus;
@@ -139,10 +149,6 @@ void			exec_last_processus(t_processus *process);
 // Manage the execution of builtins.
 void			exec_builtins(t_processus *process, char **cmd, int sub_process);
 
-// take a char ** (command + arg) and another char ** (envp) as arg.
-// This function is used to find the actual path of the command and return it.
-char			*find_path(char **cmd, char **envp);
-
 // Take processus ptr (all of them) struct as arg
 // Create fds for heredocs of each process and write in it.
 void			ft_heredocs(t_processus *process);
@@ -158,6 +164,34 @@ t_token			*manage_redir_out(t_processus *process, t_token *token, int *fdout);
 // Take the actual processus struct, redir in and out as arg.
 // Dup2 the standard input and output by the last infile/heredoc or outfile.
 void			ft_check_redir_in_out(t_processus *process, int fdin, int fdout);
+
+//  _____  _____  _    _   __
+// |_   _||_   _|/ |_ (_) [  |
+//   | |    | | `| |-'__   | |  .--.
+//   | '    ' |  | | [  |  | | ( (`\]
+//    \ \__/ /   | |, | |  | |  `'.'.
+//     `.__.'    \__/[___][___][\__) )
+//  ________
+// |_   __  |
+//   | |_ \_| _   __  .---.  .---.
+//   |  _| _ [ \ [  ]/ /__\\/ /'`\]
+//  _| |__/ | > '  < | \__.,| \__.
+// |________|[__]`\_] '.__.''.___.'
+
+// Take the address of the original t_token ptr and a t_envp ptr as arg.
+// Used to prepare t_processus (struct processus used for the execution) by
+// dividing token for each process, manage heredoc, etc
+t_processus		*prepare_processus(t_token **tokens, t_envp *menvp);
+
+// Take the t_processus ptr (actual processus struct details), a t_token ptr and
+// a bool to know if we are in a sub_process or not.
+// This function manage all redirection dup2 like <, >, >> and <<.
+void			token_management(t_processus *process, t_token *token,
+					int is_sub_process);
+
+// take a char ** (command + arg) and another char ** (envp) as arg.
+// This function is used to find the actual path of the command and return it.
+char			*find_path(char **cmd, char **envp);
 
 //  _____  _____  _    _   __
 // |_   _||_   _|/ |_ (_) [  |
@@ -429,30 +463,6 @@ void			ft_export(char **cmd, t_processus *process, t_envp *menvp);
 // Take a t_processus ptr as arg and a char ** (command args) as arg.
 // Reproduce the bash exit command.
 void			ft_exit(t_processus *process, char **code);
-
-//  _____  _____  _    _   __
-// |_   _||_   _|/ |_ (_) [  |
-//   | |    | | `| |-'__   | |  .--.
-//   | '    ' |  | | [  |  | | ( (`\]
-//    \ \__/ /   | |, | |  | |  `'.'.
-//     `.__.'    \__/[___][___][\__) )
-//  ________
-// |_   __  |
-//   | |_ \_| _   __  .---.  .---.
-//   |  _| _ [ \ [  ]/ /__\\/ /'`\]
-//  _| |__/ | > '  < | \__.,| \__.
-// |________|[__]`\_] '.__.''.___.'
-
-// Take the address of the original t_token ptr and a t_envp ptr as arg.
-// Used to prepare t_processus (struct processus used for the execution) by
-// dividing token for each process, manage heredoc, etc
-t_processus		*prepare_processus(t_token **tokens, t_envp *menvp);
-
-// Take the t_processus ptr (actual processus struct details), a t_token ptr and
-// a bool to know if we are in a sub_process or not.
-// This function manage all redirection dup2 like <, >, >> and <<.
-void			token_management(t_processus *process, t_token *token,
-					int is_sub_process);
 
 //  _____  _____  _    _   __
 // |_   _||_   _|/ |_ (_) [  |
