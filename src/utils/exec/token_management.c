@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_management.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:40:48 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/06 18:46:22 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:48:42 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_processus	*prepare_processus(t_token **tokens, t_envp *menvp)
+t_processus	*prepare_processus(t_token **tokens, t_envp **menvp)
 {
 	t_processus	*process;
 	t_processus	*tmp_pipe;
@@ -70,7 +70,8 @@ void	token_management(t_processus *process, t_token *token,
 	int		fdout;
 
 	if (!process || ! token)
-		return (raise_error("CRITICAL", "An important pointer is NULL!", 1, 1));
+		return (t_processus_close_fds(process),
+			raise_error("CRITICAL", "An important pointer is NULL!", 1, 1));
 	fdin = -1;
 	fdout = -1;
 	while (token)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command.c                                          :+:      :+:    :+:   */
+/*   path_finding.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 07:34:17 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/05 17:46:25 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/11 19:32:55 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,16 @@ static char	*check_path(char **cmd, char **envp)
 char	*find_path(char **cmd, char **envp)
 {
 	if (ft_strlen(cmd[0]) == 0)
-		return (raise_error("Command not valid",
-				"command len is equal to 0", 1, 1), NULL);
+		return (raise_error("", "command not found", 1, 1), NULL);
 	if (is_command_builtin(cmd[0]))
 		return (cmd[0]);
 	if (!envp || !*envp)
 		return (raise_error("envp error", "envp is missing or NULL", 1, 1),
 			NULL);
-	if (access(cmd[0], X_OK) == 0 && ft_strncmp(cmd[0], "./", 2) == 0)
+	if (access(cmd[0], F_OK) == 0 && access(cmd[0], X_OK) == 0)
 		return (cmd[0]);
-	else if (access(cmd[0], F_OK) == 0 && ft_strncmp(cmd[0], "./", 2) == 0)
+	if (access(cmd[0], F_OK) == 0 && access(cmd[0], X_OK) == 0
+		&& ft_strncmp(cmd[0], "./", 2) == 0)
 		return (cmd[0]);
 	else if (ft_strncmp(cmd[0], "./", 2) == 0)
 		return (NULL);

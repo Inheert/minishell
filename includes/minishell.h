@@ -27,11 +27,12 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <termios.h>
 # include "../src/utils/libft/libft.h"
 # include "../src/utils/garbage_collector/includes/garbage_collector.h"
 
 // Define builtins constants
-# define ECHO "echo"
+# define _ECHO "echo"
 # define CD "cd"
 # define PWD "pwd"
 # define EXPORT "export"
@@ -40,19 +41,17 @@
 # define EXIT "exit"
 
 // Enum used to define all token types
-typedef enum token
+typedef enum e_type
 {
 	PIPE,
-	STRING,
 	REDIR_APPEND_OUT,
 	HEREDOC,
 	REDIR_IN,
 	REDIR_OUT,
+	FILLE,
+	BUILTIN,
 	COMMAND,
-	ENV,
-	EXIT_STATUS,
-	QUOTE,
-	BLANK
+	STRING,
 }	t_token_type;
 
 // Token structure used in the execution.
@@ -64,6 +63,7 @@ typedef struct s_token
 {
 	char			*str;
 	t_token_type	token;
+	int				flag_quotes;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -84,6 +84,39 @@ typedef struct s_envp
 	struct s_envp	*prev;
 }	t_envp;
 
+/* help_norme */
+typedef struct s_help
+{
+	char	**table;
+	char	*result;
+	char	*tmp;
+	size_t	i;
+	size_t	j;
+	size_t	len;
+	size_t	len1;
+	int		start;
+	int		count;
+	size_t	size_str;
+	size_t	len_en_moins;
+	size_t	len_en_plus;
+	char	*is_dol;
+	char	**split;
+	t_envp	*node_env;
+}	t_help;
+
+typedef struct s_quote_expand_helper
+{
+	char	*current_str;
+	char	*word;
+	char	c;
+	int		in_single_quote;
+	int		in_double_quote;
+	int		last_quote;
+	int		concatenate_quote;
+	int		i;
+	int		j;
+}	t_quote_expand_helper;
+
 // processus structure used to store data related to each processus.
 // int fds[2]		-> pipe fds storage.
 // int heredoc[2]	-> heredoc fds storage.
@@ -101,25 +134,51 @@ typedef struct s_processus
 	int					pid;
 	int					parent_pid;
 	int					status_code;
-	t_envp				*menvp;
+	t_envp				**menvp;
 	t_token				*tokens;
 	struct s_processus	*next;
 	struct s_processus	*prev;
 }	t_processus;
 
-// Signals handlers prototypes
-void			init_parent_signals_handlers(void);
-void			init_children_signals_handlers(void);
-void			init_silence_signals_handlers(void);
+typedef enum s_signal_type
+{
+	READLINE,
+	HEREDOC_SIG,
+	FORK,
+	SILENCE,
+	DEFAULT
+}	t_signal_type;
 
-// Parsing
-t_token			*tokenisation(char *prompt);
-void			blanks(t_token *token, char *prompt, int *i);
-void			simple_quote(t_token *token, char *prompt, int *i);
-int				parse_tokens(t_token **token, t_envp *menvp);
-void			join_tokens(t_token *token);
-void			clean_blank(t_token **token);
-void			put_cmd(t_token **token);
+// Signals handlers prototypes
+extern int		g_signal_code;
+void			set_signals(t_signal_type mode);
+
+// Lexer handlers
+int				handle_quotes_table(char **result, const char *line,
+					t_help *h, char quote_char);
+int				handle_specials_or_spaces_table(char **result,
+					const char *line, t_help *h);
+int				handle_quotes(const char *line, int *i, t_help *h,
+					char quote_char);
+int				handle_specials_or_spaces(const char *line, int *i, t_help *h);
+
+// Find token type
+int				change_after_red(t_token *token, int *after_red);
+t_token_type	find_type(t_token *tmp, int *after_red);
+int				look_for_dol(char *s);
+int				find_token_type(t_token **tokens, t_envp *menvp);
+
+// Tokenizer_help
+int				manage_quotes(char c, int *in_double_quote,
+					int *in_single_quote, int *last_quote);
+int				manage_env_var_expand(char **current_str, char *word, int *j,
+					t_envp *menvp);
+int				concat_token_redir(t_token **tokens);
+
+char			**manage_lexer(const char *line);
+t_token			*manage_tokenizer(char **lexer);
+void			print_lexer(char *line, char **lexer);
+t_token			*process_quotes(char **lexer, t_envp *menvp);
 
 //  ________  ____  ____  ________    ______
 // |_   __  ||_  _||_  _||_   __  | .' ___  |
@@ -130,7 +189,7 @@ void			put_cmd(t_token **token);
 
 // Take the address of the original tokens ptr and var env as arg.
 // Used to start the execution of the current command line.
-int				command_line_exec(t_token **tokens, t_envp *menvp);
+void			command_line_exec(t_token **tokens, t_envp **menvp);
 
 // Take the actual processus as arg.
 // Manage the first processus.
@@ -152,7 +211,7 @@ void			exec_builtins(t_processus *process, char **cmd,
 
 // Take processus ptr (all of them) struct as arg
 // Create fds for heredocs of each process and write in it.
-void			ft_heredocs(t_processus *process);
+void			manage_heredocs(t_processus *process);
 
 // Take the actual processus struct, redir token and a ptr to int as arg.
 // Open the new infile and close the old one if exists.
@@ -185,7 +244,9 @@ void			ft_check_redir_in_out(t_processus *process, int fdin,
 // Take the address of the original t_token ptr and a t_envp ptr as arg.
 // Used to prepare t_processus (struct processus used for the execution) by
 // dividing token for each process, manage heredoc, etc
-t_processus		*prepare_processus(t_token **tokens, t_envp *menvp);
+t_processus		*prepare_processus(t_token **tokens, t_envp **menvp);
+
+int				does_fds_count_exceed_the_limit(t_processus *process);
 
 // Take the t_processus ptr (actual processus struct details), a t_token ptr and
 // a bool to know if we are in a sub_process or not.
@@ -223,6 +284,12 @@ void			delete_useless_tokens(t_processus *process);
 
 // Utils - Error management
 
+// Take a int and a t_envp ptr as arg.
+// This function is used to set the env var $? with the last status
+// code, it take a ptr to the env var structure that is stored as a static
+// to avoid us giving the env structure each time we set the status code.
+void			set_exit_status(int code, t_envp **menvp);
+
 // Take a char * (the error) and a bool if the processus should exit
 // or not as arg.
 // raise an error using perror and exit using errno if critical.
@@ -254,7 +321,7 @@ char			**t_token_to_str_ptr(t_token *lst);
 
 // Take a char * and the token type as arg.
 // Create and return a new t_token.
-t_token			*t_token_new(char *str, int token);
+t_token			*t_token_new(char *str, int token, int flag_quotes);
 
 // Take a t_token ptr as arg.
 // Copy the arg token WITHOUT linking it and return it.
@@ -304,12 +371,12 @@ unsigned int	t_token_count_specific(t_token *token, t_token_type code);
 
 // Take a t_envp ptr as arg.
 // Create a new t_processus struct (processus structure)
-t_processus		*t_processus_new(t_envp *menvp);
+t_processus		*t_processus_new(t_envp **menvp);
 
 // Take a t_processus ptr and a token type as arg.
 // Return the first token found with the token type arg in the t_processus
 // struct, else return NULL.
-t_token			*t_token_finding(t_processus *process, t_token_type token);
+t_token			*t_token_finding(t_token *tokens, t_token_type token);
 
 // Take a t_processus ptr as arg.
 // Display all the chained list on the standard output, used for debug.
@@ -359,6 +426,7 @@ int				get_fds(t_processus *process, int fd);
 // Take a char ** (envp main arg) as arg.
 // Create and return a t_envp struct used to more easily manipulate envs vars.
 t_envp			*t_envp_init(char **envp);
+void			t_envp_init_2(t_envp **menvp, char **envp);
 
 // take a char * (env name), another char * (env value) and a bool used to make
 // the difference between a var without any value nor equal and a var with value
@@ -379,7 +447,7 @@ void			t_envp_add_back(t_envp **envp, t_envp *new);
 
 // Take the address of the original t_envp to replace and a new t_envp as arg.
 // Used to update the existing menvp var (first arg) by the second one.
-void			t_envp_update(t_envp **menvp, t_envp *new);
+void			t_envp_update(t_envp *menvp, t_envp *new);
 
 // Take a t_envp ptr as arg.
 // Display all the chained list on the standard output, used for debug.
@@ -447,11 +515,12 @@ void			ft_env(t_processus *process, t_envp *menvp);
 
 // Take t_envp ptr and a char * (env var to unset) as arg.
 // Reproduce the bash unset command.
-void			ft_unset(t_envp *menvp, char *to_unset);
+void			ft_unset(t_envp **menvp, char **to_unset);
 
 // Take a char ** (command + arg), a t_processus ptr and a t_envp ptr as arg.
 // Reproduce the bash export command.
 void			ft_export(char **cmd, t_processus *process, t_envp *menvp);
+int				manage_new_var(char **cmd, char *equal, t_envp *menvp, int i);
 
 // Take a t_processus ptr as arg and a char ** (command args) as arg.
 // Reproduce the bash exit command.

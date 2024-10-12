@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:59:46 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/06 18:34:39 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/08 13:17:31 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	is_heredoc_a_priority(t_processus *process, int fdin)
 	t_token	*tmp;
 	int		is_redir_after_heredoc;
 
-	heredoc = t_token_finding(process, HEREDOC);
+	heredoc = t_token_finding(process->tokens, HEREDOC);
 	if (!heredoc)
 		return (0);
 	is_redir_after_heredoc = 0;
