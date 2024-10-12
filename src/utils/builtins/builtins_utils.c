@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 22:16:50 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/14 18:16:58 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/11 08:00:46 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_command_builtin(char *cmd)
 {
-	if (ft_strcmp(cmd, ECHO) == 0)
+	if (ft_strcmp(cmd, _ECHO) == 0)
 		return (1);
 	else if (ft_strcmp(cmd, CD) == 0)
 		return (1);

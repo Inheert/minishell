@@ -21,16 +21,22 @@ SRCS_FILE		= main.c \
 					utils/ft_free.c \
 					utils/t_token/t_token_utils.c \
 					utils/t_token/t_token_utils_2.c \
-					utils/t_token/tokenisation_utils.c\
 					utils/builtins/builtins_utils.c \
 					utils/exec/token_management.c \
 					utils/exec/path_finding.c \
 					utils/t_processus/t_processus_utils.c \
 					utils/t_processus/t_processus_utils_2.c \
+					utils/t_processus/t_processus_utils_3.c \
 					utils/t_envp/t_envp_utils.c \
 					utils/t_envp/t_envp_utils_2.c \
 					utils/t_envp/t_envp_utils_3.c \
+					utils/t_envp/t_envp_utils_4.c \
 					utils/ft_error.c \
+					parsing/lexer.c \
+					parsing/lexer_handle.c	\
+					parsing/tokenizer.c \
+					parsing/find_token_type.c	\
+					parsing/tokenizer_help.c	\
 					builtins/builtins_exec.c \
 					builtins/echo.c \
 					builtins/pwd.c \
@@ -38,16 +44,12 @@ SRCS_FILE		= main.c \
 					builtins/env.c \
 					builtins/unset.c \
 					builtins/export.c \
+					builtins/export2.c \
 					builtins/exit.c \
 					exec/command_line_exec.c \
 					exec/processus_management.c \
 					exec/tokens/heredoc.c \
 					exec/tokens/redir.c \
-					tokenisation/token.c\
-					tokenisation/parse_tokens.c\
-					tokenisation/join_tokens.c\
-					tokenisation/clean_blank.c\
-					tokenisation/put_cmd.c
 
 # Convert .c files to .o files
 SRCS_COMPILE	= $(SRCS_FILE:.c=.o)

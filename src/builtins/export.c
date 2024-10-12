@@ -6,19 +6,13 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 23:05:34 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/06 13:17:39 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/11 17:50:44 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//
-//
-// EXPORT DOESN'T NOT REPLACE ENV VAR IF ALREADY EXIST BUT CREATE ANOTHER ONE
-//
-//
-
-void	prepare_display_2(int menvp_size, char **var_name)
+static void	prepare_display_2(int menvp_size, char **var_name)
 {
 	char	*tmp;
 	int		i;
@@ -28,7 +22,7 @@ void	prepare_display_2(int menvp_size, char **var_name)
 	while (++i < menvp_size)
 	{
 		j = -1;
-		while (++j < menvp_size - 1)
+		while (++j < menvp_size - 2)
 		{
 			if (ft_strcmp(var_name[j], var_name[j + 1]) > 0)
 			{
@@ -40,7 +34,7 @@ void	prepare_display_2(int menvp_size, char **var_name)
 	}
 }
 
-char	**prepare_display(t_envp *menvp, t_envp *tmp_menvp)
+static char	**prepare_display(t_envp *menvp, t_envp *tmp_menvp)
 {
 	char	**var_name;
 	int		menvp_size;
@@ -52,7 +46,8 @@ char	**prepare_display(t_envp *menvp, t_envp *tmp_menvp)
 	i = -1;
 	while (tmp_menvp)
 	{
-		var_name[++i] = ft_strdup(tmp_menvp->name);
+		if (ft_strcmp(tmp_menvp->name, "?") != 0)
+			var_name[++i] = ft_strdup(tmp_menvp->name);
 		tmp_menvp = tmp_menvp->next;
 	}
 	var_name[i + 1] = NULL;
@@ -61,11 +56,13 @@ char	**prepare_display(t_envp *menvp, t_envp *tmp_menvp)
 	return (var_name);
 }
 
-void	display_env_var(char *var_name, t_processus *process, t_envp *tmp_menvp)
+static void	display_env_var(char *var_name, t_processus *process,
+	t_envp *tmp_menvp)
 {
 	while (tmp_menvp)
 	{
-		if (ft_strcmp(var_name, tmp_menvp->name) == 0)
+		if (ft_strcmp(var_name, tmp_menvp->name) == 0
+			&& ft_strcmp(tmp_menvp->name, "_") != 0)
 		{
 			ft_putstr_fd("declare -x ", get_fds(process, STDOUT_FILENO));
 			ft_putstr_fd(tmp_menvp->name, get_fds(process, STDOUT_FILENO));
@@ -75,7 +72,7 @@ void	display_env_var(char *var_name, t_processus *process, t_envp *tmp_menvp)
 				ft_putstr_fd("\n", get_fds(process, STDOUT_FILENO));
 			else
 			{
-				ft_putstr_fd(tmp_menvp->value, get_fds(process, STDOUT_FILENO));
+				ft_putstr_fd("=", get_fds(process, STDOUT_FILENO));
 				ft_putendl_fd(tmp_menvp->value,
 					get_fds(process, STDOUT_FILENO));
 			}
@@ -85,29 +82,21 @@ void	display_env_var(char *var_name, t_processus *process, t_envp *tmp_menvp)
 	}
 }
 
-void	set_var(t_envp *menvp, char **cmd)
+static int	set_var(t_envp *menvp, char **cmd)
 {
-	char	**new_var;
+	char	*equal;
+	int		is_error;
 	int		i;
 
+	is_error = 0;
 	i = 0;
 	while (cmd[++i])
 	{
-		new_var = ft_split(cmd[i], '=');
-		if (!new_var)
-		{
-			ft_free(new_var);
-			continue ;
-		}
-		if (str_ptr_size(new_var) == 1)
-			t_envp_add_back(&menvp, t_envp_new(new_var[0], NULL,
-					!ft_strchr(cmd[i], '=')));
-		else
-			t_envp_add_back(&menvp, t_envp_new(new_var[0],
-					concat_str_equal_sign(new_var),
-					!ft_strchr(cmd[i], '=')));
-		free_str_ptr(new_var);
+		equal = ft_strchr(cmd[i], '=');
+		if (equal)
+			is_error = manage_new_var(cmd, equal, menvp, i);
 	}
+	return (is_error);
 }
 
 void	ft_export(char **cmd, t_processus *process, t_envp *menvp)
@@ -130,7 +119,11 @@ void	ft_export(char **cmd, t_processus *process, t_envp *menvp)
 			tmp_menvp = tmp_menvp->next;
 		}
 		free_str_ptr(var_name);
+		set_exit_status(0, NULL);
 	}
 	else
-		return (set_var(menvp, cmd));
+	{
+		if (!set_var(menvp, cmd))
+			set_exit_status(0, NULL);
+	}
 }

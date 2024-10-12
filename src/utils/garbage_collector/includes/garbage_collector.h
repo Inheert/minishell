@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:05:01 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/02 18:01:19 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/12 12:12:32 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ void			ptr_stockage_add_back(t_ptr_stockage **storage,
 					t_ptr_stockage *new);
 void			ptr_stockage_clear(t_ptr_stockage **storage);
 unsigned int	hashf(void *ptr, int size);
-
 // Allocation and free functions
+
 void			*ft_malloc(size_t size);
+void			*ft_realloc(void *old_ptr, size_t old_size, size_t new_size);
 void			ft_store_malloc(void *ptr);
 void			ft_unstore_malloc(void *ptr);
 void			ft_free(void *ptr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_token_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:32:52 by Théo              #+#    #+#             */
-/*   Updated: 2024/09/21 12:09:26 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/12 15:06:16 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,14 @@ void	t_token_add_back(t_token **token, t_token *new)
 	new->prev = tmp;
 }
 
-t_token	*t_token_new(char *str, int token)
+t_token	*t_token_new(char *str, int token, int flag_quotes)
 {
 	t_token	*new;
 
 	new = ft_malloc(sizeof(t_token));
 	new->str = str;
 	new->token = token;
+	new->flag_quotes = flag_quotes;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -80,7 +81,11 @@ void	t_token_del(t_token **tokens, t_token *del)
 
 t_token	*t_token_copy(t_token *token)
 {
+	t_token	*new;
+
 	if (!token)
 		return (NULL);
-	return (t_token_new(ft_strdup(token->str), token->token));
+	new = t_token_new(ft_strdup(token->str), token->token, token->flag_quotes);
+	new->flag_quotes = token->flag_quotes;
+	return (new);
 }

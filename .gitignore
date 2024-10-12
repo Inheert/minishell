@@ -1,11 +1,12 @@
 .vscode/
 bin/
 src/main.c
+minishell_tester/
 minishell
 *.a
 *.o
 *.txt
-src/main.c
+valgrind_output
 infile
 infile2
 outfile

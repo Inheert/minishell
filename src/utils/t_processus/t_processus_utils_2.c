@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_processus_utils_2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 18:01:32 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/06 01:27:40 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/11 09:13:24 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ void	t_processus_close_builtin_fds(t_processus *process)
 	fd = get_fds(process, STDIN_FILENO);
 	if (fd != 0 && fd != -1)
 		close(fd);
+	if (process->heredoc[0] != -1)
+		close(process->heredoc[0]);
+	process->heredoc[0] = -1;
+	if (process->heredoc[1] != -1)
+		close(process->heredoc[1]);
+	process->heredoc[1] = -1;
 }
 
 int	get_fds(t_processus *process, int fd)
@@ -86,4 +92,18 @@ int	get_fds(t_processus *process, int fd)
 		return (process->fds[1]);
 	}
 	return (-1);
+}
+
+int	is_redir_in_priority(t_processus *process)
+{
+	t_token	*token;
+
+	token = process->tokens;
+	while (token)
+	{
+		if (token->token == REDIR_IN || token->token == HEREDOC)
+			return (1);
+		token = token->next;
+	}
+	return (0);
 }

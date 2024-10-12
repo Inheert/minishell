@@ -6,7 +6,7 @@
 /*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:37:42 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/05 18:26:14 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/11 17:50:01 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	t_envp_display(t_envp *menvp)
 {
 	while (menvp)
 	{
-		fprintf(stderr, "NAME: %s\nVALUE: %s\n\n", menvp->name, menvp->value);
+		printf("NAME: %s\nVALUE: %s\n\n", menvp->name, menvp->value);
 		menvp = menvp->next;
 	}
 }
@@ -63,41 +63,19 @@ int	t_envp_is_exist(t_envp *menvp, char *name)
 	return (0);
 }
 
-static void	t_envp_update_2(t_envp *menvp, t_envp *new)
+void	t_envp_update(t_envp *menvp, t_envp *new)
 {
+	if (!menvp || !new)
+		return ;
 	while (menvp)
 	{
 		if (ft_strcmp(menvp->name, new->name) == 0)
 		{
-			if (menvp->prev)
-				menvp->prev->next = new;
-			if (menvp->next)
-				menvp->next->prev = new;
-			new->next = menvp->next;
-			new->prev = menvp->prev;
-			if (menvp->equal)
-				new->equal = 1;
-			free_t_envp(menvp);
+			ft_free(menvp->value);
+			menvp->value = ft_strdup(new->value);
+			free_t_envp(new);
 			break ;
 		}
 		menvp = menvp->next;
 	}
-}
-
-void	t_envp_update(t_envp **menvp, t_envp *new)
-{
-	if (!menvp || !new)
-		return ;
-	if (ft_strcmp((*menvp)->name, new->name) == 0)
-	{
-		new->next = (*menvp)->next;
-		if ((*menvp)->next)
-			(*menvp)->next->prev = new;
-		if ((*menvp)->equal)
-			new->equal = 1;
-		free_t_envp(*menvp);
-		*menvp = new;
-		return ;
-	}
-	t_envp_update_2(*menvp, new);
 }

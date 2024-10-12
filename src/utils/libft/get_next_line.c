@@ -6,7 +6,7 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:17:55 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/03/22 13:20:16 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:15:46 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ char	*get_new_line(int nl, char	**ptr)
 	len = ft_strlen(*ptr);
 	new_line = ft_substr(*ptr, 0, nl + 1);
 	if (!new_line)
-		return (free(*ptr), *ptr = NULL, NULL);
+		return (ft_free(*ptr), *ptr = NULL, NULL);
 	new_ptr = ft_substr(*ptr, nl + 1, len);
 	if (!new_ptr)
-		return (free(*ptr), *ptr = NULL, free(new_line), NULL);
+		return (free(*ptr), *ptr = NULL, ft_free(new_line), NULL);
 	else if (len - nl <= 1)
-		return (free(new_ptr), free(*ptr), *ptr = NULL, new_line);
-	free(*ptr);
+		return (ft_free(new_ptr), ft_free(*ptr), *ptr = NULL, new_line);
+	ft_free(*ptr);
 	*ptr = new_ptr;
 	return (new_line);
 }
@@ -59,12 +59,12 @@ int	read_file(int fd, char **ptr)
 		return (-1);
 	i = read(fd, ptread, BUFFER_SIZE);
 	if (i == -1)
-		return (free(ptread), i);
+		return (ft_free(ptread), i);
 	buffer = ft_strjoin(*ptr, ptread);
 	if (!buffer)
-		return (free(ptread), -1);
-	free(*ptr);
-	free(ptread);
+		return (ft_free(ptread), -1);
+	ft_free(*ptr);
+	ft_free(ptread);
 	*ptr = buffer;
 	return (i);
 }
@@ -95,7 +95,7 @@ char	*get_next_line(int fd)
 		{
 			rd = read_file(fd, &ptr);
 			if ((rd <= 0 && ft_strlen(ptr) < 1) || rd == -1)
-				return (free(ptr), ptr = NULL, NULL);
+				return (ft_free(ptr), ptr = NULL, NULL);
 			else if (rd <= 0 && ft_strlen(ptr) >= 1)
 				break ;
 		}

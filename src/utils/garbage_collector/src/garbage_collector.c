@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 16:01:31 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/04 12:41:07 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:49:51 by Théo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	malloc_error(void)
 {
-	printf("ERROR: a problem occured when using malloc.\n");
+	ft_putstr_fd("ERROR: a problem occured when using malloc.\n", 1);
 	ft_free_all();
 	exit(EXIT_FAILURE);
 }

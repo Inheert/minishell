@@ -31,6 +31,7 @@
    fun:malloc
    ...
    fun:add_history
+   fun:input_manager
    fun:main
 }
 {

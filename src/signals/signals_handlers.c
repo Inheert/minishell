@@ -6,63 +6,73 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:09:51 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/04 15:43:39 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/11 10:36:01 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	parent_signals_handlers(int sig)
+void	readline_signal_handler(int signum)
 {
-	if (sig == SIGINT)
+	if (signum == SIGINT)
 	{
-		printf("\n");
+		write(STDOUT_FILENO, "^C\n", 3);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		g_signal_code = SIGINT;
 	}
-	if (sig == SIGQUIT)
+}
+
+void	heredoc_signal_handler(int signum)
+{
+	if (signum == SIGINT)
 	{
-		ft_free_all();
-		exit(131);
+		g_signal_code = SIGINT;
+		write(STDOUT_FILENO, "^C\n", 3);
 	}
+	if (signum == SIGQUIT)
+		g_signal_code = SIGQUIT;
 }
 
-void	init_parent_signals_handlers(void)
+void	heredoc_sigaction_handler(void)
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = &parent_signals_handlers;
-	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGINT);
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_handler = heredoc_signal_handler;
 	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
 }
 
-static void	children_signals_handlers(int sig)
+void	fork_signal_handler(int signum)
 {
-	if (sig == SIGINT)
-		printf("\n");
-	else if (sig == SIGQUIT)
-		printf("exit\n");
+	if (signum == SIGINT)
+		g_signal_code = SIGINT;
+	if (signum == SIGQUIT)
+		g_signal_code = SIGQUIT;
 }
 
-void	init_children_signals_handlers(void)
+void	set_signals(t_signal_type mode)
 {
-	struct sigaction	sa;
-
-	sa.sa_handler = &children_signals_handlers;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGINT);
-	sigaddset(&sa.sa_mask, SIGQUIT);
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
-}
-
-void	init_silence_signals_handlers(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIG_IGN);
+	if (mode == READLINE)
+	{
+		signal(SIGINT, readline_signal_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == FORK)
+	{
+		signal(SIGINT, fork_signal_handler);
+		signal(SIGQUIT, fork_signal_handler);
+	}
+	else if (mode == SILENCE)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == HEREDOC_SIG)
+	{
+		heredoc_sigaction_handler();
+		signal(SIGQUIT, SIG_IGN);
+	}
 }

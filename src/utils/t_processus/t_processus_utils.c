@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_processus_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Théo <theoclaereboudt@gmail.com>           +#+  +:+       +#+        */
+/*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 18:01:24 by Théo              #+#    #+#             */
-/*   Updated: 2024/10/06 01:27:40 by Théo             ###   ########.fr       */
+/*   Updated: 2024/10/09 18:08:18 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	t_processus_add_back(t_processus **process, t_processus *new)
 			raise_perror("Pipe creation failed", 1);
 }
 
-t_processus	*t_processus_new(t_envp *menvp)
+t_processus	*t_processus_new(t_envp **menvp)
 {
 	t_processus	*new;
 
@@ -66,16 +66,13 @@ t_processus	*t_processus_new(t_envp *menvp)
 	return (new);
 }
 
-t_token	*t_token_finding(t_processus *process, t_token_type token)
+t_token	*t_token_finding(t_token *tokens, t_token_type token)
 {
-	t_token	*tmp;
-
-	if (!process)
+	if (!tokens)
 		return (NULL);
-	tmp = process->tokens;
-	while (tmp && tmp->token != token)
-		tmp = tmp->next;
-	if (!tmp || tmp->token != token)
+	while (tokens && tokens->token != token)
+		tokens = tokens->next;
+	if (!tokens || tokens->token != token)
 		return (NULL);
-	return (tmp);
+	return (tokens);
 }
