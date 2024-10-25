@@ -6,38 +6,11 @@
 /*   By: tclaereb <tclaereb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:11:56 by tclaereb          #+#    #+#             */
-/*   Updated: 2024/10/11 12:10:30 by tclaereb         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:31:53 by tclaereb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_lexer(char *line, char **lexer)
-{
-	int		i;
-
-	i = 0;
-	printf("\n\033[37mInput: [%s]\033[0m\n\033[33mLexer:\033[0m ", line);
-	while (lexer && lexer[i])
-	{
-		printf("\033[33m[%s]\33[0m ", lexer[i]);
-		i++;
-	}
-	printf("\n\n");
-}
-
-void	t_token_display(t_token *lst)
-{
-	if (!lst)
-		return ;
-	while (lst)
-	{
-		fprintf(stderr, "[%d] [%d] %s\n", lst->token, lst->flag_quotes,
-			lst->str);
-		lst = lst->next;
-	}
-	fprintf(stderr, "\n");
-}
 
 t_token	*input_manager(t_envp *menvp)
 {
@@ -55,7 +28,7 @@ t_token	*input_manager(t_envp *menvp)
 	if (!lexer)
 		return (NULL);
 	free(line);
-	tokens = manage_tokenizer(lexer);
+	tokens = process_quotes(lexer, menvp);
 	if (find_token_type(&tokens, menvp) == -1)
 		return (free_t_token(tokens),
 			raise_error("Parsing", "Invalid redirection.", 0, 1), NULL);
